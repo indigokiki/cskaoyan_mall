@@ -10,5 +10,10 @@ import java.util.List;
  * @date 2019-07-03 20:31
  */
 public interface GoodsService {
-    Page<CskaoyanMallGoods> selectGoodsPage();
+    //查看+查找商品+分页
+    Page<CskaoyanMallGoods> selectGoodsPageWithSnOrName(int page, int limit, String goodsSn, String name);
+
+    //删除商品
+    int deleteGoods(CskaoyanMallGoods goods);
+
 }
