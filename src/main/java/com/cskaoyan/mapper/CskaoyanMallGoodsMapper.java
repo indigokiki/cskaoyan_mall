@@ -2,9 +2,11 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallGoods;
 import com.cskaoyan.bean.CskaoyanMallGoodsExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
 
 public interface CskaoyanMallGoodsMapper {
     long countByExample(CskaoyanMallGoodsExample example);
