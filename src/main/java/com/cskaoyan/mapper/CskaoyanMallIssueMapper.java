@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallIssue;
 import com.cskaoyan.bean.CskaoyanMallIssueExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
