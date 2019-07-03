@@ -1,7 +1,7 @@
 # cskaoyan_mall
 cskaoyan项目三
 
-自己建立application.xml（properties）
+自己建立application.yml（properties）
 
 格式如下
 
