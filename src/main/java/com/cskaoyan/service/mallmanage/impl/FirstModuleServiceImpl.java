@@ -13,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,5 +54,13 @@ public class FirstModuleServiceImpl implements FirstModuleService {
         brand.setDeleted(true);
         int update = cskaoyanMallBrandMapper.delete(brand);
         return update;
+    }
+
+    @Override
+    public int insert(CskaoyanMallBrand brand) {
+        brand.setAddTime(new Date());
+        brand.setUpdateTime(new Date());
+        int insert = cskaoyanMallBrandMapper.insert(brand);
+        return 0;
     }
 }

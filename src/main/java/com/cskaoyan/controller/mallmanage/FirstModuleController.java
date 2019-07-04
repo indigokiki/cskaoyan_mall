@@ -66,4 +66,14 @@ public class FirstModuleController {
         result.setErrmsg("成功");
         return result;
     }
+
+    @RequestMapping("brand/create")
+    @ResponseBody
+    public Result brandcreate(@RequestBody CskaoyanMallBrand brand){
+        int insert = firstModuleService.insert(brand);
+        Result<Object> result = new Result<>();
+        result.setErrno(0);
+        result.setErrmsg("成功");
+        return result;
+    }
 }

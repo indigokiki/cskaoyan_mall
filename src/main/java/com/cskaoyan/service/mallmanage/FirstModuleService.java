@@ -12,4 +12,6 @@ public interface FirstModuleService {
     ResponseVo<Page<CskaoyanMallBrand>> getAllBrands(String sort, int page, int limit, String order, String name, String id);
 
     int delete(CskaoyanMallBrand brand);
+
+    int insert(CskaoyanMallBrand brand);
 }

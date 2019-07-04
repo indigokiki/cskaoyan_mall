@@ -305,7 +305,5 @@
     </if>
   </select>
 
-  <update id="delete" >
-    update cskaoyan_mall_brand set deleted = 1 where id = #{brand.id}
-  </update>
+
 </mapper>
