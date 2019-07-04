@@ -70,10 +70,13 @@ public class FirstModuleController {
     @RequestMapping("brand/create")
     @ResponseBody
     public Result brandcreate(@RequestBody CskaoyanMallBrand brand){
-        int insert = firstModuleService.insert(brand);
-        Result<Object> result = new Result<>();
-        result.setErrno(0);
-        result.setErrmsg("成功");
-        return result;
+
+        return firstModuleService.insert(brand);
+    }
+
+    @RequestMapping("brand/update")
+    @ResponseBody
+    public Result update(@RequestBody CskaoyanMallBrand brand){
+        return firstModuleService.update(brand);
     }
 }

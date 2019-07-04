@@ -1,6 +1,7 @@
 package com.cskaoyan.service.mallmanage;
 
 import com.cskaoyan.bean.CskaoyanMallBrand;
+import com.cskaoyan.bean.Result;
 import com.cskaoyan.bean.mallmanage.RegionList;
 import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
@@ -13,5 +14,7 @@ public interface FirstModuleService {
 
     int delete(CskaoyanMallBrand brand);
 
-    int insert(CskaoyanMallBrand brand);
+    Result insert(CskaoyanMallBrand brand);
+
+    Result update(CskaoyanMallBrand brand);
 }
