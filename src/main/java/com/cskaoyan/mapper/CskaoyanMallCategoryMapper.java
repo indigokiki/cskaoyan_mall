@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCategoryExample;
+import com.cskaoyan.util.ValueNLabel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface CskaoyanMallCategoryMapper {
     int updateByPrimaryKeySelective(CskaoyanMallCategory record);
 
     int updateByPrimaryKey(CskaoyanMallCategory record);
+
+    List<ValueNLabel> getL1ValueNLable();
 }

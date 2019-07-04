@@ -28,4 +28,6 @@ public interface CskaoyanMallKeywordMapper {
     int updateByPrimaryKeySelective(CskaoyanMallKeyword record);
 
     int updateByPrimaryKey(CskaoyanMallKeyword record);
+
+    int selectLastUpdate();
 }
