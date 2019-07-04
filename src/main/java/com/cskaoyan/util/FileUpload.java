@@ -19,7 +19,7 @@ public class FileUpload {
         if (!directory.exists()){
             directory.mkdirs();
         }
-        String name =  UUID.randomUUID().toString();
+        String name =  UUID.randomUUID() + ".jpg";
         name = name.replace("-", "");
         File myfile = new File(directory, name);
         file.transferTo(myfile);
