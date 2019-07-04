@@ -1,7 +1,7 @@
 package com.cskaoyan.bean;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class CskaoyanMallBrand {
     private Integer id;
@@ -16,9 +16,9 @@ public class CskaoyanMallBrand {
 
     private BigDecimal floorPrice;
 
-    private Date addTime;
+    private Timestamp addTime;
 
-    private Date updateTime;
+    private Timestamp updateTime;
 
     private Boolean deleted;
 
@@ -70,19 +70,19 @@ public class CskaoyanMallBrand {
         this.floorPrice = floorPrice;
     }
 
-    public Date getAddTime() {
+    public Timestamp getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(Timestamp addTime) {
         this.addTime = addTime;
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 
