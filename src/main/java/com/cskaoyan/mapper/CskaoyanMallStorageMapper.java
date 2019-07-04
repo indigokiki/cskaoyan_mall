@@ -2,10 +2,13 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallStorage;
 import com.cskaoyan.bean.CskaoyanMallStorageExample;
+import com.cskaoyan.bean.Picture;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallStorageMapper {
     long countByExample(CskaoyanMallStorageExample example);
 
@@ -28,4 +31,8 @@ public interface CskaoyanMallStorageMapper {
     int updateByPrimaryKeySelective(CskaoyanMallStorage record);
 
     int updateByPrimaryKey(CskaoyanMallStorage record);
+
+    Integer getMaxId();
+
+    int insertPicture(@Param("pic")Picture picture);
 }

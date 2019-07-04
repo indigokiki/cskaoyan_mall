@@ -7,8 +7,8 @@ public class CskaoyanMallGoodsProduct {
     private Integer id;
 
     private Integer goodsId;
-
-    private String specifications;
+    //修改String为String[]
+    private String[] specifications;
 
     private BigDecimal price;
 
@@ -39,12 +39,20 @@ public class CskaoyanMallGoodsProduct {
         this.goodsId = goodsId;
     }
 
-    public String getSpecifications() {
+    /*public String getSpecifications() {
         return specifications;
     }
 
     public void setSpecifications(String specifications) {
         this.specifications = specifications == null ? null : specifications.trim();
+    }*/
+
+    public String[] getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications;
     }
 
     public BigDecimal getPrice() {

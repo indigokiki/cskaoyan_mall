@@ -2,10 +2,13 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallRegion;
 import com.cskaoyan.bean.CskaoyanMallRegionExample;
+import com.cskaoyan.bean.mallmanage.Region;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallRegionMapper {
     long countByExample(CskaoyanMallRegionExample example);
 
@@ -28,4 +31,6 @@ public interface CskaoyanMallRegionMapper {
     int updateByPrimaryKeySelective(CskaoyanMallRegion record);
 
     int updateByPrimaryKey(CskaoyanMallRegion record);
+
+    List<Region> getAllRegions();
 }

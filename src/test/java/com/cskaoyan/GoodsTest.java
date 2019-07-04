@@ -2,7 +2,9 @@ package com.cskaoyan;
 
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
+import com.cskaoyan.bean.goods.CskaoyanMallGoodsProduct;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
+import com.cskaoyan.mapper.goods.CskaoyanMallGoodsProductMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class GoodsTest {
 
     @Autowired
     CskaoyanMallGoodsMapper goodsMapper;
+    @Autowired
+    CskaoyanMallGoodsProductMapper productMapper;
 
     @Test
     public void test1(){
@@ -38,5 +42,21 @@ public class GoodsTest {
 
         CskaoyanMallGoods goods = goodsMapper.selectByPrimaryKey(1006002);
         System.out.println("goods = " + goods);
+    }
+
+    @Test
+    public void test3(){
+        CskaoyanMallGoodsProduct product = new CskaoyanMallGoodsProduct();
+        String[] strings = {"111", "222", "333"};
+        product.setSpecifications(strings);
+        product.setId(001);
+        int i = productMapper.insertSelective(product);
+        System.out.println("i = " + i);
+    }
+
+    @Test
+    public void test4(){
+        CskaoyanMallGoodsProduct product = productMapper.selectByPrimaryKey(1);
+        System.out.println("product = " + product);
     }
 }
