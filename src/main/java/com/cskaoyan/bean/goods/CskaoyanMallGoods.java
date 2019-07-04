@@ -1,4 +1,4 @@
-package com.cskaoyan.bean;
+package com.cskaoyan.bean.goods;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,7 +14,8 @@ public class CskaoyanMallGoods {
 
     private Integer brandId;
 
-    private String gallery;
+    //从String修改为String[]
+    private String[] gallery;
 
     private String keywords;
 
@@ -86,12 +87,44 @@ public class CskaoyanMallGoods {
         this.brandId = brandId;
     }
 
-    public String getGallery() {
+    /*public String getGallery() {
         return gallery;
     }
 
     public void setGallery(String gallery) {
         this.gallery = gallery == null ? null : gallery.trim();
+    }*/
+
+    public String[] getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(String[] gallery) {
+        this.gallery = gallery;
+    }
+
+    public Boolean getOnSale() {
+        return isOnSale;
+    }
+
+    public void setOnSale(Boolean onSale) {
+        isOnSale = onSale;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
+
+    public Boolean getHot() {
+        return isHot;
+    }
+
+    public void setHot(Boolean hot) {
+        isHot = hot;
     }
 
     public String getKeywords() {

@@ -2,11 +2,10 @@ package com.cskaoyan.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
+
 
 public class CskaoyanMallBrand {
     private Integer id;
