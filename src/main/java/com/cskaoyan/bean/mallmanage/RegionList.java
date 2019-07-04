@@ -1,10 +1,11 @@
-package com.cskaoyan.bean;
+package com.cskaoyan.bean.mallmanage;
 
-public class Result<T> {
+import java.util.List;
 
+public class RegionList {
     private int errno;
 
-    private T data;
+    private List<Region> data;
 
     private String errmsg;
 
@@ -16,11 +17,11 @@ public class Result<T> {
         this.errno = errno;
     }
 
-    public T getData() {
+    public List<Region> getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(List<Region> data) {
         this.data = data;
     }
 

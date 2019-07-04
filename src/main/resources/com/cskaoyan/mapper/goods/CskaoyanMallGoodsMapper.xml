@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cskaoyan.mapper.CskaoyanMallGoodsMapper">
-  <resultMap id="BaseResultMap" type="com.cskaoyan.bean.CskaoyanMallGoods">
+<mapper namespace="com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="brand_id" jdbcType="INTEGER" property="brandId" />
-    <result column="gallery" jdbcType="VARCHAR" property="gallery" />
+    <result column="gallery" jdbcType="VARCHAR" property="gallery" typeHandler="com.cskaoyan.util.goods.StringListToStringHandler" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="is_on_sale" jdbcType="BIT" property="isOnSale" />
@@ -19,11 +19,12 @@
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
     <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cskaoyan.bean.CskaoyanMallGoods">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -92,7 +93,7 @@
   <sql id="Blob_Column_List">
     detail
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.cskaoyan.bean.CskaoyanMallGoodsExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoodsExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -108,7 +109,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.cskaoyan.bean.CskaoyanMallGoodsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoodsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -134,13 +135,13 @@
     delete from cskaoyan_mall_goods
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cskaoyan.bean.CskaoyanMallGoodsExample">
+  <delete id="deleteByExample" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoodsExample">
     delete from cskaoyan_mall_goods
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cskaoyan.bean.CskaoyanMallGoods">
+  <insert id="insert" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     insert into cskaoyan_mall_goods (id, goods_sn, name, 
       category_id, brand_id, gallery, 
       keywords, brief, is_on_sale, 
@@ -149,14 +150,15 @@
       retail_price, add_time, update_time, 
       deleted, detail)
     values (#{id,jdbcType=INTEGER}, #{goodsSn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{gallery,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
+      #{gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       #{keywords,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{isOnSale,jdbcType=BIT}, 
       #{sortOrder,jdbcType=SMALLINT}, #{picUrl,jdbcType=VARCHAR}, #{shareUrl,jdbcType=VARCHAR}, 
       #{isNew,jdbcType=BIT}, #{isHot,jdbcType=BIT}, #{unit,jdbcType=VARCHAR}, #{counterPrice,jdbcType=DECIMAL}, 
       #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleted,jdbcType=BIT}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cskaoyan.bean.CskaoyanMallGoods">
+  <insert id="insertSelective" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     insert into cskaoyan_mall_goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -240,7 +242,7 @@
         #{brandId,jdbcType=INTEGER},
       </if>
       <if test="gallery != null">
-        #{gallery,jdbcType=VARCHAR},
+        #{gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="keywords != null">
         #{keywords,jdbcType=VARCHAR},
@@ -289,7 +291,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cskaoyan.bean.CskaoyanMallGoodsExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoodsExample" resultType="java.lang.Long">
     select count(*) from cskaoyan_mall_goods
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -314,7 +316,7 @@
         brand_id = #{record.brandId,jdbcType=INTEGER},
       </if>
       <if test="record.gallery != null">
-        gallery = #{record.gallery,jdbcType=VARCHAR},
+        gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="record.keywords != null">
         keywords = #{record.keywords,jdbcType=VARCHAR},
@@ -373,7 +375,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=INTEGER},
       brand_id = #{record.brandId,jdbcType=INTEGER},
-      gallery = #{record.gallery,jdbcType=VARCHAR},
+      gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=BIT},
@@ -400,7 +402,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=INTEGER},
       brand_id = #{record.brandId,jdbcType=INTEGER},
-      gallery = #{record.gallery,jdbcType=VARCHAR},
+      gallery = #{record.gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       brief = #{record.brief,jdbcType=VARCHAR},
       is_on_sale = #{record.isOnSale,jdbcType=BIT},
@@ -419,7 +421,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.CskaoyanMallGoods">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     update cskaoyan_mall_goods
     <set>
       <if test="goodsSn != null">
@@ -435,7 +437,7 @@
         brand_id = #{brandId,jdbcType=INTEGER},
       </if>
       <if test="gallery != null">
-        gallery = #{gallery,jdbcType=VARCHAR},
+        gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="keywords != null">
         keywords = #{keywords,jdbcType=VARCHAR},
@@ -485,13 +487,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cskaoyan.bean.CskaoyanMallGoods">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     update cskaoyan_mall_goods
     set goods_sn = #{goodsSn,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
-      gallery = #{gallery,jdbcType=VARCHAR},
+      gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=BIT},
@@ -509,13 +511,13 @@
       detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cskaoyan.bean.CskaoyanMallGoods">
+  <update id="updateByPrimaryKey" parameterType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     update cskaoyan_mall_goods
     set goods_sn = #{goodsSn,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
-      gallery = #{gallery,jdbcType=VARCHAR},
+      gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       keywords = #{keywords,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       is_on_sale = #{isOnSale,jdbcType=BIT},

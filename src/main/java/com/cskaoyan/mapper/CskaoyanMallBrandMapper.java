@@ -3,9 +3,11 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.CskaoyanMallBrand;
 import com.cskaoyan.bean.CskaoyanMallBrandExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallBrandMapper {
     long countByExample(CskaoyanMallBrandExample example);
 
@@ -28,4 +30,14 @@ public interface CskaoyanMallBrandMapper {
     int updateByPrimaryKeySelective(CskaoyanMallBrand record);
 
     int updateByPrimaryKey(CskaoyanMallBrand record);
+
+    List<CskaoyanMallBrand> getAllBrands(@Param("sort") String sort, @Param("order") String order, @Param("name") String name, @Param("id") String id);
+
+    int countAllBrands(@Param("name") String name, @Param("id") String id);
+
+    int delete(@Param("brand") CskaoyanMallBrand brand);
+
+    int insertBrand(@Param("brand") CskaoyanMallBrand brand);
+
+    int getMaxSort();
 }

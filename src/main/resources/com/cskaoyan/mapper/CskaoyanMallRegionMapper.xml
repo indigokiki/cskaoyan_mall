@@ -208,4 +208,32 @@
       code = #{code,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="regionMap" type="com.cskaoyan.bean.mallmanage.Region">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="INTEGER" property="code" />
+    <collection property="children" ofType="com.cskaoyan.bean.mallmanage.Region">
+      <id column="2id" jdbcType="INTEGER" property="id" />
+      <result column="2name" jdbcType="VARCHAR" property="name" />
+      <result column="2type" jdbcType="TINYINT" property="type" />
+      <result column="2code" jdbcType="INTEGER" property="code" />
+      <collection property="children" ofType="com.cskaoyan.bean.mallmanage.Region">
+        <id column="3id" jdbcType="INTEGER" property="id" />
+        <result column="3name" jdbcType="VARCHAR" property="name" />
+        <result column="3type" jdbcType="TINYINT" property="type" />
+        <result column="3code" jdbcType="INTEGER" property="code" />
+      </collection>
+    </collection>
+  </resultMap>
+
+
+  <select id="getAllRegions" resultMap="regionMap">
+    select r1.id,r1.name,r1.type,r1.code,r2.id 2id,r2.name 2name,r2.type 2type,r2.code 2code,r3.id 3id,r3.name 3name,r3.type 3type,r3.code 3code
+    from cskaoyan_mall_region r1 left join (select * from cskaoyan_mall_region where type = 2) r2
+    on r1.id = r2.pid left join  (select * from cskaoyan_mall_region where type = 3) r3 on r3.pid = r1.id or r3.pid = r2.id
+    where r1.type = 1
+  </select>
+
 </mapper>

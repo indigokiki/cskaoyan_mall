@@ -270,4 +270,13 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getMaxId" resultType="int">
+    select max(id) from cskaoyan_mall_storage
+  </select>
+
+  <insert id="insertPicture">
+    insert into cskaoyan_mall_storage values (#{pic.id},#{pic.key},#{pic.name},#{pic.type},#{pic.size},#{pic.url},#{pic.addTime},
+    #{pic.updateTime},0)
+  </insert>
 </mapper>
