@@ -11,7 +11,7 @@ public class PicConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/wx/storage/fetch/**").
-                addResourceLocations("classpath:/static/wx/storage/fetch/");
+                addResourceLocations("file:D://fileupload/");
 
     }
 }

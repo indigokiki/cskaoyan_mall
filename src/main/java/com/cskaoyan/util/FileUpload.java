@@ -14,8 +14,7 @@ public class FileUpload {
     public static Picture pictureUpload(MultipartFile file) throws IOException {
         Picture picture = new Picture();
         String filename = file.getOriginalFilename();
-        String path = ResourceUtils.getURL("classpath:static").getPath();
-        File directory = new File(path, "wx/storage/fetch");
+        File directory = new File("D://fileupload");
         if (!directory.exists()){
             directory.mkdirs();
         }
