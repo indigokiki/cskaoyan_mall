@@ -31,4 +31,8 @@ public interface CskaoyanMallCategoryMapper {
     int updateByPrimaryKey(CskaoyanMallCategory record);
 
     List<ValueNLabel> getL1ValueNLable();
+
+    int selectLastUpdate();
+
+    Byte selectMaxSortOrderFromPid(int pid);
 }

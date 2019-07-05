@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,12 +22,12 @@ public class MallManagement3ServiceImpl implements MallManagement3Service {
     @Override
     public ResponseVo getCategoryList() {
         /**
-         * 先取出L1级的类别，并将它们全部强转成子类MallCategoryPlus
+         * 先取出L1级的类别，并将它们全部转成子类MallCategoryPlus
          * 以便再往里面塞入L2级类别
          */
         CskaoyanMallCategoryExample l1cskaoyanMallCategoryExample = new CskaoyanMallCategoryExample();
         CskaoyanMallCategoryExample.Criteria l1criteria = l1cskaoyanMallCategoryExample.createCriteria();
-        l1criteria.andLevelEqualTo("L1");
+        l1criteria.andLevelEqualTo("L1").andDeletedNotEqualTo(true);
         List<CskaoyanMallCategory> l1MallCategories = cskaoyanMallCategoryMapper.selectByExample(l1cskaoyanMallCategoryExample);
         ArrayList<MallCategoryPlus> mallCategoryPluses = new ArrayList<>();
         for (CskaoyanMallCategory l1MallCategory : l1MallCategories) {
@@ -40,7 +41,7 @@ public class MallManagement3ServiceImpl implements MallManagement3Service {
         for (MallCategoryPlus mallCategoryPlus : mallCategoryPluses) {
             CskaoyanMallCategoryExample l2cskaoyanMallCategoryExample = new CskaoyanMallCategoryExample();
             CskaoyanMallCategoryExample.Criteria l2criteria = l2cskaoyanMallCategoryExample.createCriteria();
-            l2criteria.andLevelEqualTo("L2").andPidEqualTo(mallCategoryPlus.getId());
+            l2criteria.andLevelEqualTo("L2").andPidEqualTo(mallCategoryPlus.getId()).andDeletedNotEqualTo(true);
             List<CskaoyanMallCategory> l2cskaoyanMallCategories = cskaoyanMallCategoryMapper.selectByExample(l2cskaoyanMallCategoryExample);
             mallCategoryPlus.setChildren(l2cskaoyanMallCategories);
         }
@@ -59,6 +60,60 @@ public class MallManagement3ServiceImpl implements MallManagement3Service {
         List<ValueNLabel> l1ValueNLable = cskaoyanMallCategoryMapper.getL1ValueNLable();
         ResponseVo responseVo = afterOperation(1, l1ValueNLable, false);
         return responseVo;
+    }
+
+    @Override
+    public ResponseVo deleteCategory(MallCategoryPlus mallCategoryPlus) {
+        if(null != mallCategoryPlus.getChildren()){
+            List<CskaoyanMallCategory> children = mallCategoryPlus.getChildren();
+            for (CskaoyanMallCategory child : children) {
+                child.setDeleted(true);
+                int i = cskaoyanMallCategoryMapper.updateByPrimaryKey(child);
+                if(1 != i){
+                    return afterOperation(0,child,true);
+                }
+            }
+        }
+        CskaoyanMallCategory categoryl1 = mallCategoryPlus;
+        categoryl1.setDeleted(true);
+        int i = cskaoyanMallCategoryMapper.updateByPrimaryKey(categoryl1);
+        if(1 != i){
+            return afterOperation(0,categoryl1,true);
+        }
+        return afterOperation(1,null,true);
+    }
+
+    @Override
+    public ResponseVo insertCategory(CskaoyanMallCategory cskaoyanMallCategory) {
+        Date date = new Date();
+        cskaoyanMallCategory.setAddTime(date);
+        cskaoyanMallCategory.setUpdateTime(date);
+        cskaoyanMallCategory.setDeleted(false);
+        Byte sortorder = cskaoyanMallCategoryMapper.selectMaxSortOrderFromPid(cskaoyanMallCategory.getPid());
+        byte sortorder2;
+        if(null != sortorder){
+            sortorder2 = (byte)(sortorder + 1);
+        }else{
+            sortorder2 = 0;
+        }
+        cskaoyanMallCategory.setSortOrder(sortorder2);
+        int insert = cskaoyanMallCategoryMapper.insertSelective(cskaoyanMallCategory);
+        if(1 == insert){
+            cskaoyanMallCategory.setId(cskaoyanMallCategoryMapper.selectLastUpdate());
+            return afterOperation(1,cskaoyanMallCategory,false);
+        }
+        return afterOperation(0,null,false);
+    }
+
+    @Override
+    public ResponseVo updateCategory(MallCategoryPlus mallCategoryPlus) {
+        CskaoyanMallCategory cmc = mallCategoryPlus;
+        cmc.setUpdateTime(new Date());
+        int i = cskaoyanMallCategoryMapper.updateByPrimaryKey(cmc);
+        if(1 == i){
+            return afterOperation(1,null,true);
+        }
+        return afterOperation(0,null,true);
     }
 
     /*private MallCategoryPlus castToMCP(CskaoyanMallCategory l1MallCategory) {
@@ -91,12 +146,12 @@ public class MallManagement3ServiceImpl implements MallManagement3Service {
         return responseVo;
     }*/
 
-    private ResponseVo afterOperation(int status,Object object,boolean isDelete){
+    private ResponseVo afterOperation(int status,Object object,boolean dontSetData){
         ResponseVo<Object> responseVo = new ResponseVo<>();
         if(1 == status){
             responseVo.setErrno(0);
             responseVo.setErrmsg("成功");
-            if(!isDelete){
+            if(!dontSetData){
                 responseVo.setData(object);
             }
             return responseVo;

@@ -11,6 +11,8 @@ import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,7 @@ public class FirstModuleController {
     }
 
     @RequestMapping("storage/create")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @ResponseBody
     public Result pic( MultipartFile file) throws IOException {
         Result result = picService.create(file);
