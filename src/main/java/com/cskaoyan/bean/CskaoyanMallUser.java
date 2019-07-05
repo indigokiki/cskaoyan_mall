@@ -1,5 +1,8 @@
 package com.cskaoyan.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class CskaoyanMallUser {
@@ -11,6 +14,8 @@ public class CskaoyanMallUser {
 
     private Byte gender;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
     private Date birthday;
 
     private Date lastLoginTime;
@@ -34,6 +39,14 @@ public class CskaoyanMallUser {
     private Date updateTime;
 
     private Boolean deleted;
+
+    public CskaoyanMallUser() {
+    }
+
+    public CskaoyanMallUser(String username, Date birthday) {
+        this.username = username;
+        this.birthday = birthday;
+    }
 
     public Integer getId() {
         return id;
