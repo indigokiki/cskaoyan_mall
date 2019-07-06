@@ -296,5 +296,19 @@
     </if>
   </select>
 
+  <insert id="insertBrand" >
+    insert into cskaoyan_mall_brand (`name`,`desc`,pic_url,sort_order,floor_price,add_time,update_time,deleted)
+    values (#{brand.name},#{brand.desc},#{brand.picUrl},#{brand.sortOrder},#{brand.floorPrice},#{brand.addTime},#{brand.updateTime},0)
+    <selectKey resultType="Integer" order="AFTER" keyProperty="brand.id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+  </insert>
 
+  <select id="getMaxSort" resultType="_int">
+    select max(sort_order) from cskaoyan_mall_brand
+  </select>
+
+  <delete id="delete">
+    delete from cskaoyan_mall_brand where id = #{brand.id}
+  </delete>
 </mapper>

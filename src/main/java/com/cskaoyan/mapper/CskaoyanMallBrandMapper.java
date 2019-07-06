@@ -38,4 +38,6 @@ public interface CskaoyanMallBrandMapper {
     int delete(@Param("brand") CskaoyanMallBrand brand);
 
     int insertBrand(@Param("brand") CskaoyanMallBrand brand);
+
+    int getMaxSort();
 }

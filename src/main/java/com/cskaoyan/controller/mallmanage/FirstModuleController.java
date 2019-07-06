@@ -11,6 +11,8 @@ import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,7 @@ public class FirstModuleController {
     }
 
     @RequestMapping("storage/create")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @ResponseBody
     public Result pic( MultipartFile file) throws IOException {
         Result result = picService.create(file);
@@ -70,10 +73,13 @@ public class FirstModuleController {
     @RequestMapping("brand/create")
     @ResponseBody
     public Result brandcreate(@RequestBody CskaoyanMallBrand brand){
-        int insert = firstModuleService.insert(brand);
-        Result<Object> result = new Result<>();
-        result.setErrno(0);
-        result.setErrmsg("成功");
-        return result;
+
+        return firstModuleService.insert(brand);
+    }
+
+    @RequestMapping("brand/update")
+    @ResponseBody
+    public Result update(@RequestBody CskaoyanMallBrand brand){
+        return firstModuleService.update(brand);
     }
 }

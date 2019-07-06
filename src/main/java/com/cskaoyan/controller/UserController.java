@@ -1,10 +1,8 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.CskaoyanMallAddress;
-import com.cskaoyan.bean.CskaoyanMallCollect;
-import com.cskaoyan.bean.CskaoyanMallFootprint;
-import com.cskaoyan.bean.CskaoyanMallUser;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.service.UserService;
+import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,69 +24,94 @@ public class UserController {
     UserService userService;
     //会员管理
     @RequestMapping("user/list")
-    public ResponseVo<Map> getUsers(String username,String mobile) {
-        ResponseVo<Map> users = userService.findUsers(username, mobile);
+    public ResponseVo<Page> getUsers(int page,int limit,String username,String mobile) {
+        Page<CskaoyanMallUser> userPage = userService.findUsers(page, limit, username, mobile);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
 
-        /*for(CskaoyanMallUser user: users){
-            System.out.println(user);
-        }*/
-        /*ResponseVo<Object> responseVo = new ResponseVo<>();
-        responseVo.setErrno(0);
-        responseVo.setErrmsg("成功");
-        responseVo.setData(data);
-
-        Map<Object, Object> data = new HashMap<>();
-        data.put("total",0);
-        data.put("items",users);*/
-
-        /*Map<Object, Object> map = new HashMap<>();
-        map.put("errno", 0);
-        map.put("data", data);
-        map.put("errmsg", "成功");*/
-        return users;
+        if(userPage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(userPage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
     }
     //收货地址
     @RequestMapping("address/list")
-    public Map getAdresses (int userId,String name){
-        List<CskaoyanMallAddress> adresses = userService.findAdresses(userId, name);
-        Map<Object, Object> data = new HashMap<>();
-        data.put("total",0);
-        data.put("items",adresses);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("errno", 0);
-        map.put("data", data);
-        map.put("errmsg", "成功");
-        return map;
+    public ResponseVo<Page> getAdresses (int page,int limit,String userId,String name){
+        Page<CskaoyanMallAddress> addressPage = userService.findAdresses(page, limit,userId, name);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        if(addressPage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(addressPage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
     }
     //会员收藏
     @RequestMapping("collect/list")
-    public Map getCollects (int userId,int valueId){
-
-        List<CskaoyanMallCollect> collects = userService.findCollects(userId, valueId);
-        Map<Object, Object> data = new HashMap<>();
-        data.put("total",0);
-        data.put("items",collects);
-
-        Map<Object, Object> map = new HashMap<>();
-        map.put("errno", 0);
-        map.put("data", data);
-        map.put("errmsg", "成功");
-        return map;
+    public ResponseVo<Page> getCollects (int page,int limit,String userId,String valueId){
+        Page<CskaoyanMallCollect> collectPage = userService.findCollects(page, limit,userId, valueId);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        if(collectPage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(collectPage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
     }
     //会员足迹
     @RequestMapping("footprint/list")
-    public Map getFootprints (int userId,int goodsId){
-        List<CskaoyanMallFootprint> footprints = userService.findFootprints(userId, goodsId);
-        Map<Object, Object> data = new HashMap<>();
-        data.put("total",0);
-        data.put("items",footprints);
+    public ResponseVo<Page> getFootprints (int page,int limit,String userId,String goodsId){
+        Page<CskaoyanMallFootprint> footprintPage = userService.findFootprints(page, limit,userId, goodsId);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        if(footprintPage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(footprintPage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
+    }
 
-        Map<Object, Object> map = new HashMap<>();
-        map.put("errno", 0);
-        map.put("data", data);
-        map.put("errmsg", "成功");
-        return map;
+    @RequestMapping("history/list")
+    public ResponseVo<Page> getHistories (int page,int limit,String userId,String keyword){
+        Page<CskaoyanMallSearchHistory> historiePage = userService.findHistories(page, limit, userId, keyword);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        if(historiePage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(historiePage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
+    }
+
+    @RequestMapping("feedback/list")
+    public ResponseVo<Page> getFeedback (int page,int limit,String username,String id){
+        Page<CskaoyanMallFeedback> feedPage = userService.findFeedback(page, limit, username, id);
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        if(feedPage.getTotal() != 0){
+            responseVo.setErrmsg("成功");
+            responseVo.setErrno(0);
+            responseVo.setData(feedPage);
+        }else{
+            responseVo.setErrmsg("系统内部错误");
+            responseVo.setErrno(502);
+        }
+        return responseVo;
     }
 
 }

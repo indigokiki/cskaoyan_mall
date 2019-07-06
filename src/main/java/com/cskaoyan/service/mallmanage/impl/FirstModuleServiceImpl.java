@@ -2,6 +2,7 @@ package com.cskaoyan.service.mallmanage.impl;
 
 import com.cskaoyan.bean.CskaoyanMallBrand;
 import com.cskaoyan.bean.CskaoyanMallBrandExample;
+import com.cskaoyan.bean.Result;
 import com.cskaoyan.bean.mallmanage.Region;
 import com.cskaoyan.bean.mallmanage.RegionList;
 import com.cskaoyan.mapper.CskaoyanMallBrandMapper;
@@ -57,10 +58,25 @@ public class FirstModuleServiceImpl implements FirstModuleService {
     }
 
     @Override
-    public int insert(CskaoyanMallBrand brand) {
+    public Result insert(CskaoyanMallBrand brand) {
         brand.setAddTime(new Date());
         brand.setUpdateTime(new Date());
-        int insert = cskaoyanMallBrandMapper.insert(brand);
-        return 0;
+        brand.setSortOrder((byte) (cskaoyanMallBrandMapper.getMaxSort() + 1));
+        int insertBrand = cskaoyanMallBrandMapper.insertBrand(brand);
+        Result<Object> result = new Result<>();
+        result.setData(brand);
+        result.setErrno(0);
+        result.setErrmsg("成功");
+        return result;
+    }
+
+    @Override
+    public Result update(CskaoyanMallBrand brand) {
+        int update = cskaoyanMallBrandMapper.updateByPrimaryKey(brand);
+        Result<Object> result = new Result<>();
+        result.setData(brand);
+        result.setErrno(0);
+        result.setErrmsg("成功");
+        return result;
     }
 }

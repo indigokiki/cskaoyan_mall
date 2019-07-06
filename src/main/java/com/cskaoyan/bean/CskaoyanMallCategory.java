@@ -1,8 +1,11 @@
 package com.cskaoyan.bean;
 
-import java.sql.Timestamp;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
-public class CskaoyanMallCategory {
+import java.util.Date;
+
+public class CskaoyanMallCategory{
     private Integer id;
 
     private String name;
@@ -21,9 +24,13 @@ public class CskaoyanMallCategory {
 
     private Byte sortOrder;
 
-    private Timestamp addTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date addTime;
 
-    private Timestamp updateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date updateTime;
 
     private Boolean deleted;
 
@@ -99,19 +106,19 @@ public class CskaoyanMallCategory {
         this.sortOrder = sortOrder;
     }
 
-    public Timestamp getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Timestamp addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
