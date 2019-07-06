@@ -1,11 +1,10 @@
 package com.cskaoyan.service.goods;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.bean.goods.CskaoyanMallGoods;
-import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
+import com.cskaoyan.bean.goods.*;
 import com.cskaoyan.mapper.CskaoyanMallBrandMapper;
 import com.cskaoyan.mapper.CskaoyanMallCategoryMapper;
-import com.cskaoyan.mapper.CskaoyanMallCommentMapper;
+import com.cskaoyan.mapper.goods.CskaoyanMallCommentMapper;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
 import com.cskaoyan.util.Page;
 import com.cskaoyan.util.goods.ValueAndLabel;
@@ -36,6 +35,13 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     CskaoyanMallCommentMapper commentMapper;
 
+    @Autowired
+    GoodsAttributeService attributeService;
+    @Autowired
+    GoodsProductService productService;
+    @Autowired
+    GoodsSpecificationService specificationService;
+
     @Override
     public Page<CskaoyanMallGoods> selectGoodsPageWithSnOrName(int page, int limit, String goodsSn, String name) {
         Page<CskaoyanMallGoods> goodsPage = new Page<>();
@@ -51,7 +57,7 @@ public class GoodsServiceImpl implements GoodsService {
         }
         criteria.andDeletedEqualTo(false);
         PageHelper.startPage(page, limit);
-        List<CskaoyanMallGoods> goodsList = goodsMapper.selectByExample(goodsExample);
+        List<CskaoyanMallGoods> goodsList = goodsMapper.selectByExampleWithBLOBs(goodsExample);
         goodsPage.setItems(goodsList);
 
         int count = (int) goodsMapper.countByExample(goodsExample);
@@ -162,6 +168,153 @@ public class GoodsServiceImpl implements GoodsService {
         commentPage.setTotal(count);
 
         return commentPage;
+    }
+
+    @Override
+    public int insertGoodsSelective(CskaoyanMallGoods goods) {
+        if (goodsNameExist(goods.getName())){
+            return 0;
+        }else {
+            int i = goodsMapper.insertSelective(goods);
+            return i;
+        }
+    }
+
+    @Override
+    public Integer getGoodsidWhenInsertGoods(CskaoyanMallGoods goods) {
+        int i = insertGoodsSelective(goods);
+        if (i == 1){
+            //添加成功，则查询对应的goodsid
+            Integer goodsid = goodsMapper.getGoodsidByName(goods.getName());
+            return goodsid;
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean goodsNameExist(String goodsname) {
+        CskaoyanMallGoodsExample example = new CskaoyanMallGoodsExample();
+        CskaoyanMallGoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(goodsname);
+        List<CskaoyanMallGoods> goods = goodsMapper.selectByExample(example);
+        if (goods != null && goods.size() != 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean goodsSnExist(String goodsSn) {
+        CskaoyanMallGoodsExample example = new CskaoyanMallGoodsExample();
+        CskaoyanMallGoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsSnEqualTo(goodsSn);
+        List<CskaoyanMallGoods> goods = goodsMapper.selectByExample(example);
+        if (goods != null && goods.size() != 0 ){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public GoodsDetail getGoodsDetailById(Integer id) {
+        List<CskaoyanMallGoodsAttribute> attributes = attributeService.selectAttributesByGoodsid(id);
+        List<CskaoyanMallGoodsProduct> products = productService.selectProductsByGoodsid(id);
+        List<CskaoyanMallGoodsSpecification> specifications = specificationService.selectSpecificationsByGoodsid(id);
+
+        CskaoyanMallGoods goods = selectGoodsById(id);
+        int[] categoryids = getCategoryidsByGoodsid(id);
+
+        GoodsDetail goodsDetail = new GoodsDetail(attributes,categoryids,goods,products,specifications);
+
+        return goodsDetail;
+    }
+
+    @Override
+    public CskaoyanMallGoods selectGoodsById(Integer id) {
+
+        CskaoyanMallGoodsExample goodsExample = new CskaoyanMallGoodsExample();
+        CskaoyanMallGoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andIdEqualTo(id).andDeletedEqualTo(false);
+        List<CskaoyanMallGoods> goodsList = goodsMapper.selectByExampleWithBLOBs(goodsExample);
+        CskaoyanMallGoods goods = goodsList.get(0);
+        return goods;
+    }
+
+    @Override
+    public int[] getCategoryidsByGoodsid(Integer id) {
+        Integer categoryid = goodsMapper.getCategoryidByGoodsid(id);
+        Integer categoryParentId = getCategoryParentId(categoryid);
+
+        int[] categoryids = {categoryParentId,categoryid};
+        return categoryids;
+    }
+
+    @Override
+    public Boolean commentContentExist(Integer commentid) {
+        CskaoyanMallComment comment = commentMapper.selectByPrimaryKey(commentid);
+        String content = comment.getContent();
+        if (content == null || content == ""){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+
+    @Override
+    public int updateContentOfComment(Integer commentid, String content) {
+        int i = commentMapper.updateContentByid(commentid,content);
+        return i;
+    }
+
+    @Override
+    public int changeCommentDeleted(CskaoyanMallComment comment) {
+        if (comment.getDeleted() == true){
+            comment.setDeleted(false);
+        }else {
+            comment.setDeleted(true);
+        }
+        int i = commentMapper.updateByPrimaryKey(comment);
+        return i;
+    }
+
+    @Override
+    public int changeGoodsAndRelatedDeleted(CskaoyanMallGoods goods) {
+        int i = changeGoodsDeleted(goods);
+        if (i == 1){
+            Integer goodsId = goods.getId();
+            attributeService.setDeletedFalseByGoodsid(goodsId);
+            productService.setDeletedFalseByGoodsid(goodsId);
+            specificationService.setDeletedFalseByGoodsid(goodsId);
+
+        }
+        return i;
+    }
+
+    @Override
+    public int updateGoods(CskaoyanMallGoods goods) {
+        int i = goodsMapper.updateByPrimaryKey(goods);
+        return i;
+    }
+
+
+    private Integer getCategoryParentId(Integer categoryid) {
+        //1.用categoryid获得pid
+        CskaoyanMallCategory category = categoryMapper.selectByPrimaryKey(categoryid);
+        if (category != null){
+            Integer pid = category.getPid();
+
+            //2.用pid查找categoryid,即为父类目的id
+            CskaoyanMallCategory categoryParent = categoryMapper.selectByPrimaryKey(pid);
+            Integer categoryParentId = categoryParent.getId();
+            return categoryParentId;
+        }
+        else {
+            return null;
+        }
     }
 
 

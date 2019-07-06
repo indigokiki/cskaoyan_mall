@@ -1,6 +1,9 @@
 package com.cskaoyan.bean.goods;
 
-import java.sql.Timestamp;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.sql.Date;
 
 public class CskaoyanMallGoodsSpecification {
     private Integer id;
@@ -13,9 +16,13 @@ public class CskaoyanMallGoodsSpecification {
 
     private String picUrl;
 
-    private Timestamp addTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date addTime;
 
-    private Timestamp updateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date updateTime;
 
     private Boolean deleted;
 
@@ -61,19 +68,19 @@ public class CskaoyanMallGoodsSpecification {
         this.picUrl = picUrl == null ? null : picUrl.trim();
     }
 
-    public Timestamp getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Timestamp addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

@@ -17,10 +17,17 @@ public class StringListToStringHandler implements TypeHandler<String[]> {
     public void setParameter(PreparedStatement preparedStatement, int i, String[] strings, JdbcType jdbcType) throws SQLException {
         StringBuffer sb = new StringBuffer();
         sb.append("[");
-        for (int j= 0; j < strings.length-1; j++) {
-            sb.append(strings[j]).append(",");
+        //若String[]为空，则不能使用strings.length-1
+        int length = strings.length;
+        if(length >= 1){
+            for (int j= 0; j < length-1; j++) {
+                sb.append(strings[j]).append(",");
+            }
+            sb.append(strings[length-1]).append("]");
+        }else {
+            sb.append("]");
         }
-        sb.append(strings[strings.length-1]).append("]");
+
         String tostring = sb.toString();
         preparedStatement.setString(i,tostring);
 

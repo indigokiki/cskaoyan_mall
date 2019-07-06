@@ -255,4 +255,10 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--新增-->
+  <update id="setDeletedFalseByGoodsid">
+    update cskaoyan_mall_goods_specification
+    set deleted = true where goods_id = #{goodsid}
+  </update>
 </mapper>

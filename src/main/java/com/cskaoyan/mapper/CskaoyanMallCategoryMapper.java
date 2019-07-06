@@ -3,9 +3,11 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCategoryExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallCategoryMapper {
     long countByExample(CskaoyanMallCategoryExample example);
 

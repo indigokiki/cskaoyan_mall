@@ -1,7 +1,10 @@
 package com.cskaoyan.bean.goods;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class CskaoyanMallGoods {
     private Integer id;
@@ -39,9 +42,13 @@ public class CskaoyanMallGoods {
 
     private BigDecimal retailPrice;
 
-    private Timestamp addTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date addTime;
 
-    private Timestamp updateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date updateTime;
 
     private Boolean deleted;
 
@@ -215,19 +222,19 @@ public class CskaoyanMallGoods {
         this.retailPrice = retailPrice;
     }
 
-    public Timestamp getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Timestamp addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
