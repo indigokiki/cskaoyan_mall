@@ -288,4 +288,32 @@
       role_ids = #{roleIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectPassword" resultType="string">
+    select password from cskaoyan_mall_admin where username = #{username}
+  </select>
+
+  <resultMap id="infoMap" type="com.cskaoyan.bean.mallmanage.Admin">
+    <result column="username" property="name"/>
+    <result column="avatar" property="avatar"/>
+    <result  column="role_ids" property="roleIds" typeHandler="com.cskaoyan.util.goods.StringListToStringHandler"/>
+  </resultMap>
+
+  <select id="getInfoAdd" resultMap="infoMap">
+    select username,avatar,role_ids from cskaoyan_mall_admin where username = #{username}
+  </select>
+
+  <select id="getRoles" resultType="string">
+    select `name` from cskaoyan_mall_role where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+  <select id="getPerms" resultType="string">
+    select permission from cskaoyan_mall_permission where role_id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

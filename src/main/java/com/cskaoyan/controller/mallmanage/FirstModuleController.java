@@ -8,6 +8,7 @@ import com.cskaoyan.service.mallmanage.FirstModuleService;
 import com.cskaoyan.service.mallmanage.PicService;
 import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;

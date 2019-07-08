@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallAdmin;
 import com.cskaoyan.bean.CskaoyanMallAdminExample;
+import com.cskaoyan.bean.mallmanage.Admin;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,11 @@ public interface CskaoyanMallAdminMapper {
     int updateByPrimaryKeySelective(CskaoyanMallAdmin record);
 
     int updateByPrimaryKey(CskaoyanMallAdmin record);
+
+    String selectPassword(@Param("username") String username);
+
+    Admin getInfoAdd(@Param("username") String username);
+    List<String> getRoles(@Param("ids") String[] ids);
+
+    List<String> getPerms(@Param("ids") String[] ids);
 }
