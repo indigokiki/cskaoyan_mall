@@ -11,4 +11,6 @@ public interface RoleManagementService {
     ResponseVo updaterole(CskaoyanMallRole cskaoyanMallRole);
 
     ResponseVo createrole(CskaoyanMallRole cskaoyanMallRole);
+
+    ResponseVo getRoleListByName(int page, int limit, String username);
 }
