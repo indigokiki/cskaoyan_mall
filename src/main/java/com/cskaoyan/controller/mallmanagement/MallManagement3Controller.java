@@ -3,7 +3,6 @@ package com.cskaoyan.controller.mallmanagement;
 
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.MallCategoryPlus;
-import com.cskaoyan.service.mallmanage.PicService;
 import com.cskaoyan.service.mallmanagement.MallManagement3Service;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
