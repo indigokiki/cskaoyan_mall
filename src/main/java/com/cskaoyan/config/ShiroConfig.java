@@ -26,8 +26,9 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         shiroFilterFactoryBean.setLoginUrl("/auth/401");
         Map<String, String> map = new HashMap<>();
+        map.put("/wx/**","anon");
         map.put("/auth/login","anon");
-        map.put("/**","authc");
+        map.put("/admin/**","authc");
         map.put("/auth/logout","logout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 

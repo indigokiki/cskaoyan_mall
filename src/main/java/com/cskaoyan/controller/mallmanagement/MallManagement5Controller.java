@@ -23,7 +23,7 @@ public class MallManagement5Controller {
     /*
         第二个大按钮第五个按钮部分
      */
-    @RequestMapping("issue/list")
+    @RequestMapping("admin/issue/list")
     public ResponseVo issuelist(int page, int limit, String sort, String order, String question){
         /*if("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())){
             return null;
@@ -34,7 +34,7 @@ public class MallManagement5Controller {
         return mallManagment5Service.getIssueList(page,limit,sort);
     }
 
-    @RequestMapping("issue/create")
+    @RequestMapping("admin/issue/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo issueinsert(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
         /*if("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())){
@@ -43,13 +43,13 @@ public class MallManagement5Controller {
         return mallManagment5Service.insertIssue(cskaoyanMallIssue);
     }
 
-    @RequestMapping("issue/update")
+    @RequestMapping("admin/issue/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo issueupdate(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
         return mallManagment5Service.updateIssue(cskaoyanMallIssue);
     }
 
-    @RequestMapping("issue/delete")
+    @RequestMapping("admin/issue/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo issuedelete(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
         return mallManagment5Service.deleteIssue(cskaoyanMallIssue);

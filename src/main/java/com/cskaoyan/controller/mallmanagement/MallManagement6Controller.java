@@ -16,7 +16,7 @@ public class MallManagement6Controller {
     @Autowired
     MallManagement6Service mallManagement6Service;
 
-    @RequestMapping("keyword/list")
+    @RequestMapping("admin/keyword/list")
     public ResponseVo keywordlist(int page,int limit,String sort,String order,String keyword,String url){
         if(null != keyword || null != url){
             return mallManagement6Service.getKeywordListByKeywordNUrl(page,limit,sort,keyword,url);
@@ -24,19 +24,19 @@ public class MallManagement6Controller {
         return mallManagement6Service.getKeywordList(page,limit,sort);
     }
 
-    @RequestMapping("keyword/create")
+    @RequestMapping("admin/keyword/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo keywordcreate(@RequestBody CskaoyanMallKeyword cskaoyanMallKeyword){
         return mallManagement6Service.insertKeyword(cskaoyanMallKeyword);
     }
 
-    @RequestMapping("keyword/update")
+    @RequestMapping("admin/keyword/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo keywordupdate(@RequestBody CskaoyanMallKeyword cskaoyanMallKeyword){
         return mallManagement6Service.updateKeyword(cskaoyanMallKeyword);
     }
 
-    @RequestMapping("keyword/delete")
+    @RequestMapping("admin/keyword/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo keyworddelete(@RequestBody CskaoyanMallKeyword cskaoyanMallKeyword){
         return mallManagement6Service.deleteKeyword(cskaoyanMallKeyword);

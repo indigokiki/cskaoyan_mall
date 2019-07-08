@@ -20,7 +20,7 @@ public class MallManagement3Controller {
     MallManagement3Service mallManagement3Service;
 
 
-    @RequestMapping("category/list")
+    @RequestMapping("admin/category/list")
     public ResponseVo categorylist(){
         return mallManagement3Service.getCategoryList();
     }
@@ -30,13 +30,13 @@ public class MallManagement3Controller {
         return mallManagement3Service.getValueNLabel();
     }
 
-    @RequestMapping("category/delete")
+    @RequestMapping("admin/category/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo categorydelete(@RequestBody MallCategoryPlus mallCategoryPlus){
         return mallManagement3Service.deleteCategory(mallCategoryPlus);
     }
 
-    @RequestMapping("category/create")
+    @RequestMapping("admin/category/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo categorycreate(@RequestBody CskaoyanMallCategory cskaoyanMallCategory){
         return mallManagement3Service.insertCategory(cskaoyanMallCategory);

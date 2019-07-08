@@ -8,8 +8,8 @@ public class Md5Util {
 
     public static String getMD5(String s) {
         String result="";
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String input=s+ uuid ;
+        //String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        String input=s ;
         //1、获取Java语言提供的MD5算法类
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
