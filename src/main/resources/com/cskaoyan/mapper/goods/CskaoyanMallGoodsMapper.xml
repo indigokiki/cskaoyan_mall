@@ -534,4 +534,12 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--新增-->
+  <select id="getGoodsidByName" resultType="Integer">
+    select id from cskaoyan_mall_goods where name = #{name}
+  </select>
+  <select id="getCategoryidByGoodsid" resultType="Integer">
+    select category_id from cskaoyan_mall_goods where id = #{id}
+  </select>
 </mapper>

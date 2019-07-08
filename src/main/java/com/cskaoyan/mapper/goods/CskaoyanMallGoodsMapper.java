@@ -3,10 +3,11 @@ package com.cskaoyan.mapper.goods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+@Repository
 public interface CskaoyanMallGoodsMapper {
     long countByExample(CskaoyanMallGoodsExample example);
 
@@ -35,4 +36,10 @@ public interface CskaoyanMallGoodsMapper {
     int updateByPrimaryKeyWithBLOBs(CskaoyanMallGoods record);
 
     int updateByPrimaryKey(CskaoyanMallGoods record);
+
+    //新增
+    //用name查goodsid
+    Integer getGoodsidByName(@Param("name") String name);
+
+    Integer getCategoryidByGoodsid(@Param("id") Integer id);
 }

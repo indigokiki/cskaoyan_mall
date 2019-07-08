@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, key, name, type, size, url, add_time, update_time, deleted
+    id, `key`, `name`, `type`, `size`, url, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.bean.CskaoyanMallStorageExample" resultMap="BaseResultMap">
     select
@@ -104,8 +104,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.CskaoyanMallStorage">
-    insert into cskaoyan_mall_storage (id, key, name, 
-      type, size, url, add_time, 
+    insert into cskaoyan_mall_storage (id, `key`, `name`,
+      `type`, `size`, url, add_time,
       update_time, deleted)
     values (#{id,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
@@ -216,10 +216,10 @@
   <update id="updateByExample" parameterType="map">
     update cskaoyan_mall_storage
     set id = #{record.id,jdbcType=INTEGER},
-      key = #{record.key,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
-      size = #{record.size,jdbcType=INTEGER},
+      `key` = #{record.key,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=VARCHAR},
+      `size` = #{record.size,jdbcType=INTEGER},
       url = #{record.url,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},

@@ -1,7 +1,7 @@
 package com.cskaoyan.controller.mallmanagement;
 
 import com.cskaoyan.bean.CskaoyanMallIssue;
-import com.cskaoyan.service.mallmanagement.MallManagement356Service;
+import com.cskaoyan.service.mallmanagement.MallManagement5Service;
 import com.cskaoyan.util.ResponseVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,45 +14,45 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class MallManagement356Controller {
+public class MallManagement5Controller {
 
     @Autowired
-    MallManagement356Service mallManagment356Service;
+    MallManagement5Service mallManagment5Service;
 
 
     /*
         第二个大按钮第五个按钮部分
      */
     @RequestMapping("issue/list")
-    public ResponseVo issuelist(int page, int limit, String sort, String order, String question, HttpServletRequest httpServletRequest){
+    public ResponseVo issuelist(int page, int limit, String sort, String order, String question){
         /*if("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())){
             return null;
         }*/
         if(null != question) {
-            return mallManagment356Service.getIssueListByQuestion(page,limit,question);
+            return mallManagment5Service.getIssueListByQuestion(page,limit,question,sort);
         }
-        return mallManagment356Service.getIssueList(page, limit);
+        return mallManagment5Service.getIssueList(page,limit,sort);
     }
 
     @RequestMapping("issue/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseVo issueinsert(@RequestBody CskaoyanMallIssue cskaoyanMallIssue, HttpServletRequest httpServletRequest){
+    public ResponseVo issueinsert(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
         /*if("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())){
             return null;
         }*/
-        return mallManagment356Service.insertIssue(cskaoyanMallIssue);
+        return mallManagment5Service.insertIssue(cskaoyanMallIssue);
     }
 
     @RequestMapping("issue/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo issueupdate(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
-        return mallManagment356Service.updateIssue(cskaoyanMallIssue);
+        return mallManagment5Service.updateIssue(cskaoyanMallIssue);
     }
 
     @RequestMapping("issue/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo issuedelete(@RequestBody CskaoyanMallIssue cskaoyanMallIssue){
-        return mallManagment356Service.deleteIssue(cskaoyanMallIssue);
+        return mallManagment5Service.deleteIssue(cskaoyanMallIssue);
     }
 
 }

@@ -3,9 +3,11 @@ package com.cskaoyan.mapper.goods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsSpecification;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsSpecificationExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallGoodsSpecificationMapper {
     long countByExample(CskaoyanMallGoodsSpecificationExample example);
 
@@ -28,4 +30,6 @@ public interface CskaoyanMallGoodsSpecificationMapper {
     int updateByPrimaryKeySelective(CskaoyanMallGoodsSpecification record);
 
     int updateByPrimaryKey(CskaoyanMallGoodsSpecification record);
+
+    int setDeletedFalseByGoodsid(@Param("goodsid") Integer goodsId);
 }

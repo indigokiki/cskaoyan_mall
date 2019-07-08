@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin, ip, type, action, status, result, comment, add_time, update_time, deleted
+    id, admin, ip, `type`, `action`, status, result, comment, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.bean.CskaoyanMallLogExample" resultMap="BaseResultMap">
     select
@@ -107,7 +107,7 @@
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.CskaoyanMallLog">
     insert into cskaoyan_mall_log (id, admin, ip, 
-      type, action, status, result, 
+      `type`, `action`, status, result,
       comment, add_time, update_time, 
       deleted)
     values (#{id,jdbcType=INTEGER}, #{admin,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
@@ -128,10 +128,10 @@
         ip,
       </if>
       <if test="type != null">
-        type,
+        `type`,
       </if>
       <if test="action != null">
-        action,
+        `action`,
       </if>
       <if test="status != null">
         status,
@@ -207,10 +207,10 @@
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+        `type` = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.action != null">
-        action = #{record.action,jdbcType=VARCHAR},
+        `action` = #{record.action,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=BIT},
@@ -240,8 +240,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       admin = #{record.admin,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
-      action = #{record.action,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
+      `action` = #{record.action,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=BIT},
       result = #{record.result,jdbcType=VARCHAR},
       comment = #{record.comment,jdbcType=VARCHAR},
@@ -262,10 +262,10 @@
         ip = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="action != null">
-        action = #{action,jdbcType=VARCHAR},
+        `action` = #{action,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=BIT},
@@ -292,8 +292,8 @@
     update cskaoyan_mall_log
     set admin = #{admin,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      action = #{action,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      `action` = #{action,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT},
       result = #{result,jdbcType=VARCHAR},
       comment = #{comment,jdbcType=VARCHAR},

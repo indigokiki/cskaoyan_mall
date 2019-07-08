@@ -14,17 +14,18 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MallManagement356ServiceImpl implements MallManagement356Service {
+public class MallManagement5ServiceImpl implements MallManagement5Service {
 
     @Autowired
     CskaoyanMallIssueMapper cskaoyanMallIssueMapper;
 
     @Override
-    public ResponseVo getIssueList(int page, int limit) {
+    public ResponseVo getIssueList(int page, int limit,String sort) {
         CskaoyanMallIssueExample cskaoyanMallIssueExample = new CskaoyanMallIssueExample();
         CskaoyanMallIssueExample.Criteria criteria = cskaoyanMallIssueExample.createCriteria();
         criteria.andDeletedNotEqualTo(true);
-        PageHelper.startPage(page,limit);
+        cskaoyanMallIssueExample.setOrderByClause(sort);
+        /*PageHelper.startPage(page,limit);
         List<CskaoyanMallIssue> issues = cskaoyanMallIssueMapper.selectByExample(cskaoyanMallIssueExample);
         Page<CskaoyanMallIssue> issuePage = new Page<>();
         issuePage.setItems(issues);
@@ -32,7 +33,8 @@ public class MallManagement356ServiceImpl implements MallManagement356Service {
         ResponseVo<Page> responseVo = new ResponseVo<>();
         responseVo.setData(issuePage);
         responseVo.setErrmsg("成功");
-        responseVo.setErrno(0);
+        responseVo.setErrno(0);*/
+        ResponseVo responseVo = getSelectResponesVo(page, limit, cskaoyanMallIssueExample);
         return responseVo;
     }
 
@@ -60,11 +62,12 @@ public class MallManagement356ServiceImpl implements MallManagement356Service {
     }
 
     @Override
-    public ResponseVo getIssueListByQuestion(int page, int limit, String question) {
+    public ResponseVo getIssueListByQuestion(int page, int limit, String question,String sort) {
         CskaoyanMallIssueExample issueExampleByquestion = new CskaoyanMallIssueExample();
         CskaoyanMallIssueExample.Criteria criteria = issueExampleByquestion.createCriteria();
         criteria.andQuestionLike("%" + question + "%").andDeletedNotEqualTo(true);
-        PageHelper.startPage(page,limit);
+        issueExampleByquestion.setOrderByClause(sort);
+        /*PageHelper.startPage(page,limit);
         List<CskaoyanMallIssue> issues = cskaoyanMallIssueMapper.selectByExample(issueExampleByquestion);
         Page<CskaoyanMallIssue> issuePage = new Page<>();
         issuePage.setItems(issues);
@@ -72,7 +75,8 @@ public class MallManagement356ServiceImpl implements MallManagement356Service {
         ResponseVo<Page> responseVo = new ResponseVo<>();
         responseVo.setData(issuePage);
         responseVo.setErrmsg("成功");
-        responseVo.setErrno(0);
+        responseVo.setErrno(0);*/
+        ResponseVo responseVo = getSelectResponesVo(page, limit, issueExampleByquestion);
         return responseVo;
     }
 
@@ -100,12 +104,24 @@ public class MallManagement356ServiceImpl implements MallManagement356Service {
         if(1 == i){
             responseVo.setErrmsg("成功");
             responseVo.setErrno(0);
-            responseVo.setData(cskaoyanMallIssue);
             return responseVo;
         }
         responseVo.setErrmsg("删除失败！请联系管理员！");
         responseVo.setErrno(500);
         return responseVo;
 
+    }
+
+    private ResponseVo getSelectResponesVo(int page,int limit,CskaoyanMallIssueExample example){
+        PageHelper.startPage(page,limit);
+        List<CskaoyanMallIssue> issues = cskaoyanMallIssueMapper.selectByExample(example);
+        Page<CskaoyanMallIssue> issuePage = new Page<>();
+        issuePage.setItems(issues);
+        issuePage.setTotal((int)cskaoyanMallIssueMapper.countByExample(example));
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        responseVo.setData(issuePage);
+        responseVo.setErrmsg("成功");
+        responseVo.setErrno(0);
+        return responseVo;
     }
 }

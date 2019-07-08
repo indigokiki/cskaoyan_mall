@@ -1,11 +1,13 @@
-package com.cskaoyan.mapper;
+package com.cskaoyan.mapper.goods;
 
-import com.cskaoyan.bean.CskaoyanMallComment;
-import com.cskaoyan.bean.CskaoyanMallCommentExample;
+import com.cskaoyan.bean.goods.CskaoyanMallComment;
+import com.cskaoyan.bean.goods.CskaoyanMallCommentExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallCommentMapper {
     long countByExample(CskaoyanMallCommentExample example);
 
@@ -28,4 +30,10 @@ public interface CskaoyanMallCommentMapper {
     int updateByPrimaryKeySelective(CskaoyanMallComment record);
 
     int updateByPrimaryKey(CskaoyanMallComment record);
+
+    //新增
+    int updateContentByid(@Param("id") Integer commentid, @Param("content") String content);
+
+
+
 }

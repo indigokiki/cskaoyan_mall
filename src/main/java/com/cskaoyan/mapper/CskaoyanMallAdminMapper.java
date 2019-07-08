@@ -30,10 +30,14 @@ public interface CskaoyanMallAdminMapper {
 
     int updateByPrimaryKey(CskaoyanMallAdmin record);
 
+
     String selectPassword(@Param("username") String username);
 
     Admin getInfoAdd(@Param("username") String username);
     List<String> getRoles(@Param("ids") String[] ids);
 
     List<String> getPerms(@Param("ids") String[] ids);
+
+    List<CskaoyanMallAdmin> selectByMyExample(CskaoyanMallAdminExample example);
+
 }

@@ -289,6 +289,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
   <select id="selectPassword" resultType="string">
     select password from cskaoyan_mall_admin where username = #{username}
   </select>
@@ -316,4 +317,25 @@
       #{id}
     </foreach>
   </select>
+
+  <sql id="Base_Column_List1">
+    id, username, avatar, role_ids
+  </sql>
+
+  <select id="selectByMyExample" parameterType="com.cskaoyan.bean.CskaoyanMallAdminExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List1" />
+    from cskaoyan_mall_admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
 </mapper>

@@ -1,10 +1,8 @@
 package com.cskaoyan.service;
 
-import com.cskaoyan.bean.CskaoyanMallAddress;
-import com.cskaoyan.bean.CskaoyanMallCollect;
-import com.cskaoyan.bean.CskaoyanMallFootprint;
-import com.cskaoyan.bean.CskaoyanMallUser;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.mapper.CskaoyanMallUserMapper;
+import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,11 +14,12 @@ import java.util.Map;
  * @Date:2019/7/3 18:00
  */
 public interface UserService {
-    ResponseVo<Map> findUsers(String username, String mobile);
-    List<CskaoyanMallAddress> findAdresses(int userId, String name);
-    List<CskaoyanMallCollect> findCollects(int userId, int valueId);
-    List<CskaoyanMallFootprint> findFootprints(int userId, int goodsId);
-
+    Page<CskaoyanMallUser> findUsers(int page, int limit, String username, String mobile);
+    Page<CskaoyanMallAddress> findAdresses(int page,int limit,String userId, String name);
+    Page<CskaoyanMallCollect> findCollects(int page,int limit,String userId, String valueId);
+    Page<CskaoyanMallFootprint> findFootprints(int page,int limit,String userId, String goodsId);
+    Page<CskaoyanMallSearchHistory> findHistories(int page, int limit, String userId, String keyword);
+    Page<CskaoyanMallFeedback> findFeedback(int page, int limit, String username, String id);
 
 
 

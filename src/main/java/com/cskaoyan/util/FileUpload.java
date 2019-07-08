@@ -14,7 +14,7 @@ public class FileUpload {
     public static Picture pictureUpload(MultipartFile file) throws IOException {
         Picture picture = new Picture();
         String filename = file.getOriginalFilename();
-        File directory = new File("D://fileupload");
+        File directory = new File("C://fileupload");
         if (!directory.exists()){
             directory.mkdirs();
         }

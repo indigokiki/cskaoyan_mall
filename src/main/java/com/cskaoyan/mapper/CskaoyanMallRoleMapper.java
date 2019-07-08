@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallRole;
 import com.cskaoyan.bean.CskaoyanMallRoleExample;
+import com.cskaoyan.bean.systemmanagement.CskaoyanMallMyRole;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface CskaoyanMallRoleMapper {
     int updateByPrimaryKeySelective(CskaoyanMallRole record);
 
     int updateByPrimaryKey(CskaoyanMallRole record);
+
+    List<CskaoyanMallMyRole> getValueandLabel();
+
+    Integer selectLastUpdate();
+
+    int delete(@Param("role") CskaoyanMallRole cskaoyanMallRole);
 }

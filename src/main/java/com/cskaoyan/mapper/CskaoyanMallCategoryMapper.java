@@ -2,10 +2,13 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCategoryExample;
+import com.cskaoyan.util.ValueNLabel;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CskaoyanMallCategoryMapper {
     long countByExample(CskaoyanMallCategoryExample example);
 
@@ -28,4 +31,10 @@ public interface CskaoyanMallCategoryMapper {
     int updateByPrimaryKeySelective(CskaoyanMallCategory record);
 
     int updateByPrimaryKey(CskaoyanMallCategory record);
+
+    List<ValueNLabel> getL1ValueNLable();
+
+    int selectLastUpdate();
+
+    Byte selectMaxSortOrderFromPid(int pid);
 }
