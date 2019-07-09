@@ -27,6 +27,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
+
     @RequestMapping("/auth/login")
     @ResponseBody
     public Result login(@RequestBody CskaoyanMallAdmin admin){
