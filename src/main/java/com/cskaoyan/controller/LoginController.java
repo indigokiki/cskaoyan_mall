@@ -25,7 +25,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("auth/login")
+    @RequestMapping("admin/auth/login")
     @ResponseBody
     public Result login(@RequestBody CskaoyanMallAdmin admin){
         String username = admin.getUsername();
