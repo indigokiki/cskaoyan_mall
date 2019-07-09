@@ -75,20 +75,33 @@ public class WxCategoryServiceImpl implements WxCategoryService {
 
     @Override
     public ResponseVo<Map> categoryDetail(int id) {
+        List<CskaoyanMallCategory> brotherCategory;
+        CskaoyanMallCategory currentCategory;
+        CskaoyanMallCategory parentCategory;
         //pid
         int pid = categoryMapper.selectPid(id);
-        //brotherCategory
-        CskaoyanMallCategoryExample categoryExample = new CskaoyanMallCategoryExample();
-        categoryExample.createCriteria().andPidEqualTo(pid);
-        List<CskaoyanMallCategory> brotherCategory = categoryMapper.selectByExample(categoryExample);
-        //currentCategory
-        CskaoyanMallCategoryExample categoryExample1 = new CskaoyanMallCategoryExample();
-        categoryExample1.createCriteria().andIdEqualTo(id);
-        List<CskaoyanMallCategory> currentCategory = categoryMapper.selectByExample(categoryExample1);
-        //parentCategory
-        CskaoyanMallCategoryExample categoryExample2 = new CskaoyanMallCategoryExample();
-        categoryExample2.createCriteria().andIdEqualTo(pid);
-        List<CskaoyanMallCategory> parentCategory = categoryMapper.selectByExample(categoryExample2);
+        if(pid==0){
+            //点击一级目录查询路径
+            //brotherCategory
+            CskaoyanMallCategoryExample categoryExample = new CskaoyanMallCategoryExample();
+            categoryExample.createCriteria().andPidEqualTo(id);
+             brotherCategory = categoryMapper.selectByExample(categoryExample);
+            //currentCategory
+            currentCategory = categoryMapper.defaultCategory(id);
+            //parentCategory
+             parentCategory = categoryMapper.selectByPrimaryKey(id);
+        }else{
+            //点击二级目录查询路径
+            //brotherCategory
+            CskaoyanMallCategoryExample categoryExample = new CskaoyanMallCategoryExample();
+            categoryExample.createCriteria().andPidEqualTo(pid);
+            brotherCategory = categoryMapper.selectByExample(categoryExample);
+            //currentCategory
+            currentCategory = categoryMapper.selectByPrimaryKey(id);
+            //parentCategory
+             parentCategory = categoryMapper.selectByPrimaryKey(pid);
+        }
+
         //判断，设置errno，errmsg
         HashMap<String, Object> data = new HashMap<>();
         data.put("brotherCategory",brotherCategory);

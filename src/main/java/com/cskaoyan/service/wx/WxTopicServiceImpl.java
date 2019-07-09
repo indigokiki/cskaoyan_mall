@@ -56,4 +56,11 @@ public class WxTopicServiceImpl implements WxTopicService {
         responseVo.setData(data);
         return responseVo;
     }
+
+    @Override
+    public ResponseVo<Map> topicRelated(int id) {
+        //data
+
+        return null;
+    }
 }
