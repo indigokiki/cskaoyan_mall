@@ -3,9 +3,10 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.CskaoyanMallCollect;
 import com.cskaoyan.bean.CskaoyanMallCollectExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface CskaoyanMallCollectMapper {
     long countByExample(CskaoyanMallCollectExample example);
 

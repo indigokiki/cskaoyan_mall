@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -28,6 +29,12 @@ public class WxGoodsController {
     @RequestMapping("wx/goods/related")
     public ResponseVo<Map> goodsRelated(int id){
         ResponseVo<Map> responseVo = wxGoodsService.goodsRelated(id);
+        return responseVo;
+    }
+
+    @RequestMapping("wx/goods/detail")
+    public ResponseVo<Map> goodsDetail(int id, HttpServletRequest request){
+        ResponseVo<Map> responseVo = wxGoodsService.goodsDetail(id,request);
         return responseVo;
     }
 }

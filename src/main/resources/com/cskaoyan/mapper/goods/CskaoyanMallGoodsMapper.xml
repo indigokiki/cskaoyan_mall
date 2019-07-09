@@ -546,4 +546,12 @@
   <select id="getGoodsByCategoryId" resultType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
     select * from cskaoyan_mall_goods group by category_id
   </select>
+
+  <select id="getBrandIdByGoodsid" resultType="Integer">
+    select brand_id from cskaoyan_mall_goods where id = #{id}
+  </select>
+
+  <select id="getShareurlByGoodsid" resultType="String">
+    select share_url from cskaoyan_mall_goods where id = #{id}
+  </select>
 </mapper>

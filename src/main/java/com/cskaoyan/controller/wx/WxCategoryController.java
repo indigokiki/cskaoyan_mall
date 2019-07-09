@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Controller
 @ResponseBody
-public class CategoryController {
+public class WxCategoryController {
 
     @Autowired
     WxCategoryService wxCategoryService;
