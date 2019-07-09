@@ -44,4 +44,5 @@ public interface CskaoyanMallAdminMapper {
     int delete(@Param("admin") CskaoyanMallAdmin cskaoyanMallAdmin);
 
     Integer selectLastUpdate();
+
 }

@@ -542,6 +542,7 @@
   <select id="getCategoryidByGoodsid" resultType="Integer">
     select category_id from cskaoyan_mall_goods where id = #{id}
   </select>
+
   <!--新增李岩：wx端商品查询-->
   <resultMap id="searchMap" type="com.cskaoyan.bean.mallmanage.FloorGood">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -559,6 +560,16 @@
     <if test="categoryId != 0">
       and category_id = #{categoryId}
     </if>
-    order by ${sort} ${order}
+    <if test="sort != null">
+      order by ${sort}
+    </if>
+    <if test="order != null">
+      ${order}
+    </if>
+
+  </select>
+
+  <select id="getGoodsByCategoryId" resultType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
+    select * from cskaoyan_mall_goods group by category_id
   </select>
 </mapper>

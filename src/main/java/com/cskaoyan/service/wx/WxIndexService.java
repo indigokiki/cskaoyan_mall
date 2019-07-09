@@ -9,6 +9,7 @@ public interface WxIndexService {
 
     ResponseVo getIndex();
 
+
     ResponseVo getGoodsCount();
 
     ResponseVo searchIndex(HttpServletRequest request);
@@ -23,6 +24,10 @@ public interface WxIndexService {
 
     ResponseVo goodsdetail(String id, HttpServletRequest request);
 
+
+
+    //yangshuo增-用户优惠券增加
+    int insertCouponUser(Integer userId, Integer couponId);
 
 
 

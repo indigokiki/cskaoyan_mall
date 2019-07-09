@@ -43,6 +43,10 @@ public interface CskaoyanMallCategoryMapper {
 
     int selectMinId();
 
+
     List<CskaoyanMallCategory> searchCategory(@Param("name") String name);
+
+
+    int selectPid(int id);
 
 }
