@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
+@RequestMapping("admin")
 @Controller
 public class LoginController {
 
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("wx/auth/login")
+    @RequestMapping("auth/login")
     @ResponseBody
     public Result login(@RequestBody CskaoyanMallAdmin admin){
         String username = admin.getUsername();

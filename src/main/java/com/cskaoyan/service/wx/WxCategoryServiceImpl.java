@@ -1,4 +1,4 @@
-package com.cskaoyan.service.usermanage;
+package com.cskaoyan.service.wx;
 
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCategoryExample;
@@ -6,7 +6,6 @@ import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
 import com.cskaoyan.mapper.CskaoyanMallCategoryMapper;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
-import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ import java.util.Map;
  * @Date:2019/7/8 17:31
  */
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class WxCategoryServiceImpl implements WxCategoryService {
 
     @Autowired
     CskaoyanMallCategoryMapper categoryMapper;

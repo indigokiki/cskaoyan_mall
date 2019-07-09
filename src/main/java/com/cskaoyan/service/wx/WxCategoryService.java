@@ -1,4 +1,4 @@
-package com.cskaoyan.service.usermanage;
+package com.cskaoyan.service.wx;
 
 import com.cskaoyan.util.ResponseVo;
 
@@ -9,7 +9,7 @@ import java.util.Map;
  * @Date:2019/7/8 17:29
  */
 
-public interface CategoryService {
+public interface WxCategoryService {
     ResponseVo<Map> categoryIndex();
 
     ResponseVo<Map> currentCategory(int id);
