@@ -337,8 +337,7 @@
     </if>
   </select>
 
-<<<<<<< Updated upstream
-=======
+
   <delete id="delete" >
   delete from cskaoyan_mall_admin where username = #{admin.username}
   </delete>
@@ -346,6 +345,6 @@
   <select id="selectLastUpdate" resultType="Integer">
     select LAST_INSERT_ID()
   </select>
->>>>>>> Stashed changes
+
 
 </mapper>

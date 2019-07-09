@@ -10,6 +10,11 @@ import java.util.Map;
  */
 
 public interface CategoryService {
-    public ResponseVo<Map> categoryIndex();
-    public ResponseVo<Map> currentCategory(int id);
+    ResponseVo<Map> categoryIndex();
+
+    ResponseVo<Map> currentCategory(int id);
+
+    ResponseVo<Map> categoryDetail(int id);
+
+    ResponseVo<Map> goodsList(int page, int size, int categoryId);
 }

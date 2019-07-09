@@ -542,4 +542,8 @@
   <select id="getCategoryidByGoodsid" resultType="Integer">
     select category_id from cskaoyan_mall_goods where id = #{id}
   </select>
+
+  <select id="getGoodsByCategoryId" resultType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
+    select * from cskaoyan_mall_goods group by category_id
+  </select>
 </mapper>

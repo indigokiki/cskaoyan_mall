@@ -341,4 +341,8 @@
   <select id="selectMinId" resultType="Integer">
     select min(id) from cskaoyan_mall_category
   </select>
+
+  <select id="selectPid" resultType="Integer">
+    select pid from cskaoyan_mall_category where id = #{id}
+  </select>
 </mapper>

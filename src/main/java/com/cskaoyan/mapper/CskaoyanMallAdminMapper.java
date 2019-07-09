@@ -40,10 +40,9 @@ public interface CskaoyanMallAdminMapper {
 
     List<CskaoyanMallAdmin> selectByMyExample(CskaoyanMallAdminExample example);
 
-<<<<<<< Updated upstream
-=======
+
     int delete(@Param("admin") CskaoyanMallAdmin cskaoyanMallAdmin);
 
     Integer selectLastUpdate();
->>>>>>> Stashed changes
+
 }

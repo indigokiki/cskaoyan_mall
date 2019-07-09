@@ -42,4 +42,6 @@ public interface CskaoyanMallGoodsMapper {
     Integer getGoodsidByName(@Param("name") String name);
 
     Integer getCategoryidByGoodsid(@Param("id") Integer id);
+
+    List<CskaoyanMallGoods> getGoodsByCategoryId(int categoryId);
 }
