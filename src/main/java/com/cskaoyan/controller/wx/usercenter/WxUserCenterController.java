@@ -3,6 +3,7 @@ package com.cskaoyan.controller.wx.usercenter;
 import com.cskaoyan.bean.Result;
 import com.cskaoyan.bean.goods.CskaoyanMallComment;
 import com.cskaoyan.bean.wx.usercenter.MyJsonUtil;
+import com.cskaoyan.bean.wx.usercenter.WxAddress;
 import com.cskaoyan.service.mallmanage.PicService;
 import com.cskaoyan.service.wx.usercenter.WxUserOrderService;
 import com.cskaoyan.util.wxutil.BaseRespVo;
@@ -145,8 +146,14 @@ public class WxUserCenterController {
     }
 
     @RequestMapping("wx/address/list")
-    public BaseRespVo addresslist(){
-        return BaseRespVo.fail();
+    public BaseRespVo addresslist(HttpServletRequest request){
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if (userId == null) {
+            return BaseRespVo.fail();
+        }
+
+        return wxUserOrderService.getAddressByUid(userId);
     }
 
 

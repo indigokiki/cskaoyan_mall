@@ -23,4 +23,6 @@ public interface WxUserOrderService {
     BaseRespVo orderConfirm(int orderId);
 
     BaseRespVo getFootPrintList(int page, int size,Integer userId);
+
+    BaseRespVo getAddressByUid(Integer userId);
 }
