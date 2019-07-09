@@ -34,6 +34,6 @@ public interface CskaoyanMallCommentMapper {
     //新增
     int updateContentByid(@Param("id") Integer commentid, @Param("content") String content);
 
-
+    int selectLastInsertId();
 
 }

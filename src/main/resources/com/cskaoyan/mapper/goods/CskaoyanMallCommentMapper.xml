@@ -308,4 +308,8 @@
   <update id="updateContentByid">
     update cskaoyan_mall_comment set content = #{content} where id = #{id}
   </update>
+
+  <select id="selectLastInsertId" resultType="Integer">
+    select LAST_INSERT_ID() from cskaoyan_mall_comment
+  </select>
 </mapper>
