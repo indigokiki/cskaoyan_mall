@@ -75,12 +75,13 @@ public class IndexPageController {
 
     //杨朔增-首页给用户增加优惠券
     @RequestMapping("coupon/receive")
-    public ResponseVo couponReceive(@RequestBody Integer couponId, HttpServletRequest request){
+    public ResponseVo couponReceive(@RequestBody Map<String,Integer> couponId, HttpServletRequest request){
         //通过请求头获得userId，进而可以获得一切关于user的信息
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
-//       在coupon_user表里添加用户的对应优惠券
-        int i = wxIndexService.insertCouponUser(userId,couponId);
+        //在coupon_user表里添加用户的对应优惠券
+        Integer id = couponId.get("couponId");
+        int i = wxIndexService.insertCouponUser(userId,id);
 
         ResponseVo<Object> responseVo = new ResponseVo<>();
         if (i == 1){
@@ -90,7 +91,7 @@ public class IndexPageController {
             responseVo.setErrno(740);
             responseVo.setErrmsg("优惠券已领取");
         }
-//
+
         return responseVo;
 
     }
