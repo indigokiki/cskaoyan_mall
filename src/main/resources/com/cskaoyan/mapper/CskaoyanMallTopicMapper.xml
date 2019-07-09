@@ -9,7 +9,7 @@
     <result column="read_count" jdbcType="VARCHAR" property="readCount" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="goods" jdbcType="VARCHAR" property="goods" />
+    <result column="goods[]" jdbcType="VARCHAR" property="goods"  typeHandler="com.cskaoyan.util.goods.StringListToStringHandler"/>
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -138,7 +138,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -205,7 +205,7 @@
         #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="goods != null">
-        #{goods,jdbcType=VARCHAR},
+        #{goods,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -328,7 +328,7 @@
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="goods != null">
-        goods = #{goods,jdbcType=VARCHAR},
+        goods = #{goods,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -353,7 +353,7 @@
       read_count = #{readCount,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      goods = #{goods,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
@@ -368,12 +368,18 @@
       read_count = #{readCount,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      goods = #{goods,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <!--新增 IL-M-->
+  <select id="getGoodsInTopic"  resultType="String">
+    select goods from cskaoyan_mall_topic where id = #{id}
+</select>
 
   <resultMap id="indexMap" type="com.cskaoyan.bean.mallmanage.Topic">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -386,5 +392,6 @@
 
   <select id="indexTopic" resultMap="indexMap">
     select * from cskaoyan_mall_topic where id in ('264','266','268','271')
+
   </select>
 </mapper>

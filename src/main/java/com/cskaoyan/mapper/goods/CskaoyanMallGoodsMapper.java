@@ -51,4 +51,8 @@ public interface CskaoyanMallGoodsMapper {
 
     List<CskaoyanMallGoods> getGoodsByCategoryId(int categoryId);
 
+    Integer getBrandIdByGoodsid (@Param("id") Integer id);
+
+    String getShareurlByGoodsid (@Param("id") int id);
+
 }

@@ -1,13 +1,22 @@
 package com.cskaoyan.service.wx;
 
-import com.cskaoyan.bean.goods.CskaoyanMallGoods;
-import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
+import com.cskaoyan.bean.CskaoyanMallBrand;
+import com.cskaoyan.bean.CskaoyanMallCollectExample;
+import com.cskaoyan.bean.goods.*;
+import com.cskaoyan.mapper.CskaoyanMallBrandMapper;
+import com.cskaoyan.mapper.CskaoyanMallCollectMapper;
+import com.cskaoyan.mapper.CskaoyanMallUserMapper;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
+import com.cskaoyan.service.goods.GoodsAttributeService;
+import com.cskaoyan.service.goods.GoodsProductService;
+import com.cskaoyan.service.goods.GoodsSpecificationService;
 import com.cskaoyan.util.ResponseVo;
+import com.cskaoyan.util.wxutil.UserTokenManager;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,4 +64,6 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         responseVo.setData(data);
         return responseVo;
     }
+
+
 }

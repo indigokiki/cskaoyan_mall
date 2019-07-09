@@ -115,7 +115,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{feedType,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT}, #{picUrls,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT}, #{picUrls,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -185,7 +185,7 @@
         #{hasPicture,jdbcType=BIT},
       </if>
       <if test="picUrls != null">
-        #{picUrls,jdbcType=VARCHAR},
+        #{picUrls,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -291,7 +291,7 @@
         has_picture = #{hasPicture,jdbcType=BIT},
       </if>
       <if test="picUrls != null">
-        pic_urls = #{picUrls,jdbcType=VARCHAR},
+        pic_urls = #{picUrls,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -314,7 +314,7 @@
       content = #{content,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       has_picture = #{hasPicture,jdbcType=BIT},
-      pic_urls = #{picUrls,jdbcType=VARCHAR},
+      pic_urls = #{picUrls,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
