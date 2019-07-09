@@ -43,15 +43,8 @@ public class RoleManagementServiceImpl implements RoleManagementService {
 
     @Override
     public ResponseVo updaterole(CskaoyanMallRole cskaoyanMallRole) {
-        Date date = new Date();
-        cskaoyanMallRole.setAddTime(date);
-        cskaoyanMallRole.setUpdateTime(date);
-        cskaoyanMallRole.setEnabled(true);
-        int status = cskaoyanMallRoleMapper.insertSelective(cskaoyanMallRole);
-        ResponseVo<CskaoyanMallRole> responseVo = new ResponseVo<>();
-        if(1 == status){
-            cskaoyanMallRole.setId(cskaoyanMallRoleMapper.selectLastUpdate());
-        }
+        cskaoyanMallRole.setUpdateTime(new Date());
+        int status = cskaoyanMallRoleMapper.updateByPrimaryKey(cskaoyanMallRole);
         return afterOperation(status,cskaoyanMallRole,false);
     }
 
@@ -71,6 +64,23 @@ public class RoleManagementServiceImpl implements RoleManagementService {
             cskaoyanMallRole.setId(cskaoyanMallRoleMapper.selectLastUpdate());
         }
         return afterOperation(insert,cskaoyanMallRole,false);
+    }
+
+    @Override
+    public ResponseVo getRoleListByName(int page, int limit, String name) {
+        CskaoyanMallRoleExample cskaoyanMallRoleExample = new CskaoyanMallRoleExample();
+        CskaoyanMallRoleExample.Criteria criteria = cskaoyanMallRoleExample.createCriteria();
+        criteria.andDeletedNotEqualTo(true).andNameLike("%" + name + "%");
+        PageHelper.startPage(page,limit);
+        List<CskaoyanMallRole> issues = cskaoyanMallRoleMapper.selectByExample(cskaoyanMallRoleExample);
+        Page<CskaoyanMallRole> issuePage = new Page<>();
+        issuePage.setItems(issues);
+        issuePage.setTotal((int)cskaoyanMallRoleMapper.countByExample(cskaoyanMallRoleExample));
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        responseVo.setData(issuePage);
+        responseVo.setErrmsg("成功");
+        responseVo.setErrno(0);
+        return responseVo;
     }
 
     private ResponseVo afterOperation(int status,CskaoyanMallRole cskaoyanMallRole,boolean isDelete){

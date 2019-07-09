@@ -21,7 +21,7 @@ public class CskaoyanMallAdmin {
 
     private Boolean deleted;
 
-    private String roleIds;
+    private String[] roleIds;
 
     public Integer getId() {
         return id;
@@ -95,11 +95,19 @@ public class CskaoyanMallAdmin {
         this.deleted = deleted;
     }
 
-    public String getRoleIds() {
+    public String[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
+    public void setRoleIds(String[] roleIds) {
+        this.roleIds = roleIds;
     }
+
+    //    public String getRoleIds() {
+//        return roleIds;
+//    }
+//
+//    public void setRoleIds(String roleIds) {
+//        this.roleIds = roleIds == null ? null : roleIds.trim();
+//    }
 }
