@@ -11,7 +11,7 @@
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
-    <result column="role_ids" jdbcType="VARCHAR" property="roleIds" />
+    <result column="role_ids" jdbcType="VARCHAR" property="roleIds" typeHandler="com.cskaoyan.util.goods.StringListToStringHandler" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -113,7 +113,7 @@
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{avatar,jdbcType=VARCHAR}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
-      #{roleIds,jdbcType=VARCHAR})
+      #{roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.bean.CskaoyanMallAdmin">
     insert into cskaoyan_mall_admin
@@ -178,7 +178,7 @@
         #{deleted,jdbcType=BIT},
       </if>
       <if test="roleIds != null">
-        #{roleIds,jdbcType=VARCHAR},
+        #{roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
     </trim>
   </insert>
@@ -219,7 +219,7 @@
         deleted = #{record.deleted,jdbcType=BIT},
       </if>
       <if test="record.roleIds != null">
-        role_ids = #{record.roleIds,jdbcType=VARCHAR},
+        role_ids = #{record.roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
     </set>
     <if test="_parameter != null">
@@ -237,7 +237,7 @@
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT},
-      role_ids = #{record.roleIds,jdbcType=VARCHAR}
+      role_ids = #{record.roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -270,7 +270,7 @@
         deleted = #{deleted,jdbcType=BIT},
       </if>
       <if test="roleIds != null">
-        role_ids = #{roleIds,jdbcType=VARCHAR},
+        role_ids = #{roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -285,7 +285,7 @@
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
-      role_ids = #{roleIds,jdbcType=VARCHAR}
+      role_ids = #{roleIds,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -337,5 +337,13 @@
     </if>
   </select>
 
+
+  <delete id="delete" >
+  delete from cskaoyan_mall_admin where username = #{admin.username}
+  </delete>
+
+  <select id="selectLastUpdate" resultType="Integer">
+    select LAST_INSERT_ID()
+  </select>
 
 </mapper>

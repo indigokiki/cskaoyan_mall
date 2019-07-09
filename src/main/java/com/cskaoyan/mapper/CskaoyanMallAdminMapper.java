@@ -40,4 +40,8 @@ public interface CskaoyanMallAdminMapper {
 
     List<CskaoyanMallAdmin> selectByMyExample(CskaoyanMallAdminExample example);
 
+
+    int delete(@Param("admin") CskaoyanMallAdmin cskaoyanMallAdmin);
+
+    Integer selectLastUpdate();
 }

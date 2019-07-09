@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallKeyword;
 import com.cskaoyan.bean.CskaoyanMallKeywordExample;
+import com.cskaoyan.bean.mallmanage.History;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface CskaoyanMallKeywordMapper {
     int updateByPrimaryKey(CskaoyanMallKeyword record);
 
     int selectLastUpdate();
+
+    List helper(@Param("key") String keyword);
 }

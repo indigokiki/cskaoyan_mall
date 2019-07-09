@@ -1,18 +1,20 @@
 package com.cskaoyan.service.wx;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.bean.goods.CskaoyanMallGoods;
-import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
-import com.cskaoyan.bean.mallmanage.Floor;
-import com.cskaoyan.bean.mallmanage.Groupon;
-import com.cskaoyan.bean.mallmanage.Topic;
+import com.cskaoyan.bean.goods.*;
+import com.cskaoyan.bean.mallmanage.*;
 import com.cskaoyan.bean.wx.IndexList;
 import com.cskaoyan.mapper.*;
-import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
+import com.cskaoyan.mapper.goods.*;
 import com.cskaoyan.util.ResponseVo;
+import com.cskaoyan.util.wxutil.UserTokenManager;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,31 @@ public class WxIndexServiceImpl implements WxIndexService {
 
     @Autowired
     CskaoyanMallKeywordMapper keywordMapper;
+
+    @Autowired
+    CskaoyanMallSearchHistoryMapper historyMapper;
+
+    @Autowired
+    CskaoyanMallGoodsAttributeMapper attributeMapper;
+
+    @Autowired
+    CskaoyanMallCommentMapper commentMapper;
+
+    @Autowired
+    CskaoyanMallIssueMapper issueMapper;
+
+    @Autowired
+    CskaoyanMallGoodsProductMapper productMapper;
+
+    @Autowired
+    CskaoyanMallGoodsSpecificationMapper specificationMapper;
+
+    @Autowired
+    CskaoyanMallCollectMapper collectMapper;
+
+    @Autowired
+    CskaoyanMallFootprintMapper footprintMapper;
+
 
     @Override
     public ResponseVo getIndex() {
@@ -126,7 +153,7 @@ public class WxIndexServiceImpl implements WxIndexService {
     }
 
     @Override
-    public ResponseVo searchIndex() {
+    public ResponseVo searchIndex(HttpServletRequest request) {
         CskaoyanMallKeywordExample keywordExample = new CskaoyanMallKeywordExample();
         CskaoyanMallKeywordExample.Criteria criteria = keywordExample.createCriteria();
         criteria.andIsHotEqualTo(true);
@@ -135,6 +162,177 @@ public class WxIndexServiceImpl implements WxIndexService {
         CskaoyanMallKeywordExample.Criteria criteria1 = example.createCriteria();
         criteria1.andIsDefaultEqualTo(true);
         List<CskaoyanMallKeyword> defaultGoods = keywordMapper.selectByExample(example);
-        return null;
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        List<History> historyKeywordList = null;
+        if(userId != null){
+            historyKeywordList = historyMapper.searchHistory(userId.toString());
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("defaultKeyword",defaultGoods.get(0));
+        map.put("historyKeywordList",historyKeywordList);
+        map.put("hotKeywordList",hotGoods);
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(map);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo searchHelper(String keyword) {
+        keyword = "%" + keyword + "%";
+        List<History> helper = keywordMapper.helper(keyword);
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(helper);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,HttpServletRequest request) {
+        String s = keyword;
+        keyword = "%" + keyword + "%";
+        SearchGoods searchGoods = new SearchGoods();
+        CskaoyanMallGoodsExample goodsExample = new CskaoyanMallGoodsExample();
+        CskaoyanMallGoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andNameLike(keyword);
+        int count = (int) cskaoyanMallGoodsMapper.countByExample(goodsExample);
+        List<FloorGood> floorGoods = cskaoyanMallGoodsMapper.searchGoods(keyword,sort,order,categoryId);
+        List<CskaoyanMallCategory> categories = cskaoyanMallCategoryMapper.searchCategory(keyword);
+        searchGoods.setGoodsList(floorGoods);
+        searchGoods.setFilterCategoryList(categories);
+        searchGoods.setCount(count);
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(searchGoods);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if(userId != null){
+            CskaoyanMallSearchHistory history = new CskaoyanMallSearchHistory();
+            history.setDeleted(false);
+            history.setAddTime(new Date());
+            history.setUpdateTime(new Date());
+            history.setKeyword(s);
+            history.setUserId(userId);
+            int search = historyMapper.insertSearch(history);
+        }
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo searchclearhistory(HttpServletRequest request) {
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        int history = historyMapper.deleteHistory(userId.toString());
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo couponlist(int page, int size) {
+        CskaoyanMallCouponExample cskaoyanMallCouponExample = new CskaoyanMallCouponExample();
+        CskaoyanMallCouponExample.Criteria criteria3 = cskaoyanMallCouponExample.createCriteria();
+        criteria3.andDeletedNotEqualTo(true);
+        PageHelper.startPage(page,size);
+        List<CskaoyanMallCoupon> couponList = cskaoyanMallCouponMapper.selectByExample(cskaoyanMallCouponExample);
+        int count = (int) cskaoyanMallCouponMapper.countByExample(cskaoyanMallCouponExample);
+        CouponManage<Object> couponManage = new CouponManage<>();
+        couponManage.setCount(count);
+        couponManage.setData(couponList);
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(couponManage);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo goodsdetail(String id, HttpServletRequest request) {
+        //attributes
+        CskaoyanMallGoodsAttributeExample attributeExample = new CskaoyanMallGoodsAttributeExample();
+        CskaoyanMallGoodsAttributeExample.Criteria criteria = attributeExample.createCriteria();
+        criteria.andGoodsIdEqualTo(Integer.parseInt(id));
+        List<CskaoyanMallGoodsAttribute> attributes = attributeMapper.selectByExample(attributeExample);
+
+        //brand
+        CskaoyanMallBrand brand = cskaoyanMallBrandMapper.searchById(id);
+
+        //comment
+        CskaoyanMallCommentExample commentExample = new CskaoyanMallCommentExample();
+        CskaoyanMallCommentExample.Criteria commentCriteria = commentExample.createCriteria();
+        commentCriteria.andValueIdEqualTo(Integer.parseInt(id));
+        int count = (int) commentMapper.countByExample(commentExample);
+        List<CskaoyanMallComment> commentList = commentMapper.selectByExample(commentExample);
+        Comment comment = new Comment();
+        comment.setCount(count);
+        comment.setData(commentList);
+
+        //groupon
+        CskaoyanMallGrouponRulesExample rulesExample = new CskaoyanMallGrouponRulesExample();
+        CskaoyanMallGrouponRulesExample.Criteria rulesCriteria = rulesExample.createCriteria();
+        rulesCriteria.andGoodsIdEqualTo(Integer.parseInt(id));
+        List<CskaoyanMallGrouponRules> rulesList = rulesMapper.selectByExample(rulesExample);
+
+        //info
+        CskaoyanMallGoods goods = cskaoyanMallGoodsMapper.selectByPrimaryKey(Integer.parseInt(id));
+
+        //issue
+        CskaoyanMallIssueExample issueExample = new CskaoyanMallIssueExample();
+        List<CskaoyanMallIssue> issues = issueMapper.selectByExample(issueExample);
+
+        //productList
+        CskaoyanMallGoodsProductExample productExample = new CskaoyanMallGoodsProductExample();
+        CskaoyanMallGoodsProductExample.Criteria productExampleCriteria = productExample.createCriteria();
+        productExampleCriteria.andGoodsIdEqualTo(Integer.parseInt(id));
+        List<CskaoyanMallGoodsProduct> products = productMapper.selectByExample(productExample);
+
+        //shareImage
+        String shareImage = "";
+
+        //specificationList
+        List specificationList = specificationMapper.searchByGoodId(id);
+
+        //userHasCollect
+        int userHasCollect = 0;
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if(userId != null){
+            CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+            CskaoyanMallCollectExample.Criteria collectExampleCriteria = collectExample.createCriteria();
+            collectExampleCriteria.andUserIdEqualTo(userId).andValueIdEqualTo(Integer.parseInt(id));
+            List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
+            userHasCollect = collects.get(0).getType();
+
+            CskaoyanMallFootprint footprint = new CskaoyanMallFootprint();
+            footprint.setAddTime(new Date());
+            footprint.setUpdateTime(new Date());
+            footprint.setDeleted(false);
+            footprint.setGoodsId(Integer.parseInt(id));
+            footprint.setUserId(userId);
+            int footprint1 = footprintMapper.insertFootprint(footprint);
+        }
+        Goodsdetail goodsdetail = new Goodsdetail();
+        goodsdetail.setAttribute(attributes);
+        goodsdetail.setBrand(brand);
+        goodsdetail.setComment(comment);
+        goodsdetail.setGroupon(rulesList);
+        goodsdetail.setInfo(goods);
+        goodsdetail.setIssue(issues);
+        goodsdetail.setProductList(products);
+        goodsdetail.setShareImage(shareImage);
+        goodsdetail.setSpecificationList(specificationList);
+        goodsdetail.setUserHasCollect(userHasCollect);
+
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(goodsdetail);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+
     }
 }

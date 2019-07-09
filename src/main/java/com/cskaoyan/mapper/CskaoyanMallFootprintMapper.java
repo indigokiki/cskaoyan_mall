@@ -28,4 +28,6 @@ public interface CskaoyanMallFootprintMapper {
     int updateByPrimaryKeySelective(CskaoyanMallFootprint record);
 
     int updateByPrimaryKey(CskaoyanMallFootprint record);
+
+    int insertFootprint(@Param("footprint") CskaoyanMallFootprint footprint);
 }

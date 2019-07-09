@@ -40,4 +40,9 @@ public interface CskaoyanMallCategoryMapper {
     Byte selectMaxSortOrderFromPid(int pid);
 
     List<Floor> getIndex();
+
+    int selectMinId();
+
+    List<CskaoyanMallCategory> searchCategory(@Param("name") String name);
+
 }

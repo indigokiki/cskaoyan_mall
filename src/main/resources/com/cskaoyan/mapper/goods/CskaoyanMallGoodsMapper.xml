@@ -542,4 +542,23 @@
   <select id="getCategoryidByGoodsid" resultType="Integer">
     select category_id from cskaoyan_mall_goods where id = #{id}
   </select>
+  <!--新增李岩：wx端商品查询-->
+  <resultMap id="searchMap" type="com.cskaoyan.bean.mallmanage.FloorGood">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="is_new" jdbcType="BIT" property="isNew" />
+    <result column="is_hot" jdbcType="BIT" property="isHot" />
+    <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+  </resultMap>
+  <select id="searchGoods" resultMap="searchMap">
+    select *
+    from cskaoyan_mall_goods  where name like #{name}
+    <if test="categoryId != 0">
+      and category_id = #{categoryId}
+    </if>
+    order by ${sort} ${order}
+  </select>
 </mapper>

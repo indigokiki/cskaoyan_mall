@@ -18,8 +18,10 @@ public class RoleManagementController {
     RoleManagementService roleManagementService;
 
     @RequestMapping("role/list")
-    public ResponseVo adminlist(int page, int limit, String sort, String order){
-        System.out.println();
+    public ResponseVo adminlist(int page, int limit, String sort, String order, String name){
+        if(name!=null){
+            return roleManagementService.getRoleListByName(page,limit,name);
+        }
         return roleManagementService.getRoleManagementList(page,limit);
     }
 

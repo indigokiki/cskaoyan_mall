@@ -35,4 +35,6 @@ public interface CskaoyanMallStorageMapper {
     Integer getMaxId();
 
     int insertPicture(@Param("pic")Picture picture);
+
+    int delete(@Param("storage") CskaoyanMallStorage cskaoyanMallStorage);
 }

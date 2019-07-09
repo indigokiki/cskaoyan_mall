@@ -361,4 +361,12 @@
 	where c1.id in (1005000,1005001,1005002,1008000) and g.id in (1110016,1110017,1110018,1110019,1051003,1023003,1073008,1051000,
 	                                                              1045000,1116011,1070000,1155015,1085019,1086052,1152101,1114011)
   </select>
+  <select id="selectMinId" resultType="Integer">
+    select min(id) from cskaoyan_mall_category
+  </select>
+
+  <select id="searchCategory" resultMap="BaseResultMap">
+    select DISTINCT c.*
+    from cskaoyan_mall_category c left join cskaoyan_mall_goods g   on c.id = g.category_id   where g.name like #{name}
+  </select>
 </mapper>

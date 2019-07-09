@@ -1,17 +1,13 @@
-package com.cskaoyan.controller;
+package com.cskaoyan.controller.usermanage;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.service.UserService;
+import com.cskaoyan.service.usermanage.UserService;
 import com.cskaoyan.util.Page;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author IL-M
@@ -23,7 +19,7 @@ public class UserController {
     @Autowired
     UserService userService;
     //会员管理
-    @RequestMapping("user/list")
+    @RequestMapping("admin/user/list")
     public ResponseVo<Page> getUsers(int page,int limit,String username,String mobile) {
         Page<CskaoyanMallUser> userPage = userService.findUsers(page, limit, username, mobile);
         ResponseVo<Page> responseVo = new ResponseVo<>();
@@ -39,7 +35,7 @@ public class UserController {
         return responseVo;
     }
     //收货地址
-    @RequestMapping("address/list")
+    @RequestMapping("admin/address/list")
     public ResponseVo<Page> getAdresses (int page,int limit,String userId,String name){
         Page<CskaoyanMallAddress> addressPage = userService.findAdresses(page, limit,userId, name);
         ResponseVo<Page> responseVo = new ResponseVo<>();
@@ -54,7 +50,7 @@ public class UserController {
         return responseVo;
     }
     //会员收藏
-    @RequestMapping("collect/list")
+    @RequestMapping("admin/collect/list")
     public ResponseVo<Page> getCollects (int page,int limit,String userId,String valueId){
         Page<CskaoyanMallCollect> collectPage = userService.findCollects(page, limit,userId, valueId);
         ResponseVo<Page> responseVo = new ResponseVo<>();
@@ -69,7 +65,7 @@ public class UserController {
         return responseVo;
     }
     //会员足迹
-    @RequestMapping("footprint/list")
+    @RequestMapping("admin/footprint/list")
     public ResponseVo<Page> getFootprints (int page,int limit,String userId,String goodsId){
         Page<CskaoyanMallFootprint> footprintPage = userService.findFootprints(page, limit,userId, goodsId);
         ResponseVo<Page> responseVo = new ResponseVo<>();
@@ -84,7 +80,7 @@ public class UserController {
         return responseVo;
     }
 
-    @RequestMapping("history/list")
+    @RequestMapping("admin/history/list")
     public ResponseVo<Page> getHistories (int page,int limit,String userId,String keyword){
         Page<CskaoyanMallSearchHistory> historiePage = userService.findHistories(page, limit, userId, keyword);
         ResponseVo<Page> responseVo = new ResponseVo<>();
@@ -99,7 +95,7 @@ public class UserController {
         return responseVo;
     }
 
-    @RequestMapping("feedback/list")
+    @RequestMapping("admin/feedback/list")
     public ResponseVo<Page> getFeedback (int page,int limit,String username,String id){
         Page<CskaoyanMallFeedback> feedPage = userService.findFeedback(page, limit, username, id);
         ResponseVo<Page> responseVo = new ResponseVo<>();

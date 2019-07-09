@@ -40,4 +40,6 @@ public interface CskaoyanMallBrandMapper {
     int insertBrand(@Param("brand") CskaoyanMallBrand brand);
 
     int getMaxSort();
+
+    CskaoyanMallBrand searchById(@Param("id") String id);
 }

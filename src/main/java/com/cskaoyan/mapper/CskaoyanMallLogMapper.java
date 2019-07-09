@@ -28,4 +28,6 @@ public interface CskaoyanMallLogMapper {
     int updateByPrimaryKeySelective(CskaoyanMallLog record);
 
     int updateByPrimaryKey(CskaoyanMallLog record);
+
+    Integer selectLastUpdate();
 }

@@ -1,4 +1,4 @@
-package com.cskaoyan.service;
+package com.cskaoyan.service.usermanage;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.mapper.CskaoyanMallUserMapper;

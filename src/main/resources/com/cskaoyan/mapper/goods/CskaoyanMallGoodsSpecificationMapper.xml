@@ -261,4 +261,22 @@
     update cskaoyan_mall_goods_specification
     set deleted = true where goods_id = #{goodsid}
   </update>
+
+  <resultMap id="goodMap" type="com.cskaoyan.bean.mallmanage.SpecificationManage">
+    <result property="name" column="specification"/>
+    <collection property="valueList" ofType="com.cskaoyan.bean.goods.CskaoyanMallGoodsSpecification">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+      <result column="specification" jdbcType="VARCHAR" property="specification" />
+      <result column="value" jdbcType="VARCHAR" property="value" />
+      <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+      <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="deleted" jdbcType="BIT" property="deleted" />
+    </collection>
+  </resultMap>
+
+  <select id="searchByGoodId" resultMap="goodMap">
+    select * from cskaoyan_mall_goods_specification where goods_id = #{id}
+  </select>
 </mapper>

@@ -13,4 +13,6 @@ public interface AdministratorService {
     ResponseVo updateAdmin(CskaoyanMallAdmin cskaoyanMallAdmin);
 
     ResponseVo deleteAdmin(CskaoyanMallAdmin cskaoyanMallAdmin);
+
+    ResponseVo getAdminListByName(int page, int limit, String name);
 }

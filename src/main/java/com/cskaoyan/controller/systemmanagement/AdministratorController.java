@@ -17,7 +17,10 @@ public class AdministratorController {
     AdministratorService administratorService;
 
     @RequestMapping("admin/list")
-    public ResponseVo adminlist(int page,int limit,String sort,String order){
+    public ResponseVo adminlist(int page,int limit,String sort,String order,String username){
+        if(username!=null){
+            return administratorService.getAdminListByName(page,limit,username);
+        }
         return administratorService.getAdminList(page,limit);
     }
 

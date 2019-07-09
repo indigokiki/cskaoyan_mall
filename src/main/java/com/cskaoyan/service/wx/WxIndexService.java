@@ -1,11 +1,30 @@
 package com.cskaoyan.service.wx;
 
 import com.cskaoyan.util.ResponseVo;
+import org.springframework.http.HttpRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface WxIndexService {
 
     ResponseVo getIndex();
+
     ResponseVo getGoodsCount();
-    ResponseVo searchIndex();
+
+    ResponseVo searchIndex(HttpServletRequest request);
+
+    ResponseVo searchHelper(String keyword);
+
+    ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId, HttpServletRequest request);
+
+    ResponseVo searchclearhistory(HttpServletRequest request);
+
+    ResponseVo couponlist(int page, int size);
+
+    ResponseVo goodsdetail(String id, HttpServletRequest request);
+
+
+
+
 
 }

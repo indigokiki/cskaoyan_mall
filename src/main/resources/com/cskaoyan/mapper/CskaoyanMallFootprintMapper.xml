@@ -225,4 +225,9 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertFootprint">
+    insert into cskaoyan_mall_footprint (user_id,goods_id,add_time,update_time,deleted)
+    value (#{footprint.userId},#{footprint.goodsId},#{footprint.addTime},#{footprint.updateTime},#{footprint.deleted})
+  </insert>
 </mapper>

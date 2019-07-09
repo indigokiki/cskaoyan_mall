@@ -2,6 +2,8 @@ package com.cskaoyan.mapper.goods;
 
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
+import com.cskaoyan.bean.mallmanage.FloorGood;
+import com.cskaoyan.bean.mallmanage.SearchGoods;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -42,4 +44,7 @@ public interface CskaoyanMallGoodsMapper {
     Integer getGoodsidByName(@Param("name") String name);
 
     Integer getCategoryidByGoodsid(@Param("id") Integer id);
+
+    //李岩：wx端商品查询；
+    List<FloorGood> searchGoods(@Param("name")String name,@Param("sort") String sort,@Param("order") String order,@Param("categoryId") String categoryId);
 }
