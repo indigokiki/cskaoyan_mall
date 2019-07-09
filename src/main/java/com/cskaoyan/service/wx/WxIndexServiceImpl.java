@@ -6,10 +6,12 @@ import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
 import com.cskaoyan.bean.wx.IndexList;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
+import com.cskaoyan.util.DateAddDayUtil;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +31,9 @@ public class WxIndexServiceImpl implements WxIndexService {
 
     @Autowired
     CskaoyanMallGoodsMapper cskaoyanMallGoodsMapper;
+
+    @Autowired
+    CskaoyanMallCouponUserMapper couponUserMapper;
 
     @Override
     public ResponseVo getIndex() {
@@ -85,5 +90,24 @@ public class WxIndexServiceImpl implements WxIndexService {
         responseVo.setErrno(0);
         responseVo.setErrmsg("成功");
         return responseVo;
+    }
+
+    @Override
+    public int insertCouponUser(Integer userId, Integer couponId) {
+
+        CskaoyanMallCouponUser couponUser = new CskaoyanMallCouponUser();
+        //用couponID在coupon表里查优惠券的可使用天数days，然后coupon_user表里的starttime为添加时间，+days为结束时间
+        Date startDate = new Date();
+        CskaoyanMallCoupon coupon = cskaoyanMallCouponMapper.selectByPrimaryKey(couponId);
+        Date endDate = DateAddDayUtil.dateAddDay(startDate, coupon.getDays());
+
+        couponUser.setAddTime(startDate);
+        couponUser.setStartTime(startDate);
+        couponUser.setEndTime(endDate);
+        couponUser.setCouponId(couponId);
+        couponUser.setUserId(userId);
+
+        int i = couponUserMapper.insertSelective(couponUser);
+        return i;
     }
 }
