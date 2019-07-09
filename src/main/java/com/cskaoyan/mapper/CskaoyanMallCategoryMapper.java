@@ -37,4 +37,6 @@ public interface CskaoyanMallCategoryMapper {
     int selectLastUpdate();
 
     Byte selectMaxSortOrderFromPid(int pid);
+
+    int selectMinId();
 }

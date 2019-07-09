@@ -160,4 +160,6 @@ public class MallManagement3ServiceImpl implements MallManagement3Service {
         responseVo.setErrno(500);
         return responseVo;
     }
+
+
 }

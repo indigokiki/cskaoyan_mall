@@ -1,16 +1,13 @@
-package com.cskaoyan.service;
+package com.cskaoyan.service.usermanage;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.util.Page;
-import com.cskaoyan.util.ResponseVo;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author IL-M

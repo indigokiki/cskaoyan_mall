@@ -337,4 +337,8 @@
   <select id="selectMaxSortOrderFromPid" resultType="Byte">
     select max(sort_order) from cskaoyan_mall_category where pid = #{pid}
   </select>
+
+  <select id="selectMinId" resultType="Integer">
+    select min(id) from cskaoyan_mall_category
+  </select>
 </mapper>
