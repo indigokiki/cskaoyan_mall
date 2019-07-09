@@ -71,6 +71,15 @@ public class IndexPageController {
         responseVo.setData(0);
         return responseVo;
     }
+    //我的团购
+    @RequestMapping("groupon/my")
+    public ResponseVo grouponmy(String showType) {
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setErrmsg("成功");
+        responseVo.setErrno(0);
+        responseVo.setData(0);
+        return responseVo;
+    }
 
 
     //杨朔增-首页给用户增加优惠券

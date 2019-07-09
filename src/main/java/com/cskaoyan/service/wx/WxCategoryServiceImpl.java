@@ -78,6 +78,7 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         //pid
         int pid = categoryMapper.selectPid(id);
         //brotherCategory
+
         CskaoyanMallCategoryExample categoryExample = new CskaoyanMallCategoryExample();
         categoryExample.createCriteria().andPidEqualTo(pid);
         List<CskaoyanMallCategory> brotherCategory = categoryMapper.selectByExample(categoryExample);
