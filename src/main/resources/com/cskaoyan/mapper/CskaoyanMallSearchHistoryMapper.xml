@@ -240,4 +240,17 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="searchHistory" resultType="com.cskaoyan.bean.mallmanage.History">
+    select distinct keyword from cskaoyan_mall_search_history where user_id = #{userid}
+  </select>
+
+  <insert id="insertSearch">
+    insert into cskaoyan_mall_search_history (user_id,keyword,add_time,update_time,deleted) value (#{his.userId},#{his.keyword},#{his.addTime},
+    #{his.updateTime},#{his.deleted})
+  </insert>
+
+  <delete id="deleteHistory">
+    delete from cskaoyan_mall_search_history where user_id = #{userid}
+  </delete>
 </mapper>

@@ -14,5 +14,5 @@ public interface WxGoodsService {
 
     ResponseVo<Map> goodsRelated(int id);
 
-    ResponseVo<Map> goodsDetail(int id, HttpServletRequest request);
+
 }

@@ -288,4 +288,22 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="indexMap" type="com.cskaoyan.bean.mallmanage.Groupon">
+    <result property="groupon_member" column="groupon_member"/>
+    <result property="groupon_price" column="groupon_price"/>
+    <association property="goods" javaType="com.cskaoyan.bean.mallmanage.GroupGood">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+      <result column="brief" jdbcType="VARCHAR" property="brief" />
+      <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+      <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    </association>
+  </resultMap>
+
+  <select id="indexGroupon" resultMap="indexMap">
+    SELECT (g.retail_price - r.discount) groupon_price,r.discount_member groupon_member,g.*
+    from cskaoyan_mall_groupon_rules r left join cskaoyan_mall_goods g on r.goods_id = g.id
+  </select>
 </mapper>

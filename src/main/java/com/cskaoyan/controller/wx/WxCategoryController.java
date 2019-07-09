@@ -38,10 +38,6 @@ public class WxCategoryController {
         return responseVo;
     }
 
-    @RequestMapping("wx/goods/list")
-    public ResponseVo<Map> goodsList(int page,int size,int categoryId){
-        ResponseVo<Map> responseVo = wxCategoryService.goodsList(page,size,categoryId);
-        return responseVo;
-    }
+
 
 }

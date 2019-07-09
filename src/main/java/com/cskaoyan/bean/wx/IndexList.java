@@ -5,6 +5,9 @@ import com.cskaoyan.bean.CskaoyanMallBrand;
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCoupon;
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
+import com.cskaoyan.bean.mallmanage.Floor;
+import com.cskaoyan.bean.mallmanage.Groupon;
+import com.cskaoyan.bean.mallmanage.Topic;
 
 import java.util.List;
 
@@ -18,15 +21,15 @@ public class IndexList {
 
     List<CskaoyanMallCoupon> couponList;
 
-    List<Object> floorGoodsList;
+    List<Floor> floorGoodsList;
 
-    List<Object> grouponList;
+    List<Groupon> grouponList;
 
     List<CskaoyanMallGoods> hotGoodsList;
 
     List<CskaoyanMallGoods> newGoodsList;
 
-    List<CskaoyanMallGoods> topicList;
+    List<Topic> topicList;
 
     public List<CskaoyanMallAd> getBanner() {
         return banner;
@@ -60,19 +63,19 @@ public class IndexList {
         this.couponList = couponList;
     }
 
-    public List<Object> getFloorGoodsList() {
+    public List<Floor> getFloorGoodsList() {
         return floorGoodsList;
     }
 
-    public void setFloorGoodsList(List<Object> floorGoodsList) {
+    public void setFloorGoodsList(List<Floor> floorGoodsList) {
         this.floorGoodsList = floorGoodsList;
     }
 
-    public List<Object> getGrouponList() {
+    public List<Groupon> getGrouponList() {
         return grouponList;
     }
 
-    public void setGrouponList(List<Object> grouponList) {
+    public void setGrouponList(List<Groupon> grouponList) {
         this.grouponList = grouponList;
     }
 
@@ -92,11 +95,11 @@ public class IndexList {
         this.newGoodsList = newGoodsList;
     }
 
-    public List<CskaoyanMallGoods> getTopicList() {
+    public List<Topic> getTopicList() {
         return topicList;
     }
 
-    public void setTopicList(List<CskaoyanMallGoods> topicList) {
+    public void setTopicList(List<Topic> topicList) {
         this.topicList = topicList;
     }
 }

@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("admin")
 public class FirstModuleController {
 
     @Autowired

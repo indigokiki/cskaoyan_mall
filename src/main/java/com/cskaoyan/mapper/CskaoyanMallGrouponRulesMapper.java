@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallGrouponRules;
 import com.cskaoyan.bean.CskaoyanMallGrouponRulesExample;
+import com.cskaoyan.bean.mallmanage.Groupon;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface CskaoyanMallGrouponRulesMapper {
     int updateByPrimaryKeySelective(CskaoyanMallGrouponRules record);
 
     int updateByPrimaryKey(CskaoyanMallGrouponRules record);
+
+    List<Groupon> indexGroupon();
 }

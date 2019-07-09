@@ -20,11 +20,7 @@ public class WxGoodsController {
     @Autowired
     WxGoodsService wxGoodsService;
 
-    @RequestMapping("wx/goods/count")
-    public ResponseVo<Map> count(){
-        ResponseVo<Map> responseVo = wxGoodsService.count();
-        return responseVo;
-    }
+
 
     @RequestMapping("wx/goods/related")
     public ResponseVo<Map> goodsRelated(int id){
@@ -32,9 +28,4 @@ public class WxGoodsController {
         return responseVo;
     }
 
-    @RequestMapping("wx/goods/detail")
-    public ResponseVo<Map> goodsDetail(int id, HttpServletRequest request){
-        ResponseVo<Map> responseVo = wxGoodsService.goodsDetail(id,request);
-        return responseVo;
-    }
 }

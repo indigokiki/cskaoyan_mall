@@ -2,6 +2,7 @@ package com.cskaoyan.mapper.goods;
 
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsSpecification;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsSpecificationExample;
+import com.cskaoyan.bean.mallmanage.SpecificationManage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -32,4 +33,6 @@ public interface CskaoyanMallGoodsSpecificationMapper {
     int updateByPrimaryKey(CskaoyanMallGoodsSpecification record);
 
     int setDeletedFalseByGoodsid(@Param("goodsid") Integer goodsId);
+
+    List searchByGoodId(@Param("id") String id);
 }

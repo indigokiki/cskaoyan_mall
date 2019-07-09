@@ -338,11 +338,40 @@
     select max(sort_order) from cskaoyan_mall_category where pid = #{pid}
   </select>
 
+  <resultMap id="indexMap" type="com.cskaoyan.bean.mallmanage.Floor">
+    <result property="id" column="cid"/>
+    <result property="name" column="cname"/>
+    <collection property="goodsList" ofType="com.cskaoyan.bean.mallmanage.FloorGood">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+      <result column="brief" jdbcType="VARCHAR" property="brief" />
+      <result column="is_new" jdbcType="BIT" property="isNew" />
+      <result column="is_hot" jdbcType="BIT" property="isHot" />
+      <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+      <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    </collection>
+  </resultMap>
+
+  <select id="getIndex" resultMap="indexMap">
+    select c1.id cid,c1.name cname,g.*
+    from (select * from cskaoyan_mall_category where level = 'L1') c1 left join
+         (select * from cskaoyan_mall_category where level = 'L2') c2 on c1.id = c2.pid left join
+		  cskaoyan_mall_goods g on g.category_id = c2.id
+	where c1.id in (1005000,1005001,1005002,1008000) and g.id in (1110016,1110017,1110018,1110019,1051003,1023003,1073008,1051000,
+	                                                              1045000,1116011,1070000,1155015,1085019,1086052,1152101,1114011)
+  </select>
   <select id="selectMinId" resultType="Integer">
     select min(id) from cskaoyan_mall_category
   </select>
 
+
+  <select id="searchCategory" resultMap="BaseResultMap">
+    select DISTINCT c.*
+    from cskaoyan_mall_category c left join cskaoyan_mall_goods g   on c.id = g.category_id   where g.name like #{name}
+  </select>
   <select id="selectPid" resultType="Integer">
     select pid from cskaoyan_mall_category where id = #{id}
+
   </select>
 </mapper>
