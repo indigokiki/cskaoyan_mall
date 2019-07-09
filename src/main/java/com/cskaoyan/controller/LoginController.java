@@ -8,6 +8,7 @@ import com.cskaoyan.service.mallmanage.LoginService;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/admin")
 public class LoginController {
 
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("admin/auth/login")
+
+    @RequestMapping("/auth/login")
     @ResponseBody
     public Result login(@RequestBody CskaoyanMallAdmin admin){
         String username = admin.getUsername();
@@ -41,7 +44,6 @@ public class LoginController {
         }catch (Exception e){
             result.setErrno(605);
             result.setErrmsg("用户帐号或密码不正确");
-
         }
         return result;
     }

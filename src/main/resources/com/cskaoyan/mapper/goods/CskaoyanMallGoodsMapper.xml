@@ -86,7 +86,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale,
+    id, goods_sn, `name`, category_id, brand_id, gallery, keywords, brief, is_on_sale,
     sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, 
     add_time, update_time, deleted
   </sql>
@@ -541,5 +541,43 @@
   </select>
   <select id="getCategoryidByGoodsid" resultType="Integer">
     select category_id from cskaoyan_mall_goods where id = #{id}
+  </select>
+
+  <!--新增李岩：wx端商品查询-->
+  <resultMap id="searchMap" type="com.cskaoyan.bean.mallmanage.FloorGood">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="is_new" jdbcType="BIT" property="isNew" />
+    <result column="is_hot" jdbcType="BIT" property="isHot" />
+    <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+  </resultMap>
+  <select id="searchGoods" resultMap="searchMap">
+    select *
+    from cskaoyan_mall_goods  where name like #{name}
+    <if test="categoryId != 0">
+      and category_id = #{categoryId}
+    </if>
+    <if test="sort != null">
+      order by ${sort}
+    </if>
+    <if test="order != null">
+      ${order}
+    </if>
+
+  </select>
+
+  <select id="getGoodsByCategoryId" resultType="com.cskaoyan.bean.goods.CskaoyanMallGoods">
+    select * from cskaoyan_mall_goods group by category_id
+  </select>
+
+  <select id="getBrandIdByGoodsid" resultType="Integer">
+    select brand_id from cskaoyan_mall_goods where id = #{id}
+  </select>
+
+  <select id="getShareurlByGoodsid" resultType="String">
+    select share_url from cskaoyan_mall_goods where id = #{id}
   </select>
 </mapper>

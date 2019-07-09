@@ -311,4 +311,8 @@
   <delete id="delete">
     delete from cskaoyan_mall_brand where id = #{brand.id}
   </delete>
+
+  <select id="searchById" resultMap="BaseResultMap">
+    select b.* from cskaoyan_mall_brand b left join cskaoyan_mall_goods g on g.brand_id = b.id where g.id = #{id}
+  </select>
 </mapper>

@@ -2,10 +2,12 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallTopic;
 import com.cskaoyan.bean.CskaoyanMallTopicExample;
+import com.cskaoyan.bean.mallmanage.Topic;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface CskaoyanMallTopicMapper {
     long countByExample(CskaoyanMallTopicExample example);
 
@@ -34,4 +36,9 @@ public interface CskaoyanMallTopicMapper {
     int updateByPrimaryKeyWithBLOBs(CskaoyanMallTopic record);
 
     int updateByPrimaryKey(CskaoyanMallTopic record);
+
+
+    String[] getGoodsInTopic(int id);
+    List<Topic> indexTopic();
+
 }

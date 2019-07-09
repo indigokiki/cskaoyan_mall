@@ -25,6 +25,7 @@ import java.util.Map;
  * 负责商品管理模块：1.商品列表 2.商品上架 3.商品评论
  */
 @RestController
+@RequestMapping("/admin")
 public class GoodsController {
 
     @Autowired

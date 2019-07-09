@@ -1,6 +1,6 @@
-package com.cskaoyan.controller.usermanage;
+package com.cskaoyan.controller.wx;
 
-import com.cskaoyan.service.usermanage.CategoryService;
+import com.cskaoyan.service.wx.WxCategoryService;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,20 +15,29 @@ import java.util.Map;
  */
 @Controller
 @ResponseBody
-public class CategoryController {
+public class WxCategoryController {
 
     @Autowired
-    CategoryService categoryService;
+    WxCategoryService wxCategoryService;
 
     @RequestMapping("wx/catalog/index")
     public ResponseVo<Map> categoryList(){
-        ResponseVo<Map> responseVo = categoryService.categoryIndex();
+        ResponseVo<Map> responseVo = wxCategoryService.categoryIndex();
         return responseVo;
     }
 
     @RequestMapping("wx/catalog/current")
     public ResponseVo<Map> categoryList(int id){
-        ResponseVo<Map> responseVo = categoryService.currentCategory(id);
+        ResponseVo<Map> responseVo = wxCategoryService.currentCategory(id);
         return responseVo;
     }
+
+    @RequestMapping("wx/goods/category")
+    public ResponseVo<Map> categoryDetail(int id){
+        ResponseVo<Map> responseVo = wxCategoryService.categoryDetail(id);
+        return responseVo;
+    }
+
+
+
 }

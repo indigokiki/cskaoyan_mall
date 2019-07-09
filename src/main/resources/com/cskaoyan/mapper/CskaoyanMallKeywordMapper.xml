@@ -276,4 +276,8 @@
   <select id="selectLastUpdate" resultType="Integer">
     select LAST_INSERT_ID()
   </select>
+
+  <select id="helper" resultType="string">
+    select keyword from cskaoyan_mall_keyword where keyword like #{key}
+  </select>
 </mapper>

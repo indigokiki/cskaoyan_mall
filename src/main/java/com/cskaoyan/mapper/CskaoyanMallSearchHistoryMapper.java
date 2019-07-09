@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallSearchHistory;
 import com.cskaoyan.bean.CskaoyanMallSearchHistoryExample;
+import com.cskaoyan.bean.mallmanage.History;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface CskaoyanMallSearchHistoryMapper {
     int updateByPrimaryKeySelective(CskaoyanMallSearchHistory record);
 
     int updateByPrimaryKey(CskaoyanMallSearchHistory record);
+
+    List<History> searchHistory(@Param("userid") String userid);
+
+    int insertSearch(@Param("his") CskaoyanMallSearchHistory history);
+
+    int deleteHistory(@Param("userid") String userid);
 }

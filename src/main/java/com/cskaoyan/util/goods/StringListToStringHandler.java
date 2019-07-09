@@ -40,9 +40,15 @@ public class StringListToStringHandler implements TypeHandler<String[]> {
     }
 
     private String[] StringToStringList(String s) {
-        String sub = s.substring(1,s.length()-1);
-        String[] strings = sub.split(",");
-        return strings;
+        String[] string = null;
+        if (s == null || "".equals(s)){
+            return  string;
+        }else{
+            String sub = s.substring(1,s.length()-1);
+            string = sub.split(",");
+            return string;
+        }
+
     }
 
     @Override
