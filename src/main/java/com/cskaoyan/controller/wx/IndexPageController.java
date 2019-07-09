@@ -8,13 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("wx")
 public class IndexPageController {
 
     @Autowired
     WxIndexService wxIndexService;
 
-    @RequestMapping("wx/home/index")
+    @RequestMapping("home/index")
     public ResponseVo firstRequest(){
         return wxIndexService.getIndex();
+    }
+
+    @RequestMapping("goods/count")
+    public ResponseVo count(){
+        return wxIndexService.getGoodsCount();
+    }
+
+    @RequestMapping("search/index")
+    public ResponseVo searchindex(){
+        return wxIndexService.getGoodsCount();
     }
 }

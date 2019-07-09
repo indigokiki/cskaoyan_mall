@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallCategory;
 import com.cskaoyan.bean.CskaoyanMallCategoryExample;
+import com.cskaoyan.bean.mallmanage.Floor;
 import com.cskaoyan.util.ValueNLabel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -37,4 +38,6 @@ public interface CskaoyanMallCategoryMapper {
     int selectLastUpdate();
 
     Byte selectMaxSortOrderFromPid(int pid);
+
+    List<Floor> getIndex();
 }

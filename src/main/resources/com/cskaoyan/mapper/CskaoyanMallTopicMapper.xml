@@ -374,4 +374,17 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="indexMap" type="com.cskaoyan.bean.mallmanage.Topic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="subtitle" jdbcType="VARCHAR" property="subtitle" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="read_count" jdbcType="VARCHAR" property="readCount" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+  </resultMap>
+
+  <select id="indexTopic" resultMap="indexMap">
+    select * from cskaoyan_mall_topic where id in ('264','266','268','271')
+  </select>
 </mapper>

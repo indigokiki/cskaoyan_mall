@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallTopic;
 import com.cskaoyan.bean.CskaoyanMallTopicExample;
+import com.cskaoyan.bean.mallmanage.Topic;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface CskaoyanMallTopicMapper {
     int updateByPrimaryKeyWithBLOBs(CskaoyanMallTopic record);
 
     int updateByPrimaryKey(CskaoyanMallTopic record);
+
+    List<Topic> indexTopic();
 }

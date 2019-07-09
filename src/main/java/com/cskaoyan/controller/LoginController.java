@@ -8,6 +8,7 @@ import com.cskaoyan.service.mallmanage.LoginService;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping("admin")
 public class LoginController {
 
     @Autowired
