@@ -315,11 +315,11 @@ public class WxIndexServiceImpl implements WxIndexService {
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
         if (userId != null) {
-            CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+           /* CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
             CskaoyanMallCollectExample.Criteria collectExampleCriteria = collectExample.createCriteria();
             collectExampleCriteria.andUserIdEqualTo(userId).andValueIdEqualTo(Integer.parseInt(id));
             List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
-            userHasCollect = collects.get(0).getType();
+            userHasCollect = collects.get(0).getType();*/
 
             CskaoyanMallFootprint footprint = new CskaoyanMallFootprint();
             footprint.setAddTime(new Date());
