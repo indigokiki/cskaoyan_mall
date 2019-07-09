@@ -1,6 +1,7 @@
 package com.cskaoyan.controller.wx;
 
 
+import com.cskaoyan.bean.CskaoyanMallBrand;
 import com.cskaoyan.service.wx.WxIndexService;
 import com.cskaoyan.util.ResponseVo;
 import com.cskaoyan.util.wxutil.BaseRespVo;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -95,4 +98,38 @@ public class IndexPageController {
         return responseVo;
 
     }
+
+    //杨朔增-首页-品牌商直供
+    //1.list
+    @RequestMapping("brand/list")
+    public ResponseVo brandList(int page, int size){
+
+        List<CskaoyanMallBrand> brandList = wxIndexService.selectBrandListPage(page,size);
+        int totalPages = wxIndexService.getBrandListTotalpages(size);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("brandList",brandList);
+        map.put("totalPages",totalPages);
+
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(map);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    //2.detail
+    @RequestMapping("brand/detail")
+    public ResponseVo brandDetail(int id){
+        CskaoyanMallBrand brand = wxIndexService.selectBrandDetail(id);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("brand",brand);
+
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(map);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
 }

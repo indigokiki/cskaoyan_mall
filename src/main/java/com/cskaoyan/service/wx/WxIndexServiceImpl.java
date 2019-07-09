@@ -15,15 +15,12 @@ import com.cskaoyan.util.ResponseVo;
 import com.cskaoyan.util.wxutil.UserTokenManager;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
-
-import java.util.Date;
 
 import java.util.List;
 import java.util.Map;
@@ -82,6 +79,9 @@ public class WxIndexServiceImpl implements WxIndexService {
 
     @Autowired
     CskaoyanMallCouponUserMapper couponUserMapper;
+
+    @Autowired
+    CskaoyanMallBrandMapper brandMapper;
 
 
     @Override
@@ -365,5 +365,31 @@ public class WxIndexServiceImpl implements WxIndexService {
         int i = couponUserMapper.insertSelective(couponUser);
         return i;
 
+    }
+
+    @Override
+    public List<CskaoyanMallBrand> selectBrandListPage(int page, int size) {
+        PageHelper.startPage(page, size);
+        List<CskaoyanMallBrand> brandList = brandMapper.selectByExample(new CskaoyanMallBrandExample());
+        return brandList;
+    }
+
+    @Override
+    public int getBrandListTotalpages(int size) {
+        int count = (int) brandMapper.countByExample(new CskaoyanMallBrandExample());
+        int totalPages = 0;
+        if (count % size != 0 ){
+            //如果不能整除，则加1
+            totalPages = count/size + 1;
+        }else {
+            totalPages = count/size;
+        }
+        return totalPages;
+    }
+
+    @Override
+    public CskaoyanMallBrand selectBrandDetail(int id) {
+        CskaoyanMallBrand brand = brandMapper.selectByPrimaryKey(id);
+        return brand;
     }
 }
