@@ -28,4 +28,6 @@ public interface CskaoyanMallFeedbackMapper {
     int updateByPrimaryKeySelective(CskaoyanMallFeedback record);
 
     int updateByPrimaryKey(CskaoyanMallFeedback record);
+
+    int insert2(CskaoyanMallFeedback record);
 }

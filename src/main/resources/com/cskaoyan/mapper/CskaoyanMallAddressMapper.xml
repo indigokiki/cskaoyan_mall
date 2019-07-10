@@ -320,4 +320,9 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--新增-->
+  <select id="lastInsertId" resultType="Integer">
+    select max(id) from cskaoyan_mall_address
+  </select>
 </mapper>

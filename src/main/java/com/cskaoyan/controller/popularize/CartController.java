@@ -116,23 +116,23 @@ public class CartController {
     @Autowired
     AddressMapper addressMapper;
     //region/list?pid=0 地区
-    @RequestMapping("region/list")
+    /*@RequestMapping("region/list")
     public BaseRespVo region(Integer pid){
         RegionExample regionExample = new RegionExample();
         regionExample.createCriteria().andPidEqualTo(pid);
         List<Region> regions = regionMapper.selectByExample(regionExample);
         return BaseRespVo.ok(regions);
-    }
+    }*/
 
     //wx/address/save保存收货地址
-    @RequestMapping("address/save")
+    /*@RequestMapping("address/save")
     public BaseRespVo saveAddress(@RequestBody Address address, HttpServletRequest request){
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
         address.setUserId(userId);
         addressMapper.insert(address);
         return BaseRespVo.ok(12);
-    }
+    }*/
 
     @RequestMapping("order/submit")
   /*  @Param("addressId") Integer addressId,

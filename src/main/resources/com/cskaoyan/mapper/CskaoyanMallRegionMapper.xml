@@ -236,4 +236,11 @@
     where r1.type = 1
   </select>
 
+  <select id="getRegionByCode" resultType="String">
+    select `name` from cskaoyan_mall_region where code = #{code}
+  </select>
+
+  <select id="getCodeByid" resultType="Integer">
+    select `code` from cskaoyan_mall_region where id = #{id}
+  </select>
 </mapper>

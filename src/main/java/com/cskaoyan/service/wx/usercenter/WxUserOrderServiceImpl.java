@@ -4,10 +4,7 @@ import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.goods.CskaoyanMallComment;
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.wx.usercenter.*;
-import com.cskaoyan.mapper.CskaoyanMallAddressMapper;
-import com.cskaoyan.mapper.CskaoyanMallFootprintMapper;
-import com.cskaoyan.mapper.CskaoyanMallOrderGoodsMapper;
-import com.cskaoyan.mapper.CskaoyanMallOrderMapper;
+import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.goods.CskaoyanMallCommentMapper;
 import com.cskaoyan.mapper.goods.CskaoyanMallGoodsMapper;
 import com.cskaoyan.util.wxutil.BaseRespVo;
@@ -40,6 +37,15 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
 
     @Autowired
     CskaoyanMallAddressMapper addressMapper;
+
+    @Autowired
+    CskaoyanMallRegionMapper regionMapper;
+
+    @Autowired
+    CskaoyanMallFeedbackMapper feedbackMapper;
+
+    @Autowired
+    CskaoyanMallUserMapper userMapper;
 
     @Override
     public BaseRespVo getOrderListByShowtype(int userId, int showType, int page, int size) {
@@ -231,13 +237,14 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
     @Override
     public BaseRespVo insertComment(CskaoyanMallComment comment, int orderGoodsId,Integer userId) {
 
-
+        CskaoyanMallOrderGoods ordergoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
         Date date = new Date();
         comment.setDeleted(false);
         comment.setAddTime(date);
         comment.setUpdateTime(date);
         //valueid是什么东西？？？
-        comment.setValueId(0);
+        //valueid是商品id
+        comment.setValueId(ordergoods.getGoodsId());
         //type是什么东西？？？
         byte b = 0;
         comment.setType(b);
@@ -247,8 +254,6 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
             return BaseRespVo.fail();
         }
         int id = commentMapper.selectLastInsertId();
-
-        CskaoyanMallOrderGoods ordergoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
         ordergoods.setComment(id);
         orderGoodsMapper.updateByPrimaryKey(ordergoods);
 
@@ -352,14 +357,13 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
 
     @Override
     public BaseRespVo getAddressByUid(Integer userId) {
-        WxAddress wxAddress = new WxAddress();
         CskaoyanMallAddressExample addressExample = new CskaoyanMallAddressExample();
         CskaoyanMallAddressExample.Criteria criteria = addressExample.createCriteria();
         criteria.andUserIdEqualTo(userId).andDeletedNotEqualTo(true);
         List<CskaoyanMallAddress> addresses = addressMapper.selectByExample(addressExample);
         List<WxAddress> list = new ArrayList<>();
         for (CskaoyanMallAddress address : addresses) {
-
+            WxAddress wxAddress = new WxAddress();
             try {
                 BeanUtils.copyProperties(wxAddress,address);
             } catch (IllegalAccessException e) {
@@ -367,10 +371,110 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
+            String provinceName = regionMapper.getRegionByCode(address.getProvinceId());
+            String cityName = regionMapper.getRegionByCode(address.getCityId());
+            String areaName = regionMapper.getRegionByCode(address.getAreaId());
+            wxAddress.setDetailedAddress(provinceName + cityName + areaName + " " + address.getAddress());
             list.add(wxAddress);
         }
 
         return BaseRespVo.ok(list);
+    }
+
+    @Override
+    public BaseRespVo getAddressDetailById(int id) {
+        WxAddressDetail wxAddressDetail = new WxAddressDetail();
+        CskaoyanMallAddress addressDetail = addressMapper.selectByPrimaryKey(id);
+        try {
+            BeanUtils.copyProperties(wxAddressDetail,addressDetail);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        wxAddressDetail.setProvinceName(regionMapper.getRegionByCode(wxAddressDetail.getProvinceId()));
+        wxAddressDetail.setCityName(regionMapper.getRegionByCode(wxAddressDetail.getCityId()));
+        wxAddressDetail.setAreaName(regionMapper.getRegionByCode(wxAddressDetail.getAreaId()));
+
+        return BaseRespVo.ok(wxAddressDetail);
+    }
+
+    @Override
+    public BaseRespVo saveAddressDetail(CskaoyanMallAddress address,Integer userId) {
+
+        //如果更改默认地址，则需要修改掉之前的默认地址的isDefault选项
+        if(true == address.getIsDefault()) {
+            CskaoyanMallAddressExample addressExample = new CskaoyanMallAddressExample();
+            CskaoyanMallAddressExample.Criteria criteria = addressExample.createCriteria();
+            criteria.andUserIdEqualTo(userId);
+            List<CskaoyanMallAddress> addresses = addressMapper.selectByExample(addressExample);
+            if(null != addresses) {
+                for (CskaoyanMallAddress address1 : addresses) {
+                    if (true == address1.getIsDefault()) {
+                        address1.setIsDefault(false);
+                        addressMapper.updateByPrimaryKey(address1);
+                        break;
+                    }
+                }
+            }
+        }
+        //处理provinceId，cityId，areaId
+        address.setProvinceId(regionMapper.getCodeByid(address.getProvinceId()));
+        address.setCityId(regionMapper.getCodeByid(address.getCityId()));
+        address.setAreaId(regionMapper.getCodeByid(address.getAreaId()));
+        //判断address里面的id是否为0，为0则新增，为其他则修改
+        //status用于判断插入/修改方法是否成功执行
+        int status = 0;
+        if(0 == address.getId()){
+            Date date = new Date();
+            address.setAddTime(date);
+            address.setUpdateTime(date);
+            address.setUserId(userId);
+            address.setDeleted(false);
+            status = addressMapper.insert(address);
+            int id = addressMapper.lastInsertId();
+            address.setId(id);
+        }else {
+            address.setUpdateTime(new Date());
+            status = addressMapper.updateByPrimaryKeySelective(address);
+        }
+        if(1 != status){
+            return BaseRespVo.fail();
+        }
+        return BaseRespVo.ok(address.getId());
+    }
+
+    @Override
+    public BaseRespVo deleteAddress(int id) {
+        CskaoyanMallAddress address = addressMapper.selectByPrimaryKey(id);
+        address.setDeleted(true);
+        addressMapper.updateByPrimaryKey(address);
+        return BaseRespVo.ok(null);
+    }
+
+    @Override
+    public BaseRespVo getRegionByPid(int pid) {
+        CskaoyanMallRegionExample regionExample = new CskaoyanMallRegionExample();
+        CskaoyanMallRegionExample.Criteria criteria = regionExample.createCriteria();
+        criteria.andPidEqualTo(pid);
+        List<CskaoyanMallRegion> regions = regionMapper.selectByExample(regionExample);
+        return BaseRespVo.ok(regions);
+    }
+
+    @Override
+    public BaseRespVo addFeedback(CskaoyanMallFeedback feedback, Integer userId) {
+        feedback.setAddTime(new Date());
+        feedback.setUpdateTime(new Date());
+        feedback.setDeleted(false);
+        feedback.setStatus(0);
+        feedback.setUserId(userId);
+        CskaoyanMallUser user = userMapper.selectByPrimaryKey(userId);
+        feedback.setUsername(user.getUsername());
+        int insert = feedbackMapper.insert2(feedback);
+        if(1 != insert){
+            return BaseRespVo.fail();
+        }
+        return BaseRespVo.ok(null);
     }
 
     private String getOrderStatusText(CskaoyanMallOrder cskaoyanMallOrder) {

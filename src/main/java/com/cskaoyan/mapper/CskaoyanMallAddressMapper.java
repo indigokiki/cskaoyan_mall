@@ -28,4 +28,6 @@ public interface CskaoyanMallAddressMapper {
     int updateByPrimaryKeySelective(CskaoyanMallAddress record);
 
     int updateByPrimaryKey(CskaoyanMallAddress record);
+
+    int lastInsertId();
 }

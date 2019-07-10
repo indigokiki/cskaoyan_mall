@@ -33,4 +33,8 @@ public interface CskaoyanMallRegionMapper {
     int updateByPrimaryKey(CskaoyanMallRegion record);
 
     List<Region> getAllRegions();
+
+    String getRegionByCode(int code);
+
+    Integer getCodeByid(int id);
 }

@@ -1,14 +1,14 @@
 package com.cskaoyan.controller.wx.usercenter;
 
+import com.cskaoyan.bean.CskaoyanMallAddress;
+import com.cskaoyan.bean.CskaoyanMallFeedback;
 import com.cskaoyan.bean.Result;
 import com.cskaoyan.bean.goods.CskaoyanMallComment;
 import com.cskaoyan.bean.wx.usercenter.MyJsonUtil;
-import com.cskaoyan.bean.wx.usercenter.WxAddress;
 import com.cskaoyan.service.mallmanage.PicService;
 import com.cskaoyan.service.wx.usercenter.WxUserOrderService;
 import com.cskaoyan.util.wxutil.BaseRespVo;
 import com.cskaoyan.util.wxutil.UserTokenManager;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class WxUserCenterController {
@@ -156,5 +159,90 @@ public class WxUserCenterController {
         return wxUserOrderService.getAddressByUid(userId);
     }
 
+    @RequestMapping("wx/address/detail")
+    public BaseRespVo addressdetail(int id,HttpServletRequest request){
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if (userId == null) {
+            return BaseRespVo.fail();
+        }
 
+        return wxUserOrderService.getAddressDetailById(id);
+    }
+
+    @RequestMapping("wx/address/save")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public BaseRespVo addresssave(@RequestBody CskaoyanMallAddress address,HttpServletRequest request){
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if (userId == null) {
+            return BaseRespVo.fail();
+        }
+
+        return wxUserOrderService.saveAddressDetail(address,userId);
+    }
+
+    @RequestMapping("wx/address/delete")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public BaseRespVo addressdelete(@RequestBody Map<Object,Object> map,HttpServletRequest request){
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if (userId == null) {
+            return BaseRespVo.fail();
+        }
+        int id = (int)map.get("id");
+        return wxUserOrderService.deleteAddress(id);
+    }
+
+    @RequestMapping("wx/region/list")
+    public BaseRespVo regionlist(int pid){
+        return wxUserOrderService.getRegionByPid(pid);
+    }
+
+    @RequestMapping("wx/feedback/submit")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public BaseRespVo feedbacksubmit(@RequestBody Map<Object,Object> map,HttpServletRequest request){
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+        if (userId == null) {
+            return BaseRespVo.fail();
+        }
+
+
+        //处理接受过来的数据
+        CskaoyanMallFeedback feedback = getFeedback(map);
+        return wxUserOrderService.addFeedback(feedback,userId);
+    }
+
+    private CskaoyanMallFeedback getFeedback(Map<Object,Object> map){
+        CskaoyanMallFeedback feedback = new CskaoyanMallFeedback();
+
+        //处理picUrl
+        StringBuffer picsb = new StringBuffer();
+        picsb.append("[");
+        ArrayList<String> picUrls = (ArrayList)map.get("picUrls");
+        if(picUrls != null) {
+            for (String picUrl : picUrls) {
+                picsb.append(picUrl + ",");
+            }
+            picsb.delete(picsb.length() - 1, picsb.length());
+        }
+        picsb.append("]");
+
+        //content
+        String content = (String)map.get("content");
+        //feedType
+        String feedType = (String)map.get("feedType");
+        //hasPicture
+        boolean hasPicture = (boolean)map.get("hasPicture");
+        //mobile
+        String mobile = (String)map.get("mobile");
+
+        feedback.setPicUrls(picsb.toString());
+        feedback.setContent(content);
+        feedback.setFeedType(feedType);
+        feedback.setHasPicture(hasPicture);
+        feedback.setMobile(mobile);
+        return feedback;
+    }
 }
