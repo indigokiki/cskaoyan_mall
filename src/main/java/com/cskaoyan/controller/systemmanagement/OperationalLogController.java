@@ -11,7 +11,10 @@ public class OperationalLogController {
     @Autowired
     OperationLogService operationLogService;
     @RequestMapping("/admin/log/list")
-    public ResponseVo loglist(int page, int limit, String sort, String order){
+    public ResponseVo loglist(int page, int limit, String sort, String order,String name){
+        if(name!=null){
+            return operationLogService.getloglist(page,limit,name);
+        }
         return operationLogService.getloglist(page,limit);
     }
 }
