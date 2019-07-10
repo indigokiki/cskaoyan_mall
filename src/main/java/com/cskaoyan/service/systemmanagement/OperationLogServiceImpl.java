@@ -30,4 +30,20 @@ public class OperationLogServiceImpl implements OperationLogService {
         responseVo.setErrno(0);
         return responseVo;
     }
+
+    @Override
+    public ResponseVo getloglist(int page, int limit, String name) {
+        CskaoyanMallLogExample cskaoyanMalllogExample = new CskaoyanMallLogExample();
+        CskaoyanMallLogExample.Criteria criteria = cskaoyanMalllogExample.createCriteria();
+        criteria.andAdminLike("%" + name + "%").andDeletedNotEqualTo(true);
+        PageHelper.startPage(page,limit);
+        List<CskaoyanMallLog> issues = cskaoyanMallLogMapper.selectByExample(cskaoyanMalllogExample);
+        Page<CskaoyanMallLog> issuePage = new Page<>();
+        issuePage.setItems(issues);
+        issuePage.setTotal((int)cskaoyanMallLogMapper.countByExample(cskaoyanMalllogExample));
+        ResponseVo<Page> responseVo = new ResponseVo<>();
+        responseVo.setData(issuePage);
+        responseVo.setErrmsg("成功");
+        responseVo.setErrno(0);
+        return responseVo;    }
 }

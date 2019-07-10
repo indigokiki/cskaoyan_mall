@@ -4,4 +4,6 @@ import com.cskaoyan.util.ResponseVo;
 
 public interface OperationLogService {
     ResponseVo getloglist(int page, int limit);
+
+    ResponseVo getloglist(int page, int limit, String name);
 }
