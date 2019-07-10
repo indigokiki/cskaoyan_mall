@@ -4,6 +4,7 @@ import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
 import com.cskaoyan.bean.mallmanage.FloorGood;
 import com.cskaoyan.bean.mallmanage.SearchGoods;
+import com.cskaoyan.bean.wx.coreservices.MyCollect;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -56,4 +57,5 @@ public interface CskaoyanMallGoodsMapper {
 
     String getShareurlByGoodsid (@Param("id") int id);
 
+    List<MyCollect> selectInGoods();
 }

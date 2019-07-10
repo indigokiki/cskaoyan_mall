@@ -383,4 +383,8 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getUserInfo" resultType="com.cskaoyan.util.wxutil.UserInfo">
+    select avatar,nickname from cskaoyan_mall_user where id = #{id};
+  </select>
 </mapper>

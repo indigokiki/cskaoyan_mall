@@ -217,7 +217,7 @@ public class WxIndexServiceImpl implements WxIndexService {
             keyword = "%" + keyword + "%";
             criteria.andNameLike(keyword);
         }
-        if(categoryId != null || Integer.parseInt(categoryId) != 0){
+        if(categoryId != null && Integer.parseInt(categoryId) != 0){
             criteria.andCategoryIdEqualTo(Integer.parseInt(categoryId));
         }
         if(brandId != null){
@@ -334,10 +334,11 @@ public class WxIndexServiceImpl implements WxIndexService {
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
         if (userId != null) {
-            CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+           CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
             CskaoyanMallCollectExample.Criteria collectExampleCriteria = collectExample.createCriteria();
             collectExampleCriteria.andUserIdEqualTo(userId).andValueIdEqualTo(Integer.parseInt(id));
             List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
+
             if(collects != null && collects.size() != 0){
                 userHasCollect = collects.get(0).getType();
             }
