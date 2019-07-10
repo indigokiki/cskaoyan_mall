@@ -60,7 +60,7 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
                 criteria.andOrderStatusEqualTo((short)301);
                 break;
             case 4:
-                criteria.andCommentsIsNull().andOrderStatusGreaterThan((short)400);
+                criteria.andCommentsEqualTo((short)0).andOrderStatusGreaterThan((short)400);
         }
         criteria.andUserIdEqualTo(userId);
         PageHelper.startPage(page,size);
@@ -251,6 +251,35 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
         CskaoyanMallOrderGoods ordergoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
         ordergoods.setComment(id);
         orderGoodsMapper.updateByPrimaryKey(ordergoods);
+
+        //每次insert新的comment后，都要更新一下order表中的comment，如果order中所有商品
+        //都已经评论过，修改order中的comment使其不再出现在待评价状态
+        CskaoyanMallOrderExample orderExample = new CskaoyanMallOrderExample();
+        CskaoyanMallOrderExample.Criteria commentingCriteria = orderExample.createCriteria();
+        commentingCriteria.andDeletedNotEqualTo(true).andOrderStatusGreaterThan((short)400).andUserIdEqualTo(userId);
+        List<CskaoyanMallOrder> orderlist = cskaoyanMallOrderMapper.selectByExample(orderExample);
+        for (CskaoyanMallOrder perorder : orderlist) {
+            Integer orderid = perorder.getId();
+            CskaoyanMallOrderGoodsExample orderGoodsExample = new CskaoyanMallOrderGoodsExample();
+            CskaoyanMallOrderGoodsExample.Criteria criteria = orderGoodsExample.createCriteria();
+            criteria.andDeletedNotEqualTo(true).andOrderIdEqualTo(orderid);
+            List<CskaoyanMallOrderGoods> orderGoodsList = orderGoodsMapper.selectByExample(orderGoodsExample);
+            //flag用于判断order对应的商品是否都已经评价过，如果一旦出现未评价的商品
+            //则flag修改为false，否则flag为true
+            boolean flag = true;
+            for (CskaoyanMallOrderGoods orderGoods : orderGoodsList) {
+                if(0 == orderGoods.getComment()){
+                    flag = false;
+                }
+            }
+            //如果flag为true，则需要修改order中的comment，使其不再出现在待评价中
+            if(true == flag){
+                //这里暂时不清楚逻辑，设置为1使其不再被检索进待评价列表中
+                perorder.setComments((short)1);
+            }
+            cskaoyanMallOrderMapper.updateByPrimaryKey(perorder);
+        }
+
         return BaseRespVo.ok(null);
     }
 
