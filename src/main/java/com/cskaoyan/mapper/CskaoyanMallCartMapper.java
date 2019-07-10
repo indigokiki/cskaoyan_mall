@@ -28,4 +28,7 @@ public interface CskaoyanMallCartMapper {
     int updateByPrimaryKeySelective(CskaoyanMallCart record);
 
     int updateByPrimaryKey(CskaoyanMallCart record);
+
+    //yangshuo增-添加购物车使用
+    CskaoyanMallCart selectCartByUseridAndGoodsid(@Param("userId") Integer userId, @Param("goodsId") Integer goodsId);
 }

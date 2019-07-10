@@ -37,4 +37,10 @@ public interface WxIndexService {
     int getBrandListTotalpages(int size);
     //yangshuo增-某个品牌详情
     CskaoyanMallBrand selectBrandDetail(int id);
+    //yangshuo增-添加购物车
+    int cartAdd(Integer userId, Integer goodsId, Integer productId, Integer number);
+    //yangshuo增-查该用户的购物车内的商品个数
+    int countUserCartGoods(Integer userId);
+    //yangshuo增-添加或删除收藏
+    String collectAddOrDelete(Integer userId, Byte type, Integer valueId);
 }
