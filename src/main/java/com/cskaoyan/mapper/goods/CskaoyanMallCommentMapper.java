@@ -2,10 +2,12 @@ package com.cskaoyan.mapper.goods;
 
 import com.cskaoyan.bean.goods.CskaoyanMallComment;
 import com.cskaoyan.bean.goods.CskaoyanMallCommentExample;
+import com.cskaoyan.bean.wx.CommentData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface CskaoyanMallCommentMapper {
@@ -34,6 +36,8 @@ public interface CskaoyanMallCommentMapper {
     //新增
     int updateContentByid(@Param("id") Integer commentid, @Param("content") String content);
 
+    int[] getUserId(@Param("valueId") int valueId);
 
+    List<CommentData> getCommentData(@Param("valueId") int valueId);
 
 }

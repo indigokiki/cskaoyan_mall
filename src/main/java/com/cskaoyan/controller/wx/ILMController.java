@@ -1,5 +1,7 @@
 package com.cskaoyan.controller.wx;
 
+import com.cskaoyan.bean.mallmanage.Topic;
+import com.cskaoyan.service.wx.WxCommentService;
 import com.cskaoyan.service.wx.WxTopicService;
 import com.cskaoyan.util.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +35,16 @@ public class ILMController {
     }
 
     @RequestMapping("/topic/related")
-    public ResponseVo<Map> topicRelated(int id){
-        ResponseVo<Map> responseVo = topicService.topicRelated(id);
+    public ResponseVo<List<Topic>> topicRelated(int id){
+        ResponseVo<List<Topic>> responseVo = topicService.topicRelated(id);
+        return responseVo;
+    }
+
+    @Autowired
+    WxCommentService commentService;
+    @RequestMapping("/comment/list")
+    public ResponseVo<Map> commentList(int valueId,int type,int showType,int page,int size){
+        ResponseVo<Map> responseVo = commentService.commentList(valueId,type,showType,page,size);
         return responseVo;
     }
 }

@@ -41,4 +41,5 @@ public interface CskaoyanMallTopicMapper {
     String[] getGoodsInTopic(int id);
     List<Topic> indexTopic();
 
+    List<Topic> topicRelated4(@Param("id") int id);
 }

@@ -389,6 +389,10 @@
     select goods from cskaoyan_mall_topic where id = #{id}
     </select>
 
+    <select id="topicRelated4" resultMap="indexMap">
+    SELECT * FROM `cskaoyan_mall_topic` where id != #{id} limit 4
+  </select>
+
     <resultMap id="indexMap" type="com.cskaoyan.bean.mallmanage.Topic">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
@@ -400,6 +404,7 @@
 
     <select id="indexTopic" resultMap="indexMap">
     select * from cskaoyan_mall_topic where id in ('264','266','268','271')
-
   </select>
+
+
 </mapper>
