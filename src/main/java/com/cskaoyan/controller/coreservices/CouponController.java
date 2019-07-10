@@ -19,8 +19,8 @@ public class CouponController {
         return couponsService.getcouponlist(page,status,size);
     }
     @RequestMapping("wx/coupon/exchange")
-    public ResponseVo couponexchange(@RequestBody Map<Object,Object> wanghan){
-        String code = (String)wanghan.get("code");
+    public ResponseVo couponexchange(@RequestBody Map<Object,Object> code1){
+        String code = (String)code1.get("code");
         return couponsService.exchangecoupon(code);
     }
 }

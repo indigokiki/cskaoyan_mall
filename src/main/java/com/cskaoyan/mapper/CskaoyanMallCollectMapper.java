@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.CskaoyanMallCollect;
 import com.cskaoyan.bean.CskaoyanMallCollectExample;
+import com.cskaoyan.bean.wx.coreservices.MyCollect;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +30,5 @@ public interface CskaoyanMallCollectMapper {
     int updateByPrimaryKeySelective(CskaoyanMallCollect record);
 
     int updateByPrimaryKey(CskaoyanMallCollect record);
+
 }
