@@ -146,8 +146,6 @@ public class IndexPageController {
     //yangshuo增-添加购物车 {goodsId: 1057036, number: 1, productId: 71}
     @RequestMapping("cart/add")
     public ResponseVo cartAdd(HttpServletRequest request, @RequestBody Map<String,Object> map){
-        System.out.println("map = " + map);
-
         //获取userid
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
@@ -172,15 +170,15 @@ public class IndexPageController {
 
     //yangshuo增-添加或删除收藏 collect/addordelete {type: 0, valueId: 1130037}
     @RequestMapping("collect/addordelete")
-    public ResponseVo collectAddOrDelete(@RequestBody Map<String,Object> map,HttpServletRequest request){
+    public ResponseVo collectAddOrDelete(@RequestBody Map<String,Integer> map,HttpServletRequest request){
         //获取userid
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
 
 
         //获取传递的json数据；type=0时valueid是商品id
-        Byte type = (Byte) map.get("type");
-        Integer valueId = (Integer) map.get("valueId");
+        Integer type =  map.get("type");
+        Integer valueId = map.get("valueId");
         //增或删
         String addOrDelete = wxIndexService.collectAddOrDelete(userId,type,valueId);
 

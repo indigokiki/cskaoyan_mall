@@ -461,7 +461,7 @@ public class WxIndexServiceImpl implements WxIndexService {
     }
 
     @Override
-    public String collectAddOrDelete(Integer userId, Byte type, Integer valueId) {
+    public String collectAddOrDelete(Integer userId, Integer type, Integer valueId) {
         //先判断这个用户是否已已收藏这个商品
         boolean flag = collectUserHasThisGoods(userId, valueId);
         if (flag){
@@ -494,7 +494,7 @@ public class WxIndexServiceImpl implements WxIndexService {
         CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
         collectExample.createCriteria().andUserIdEqualTo(userId).andValueIdEqualTo(valueId);
         List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
-        if (collects == null){
+        if (collects == null || collects.size() == 0){
             return false;
         }
 
@@ -505,7 +505,7 @@ public class WxIndexServiceImpl implements WxIndexService {
         CskaoyanMallCartExample cartExample = new CskaoyanMallCartExample();
         cartExample.createCriteria().andGoodsIdEqualTo(goodsId).andUserIdEqualTo(userId);
         List<CskaoyanMallCart> carts = cartMapper.selectByExample(cartExample);
-        if (carts == null ){
+        if (carts == null || carts.size() == 0 ){
             return false;
         }
         return true;

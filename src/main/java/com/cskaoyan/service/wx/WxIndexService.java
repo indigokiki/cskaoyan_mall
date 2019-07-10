@@ -42,5 +42,5 @@ public interface WxIndexService {
     //yangshuo增-查该用户的购物车内的商品个数
     int countUserCartGoods(Integer userId);
     //yangshuo增-添加或删除收藏
-    String collectAddOrDelete(Integer userId, Byte type, Integer valueId);
+    String collectAddOrDelete(Integer userId, Integer type, Integer valueId);
 }
