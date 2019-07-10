@@ -93,25 +93,35 @@ public class WxAuthController {
 		//***********************************
 		//根据userId查询订单信息
 		Map<Object,Object> order = new HashMap<>();
-		//uncomment
 
 		//unpaid
 		CskaoyanMallOrderExample cskaoyanMallOrderExample = new CskaoyanMallOrderExample();
 		CskaoyanMallOrderExample.Criteria criteria = cskaoyanMallOrderExample.createCriteria();
-		criteria.andOrderStatusEqualTo((short)101);
+		criteria.andOrderStatusEqualTo((short)101).andDeletedNotEqualTo(true);
 		long unpaid = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
 
 		//unrecv
-		cskaoyanMallOrderExample.clear();
-		criteria.andOrderStatusEqualTo((short)201);
-		long unrecv = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
+		CskaoyanMallOrderExample cskaoyanMallOrderExample1 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria1 = cskaoyanMallOrderExample1.createCriteria();
+		criteria1.andOrderStatusEqualTo((short)301).andDeletedNotEqualTo(true);
+		long unrecv = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample1);
 
 		//unship
-		cskaoyanMallOrderExample.clear();
-		criteria.andOrderStatusEqualTo((short)301);
-		long unship = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
+		//cskaoyanMallOrderExample.clear();
+		//为啥这句话会出错？？
+		CskaoyanMallOrderExample cskaoyanMallOrderExample2 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria2 = cskaoyanMallOrderExample2.createCriteria();
+		criteria2.andOrderStatusEqualTo((short)201).andDeletedNotEqualTo(true);
+		long unship = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample2);
 
-		order.put("uncomment",0);
+
+		//uncomment
+		CskaoyanMallOrderExample cskaoyanMallOrderExample3 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria3 = cskaoyanMallOrderExample3.createCriteria();
+		criteria3.andCommentsIsNull().andOrderStatusGreaterThan((short)400).andDeletedNotEqualTo(true);
+		long uncomment = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample3);
+
+		order.put("uncomment",uncomment);
 		order.put("unpaid",unpaid);
 		order.put("unrecv",unrecv);
 		order.put("unship",unship);
@@ -119,5 +129,10 @@ public class WxAuthController {
 		//***********************************
 
 		return BaseRespVo.ok(data);
+	}
+
+	@RequestMapping("/auth/logout")
+	public BaseRespVo logout(){
+		return BaseRespVo.ok(null);
 	}
 }
