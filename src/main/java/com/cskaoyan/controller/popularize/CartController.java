@@ -103,7 +103,7 @@ public class CartController {
     }
 
     //收货地址address/list
-    @RequestMapping("address/list")
+   // @RequestMapping("address/list")
     @ResponseBody
     public BaseRespVo addressList(HttpServletRequest request){
         String tokenKey = request.getHeader("X-Litemall-Token");

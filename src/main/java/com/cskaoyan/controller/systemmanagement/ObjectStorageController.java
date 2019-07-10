@@ -17,18 +17,18 @@ public class ObjectStorageController {
     @Autowired
     ObjectStorageService objectStorageService;
 
-    @RequestMapping("storage/list")
+    @RequestMapping("/admin/storage/list")
     public ResponseVo adminlist(int page, int limit, String sort, String order) {
         return objectStorageService.getStorageList(page, limit);
     }
 
-    @RequestMapping("storage/delete")
+    @RequestMapping("/admin/storage/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo roledelete(@RequestBody CskaoyanMallStorage cskaoyanMallStorage){
         return objectStorageService.deletestorage(cskaoyanMallStorage);
     }
 
-    @RequestMapping("storage/update")
+    @RequestMapping("/admin/storage/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo roleupdate(@RequestBody CskaoyanMallStorage cskaoyanMallStorage){
         return objectStorageService.updatestorage(cskaoyanMallStorage);

@@ -27,6 +27,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
+
     @RequestMapping("/auth/login")
     @ResponseBody
     public Result login(@RequestBody CskaoyanMallAdmin admin){
@@ -43,7 +44,6 @@ public class LoginController {
         }catch (Exception e){
             result.setErrno(605);
             result.setErrmsg("用户帐号或密码不正确");
-
         }
         return result;
     }

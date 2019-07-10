@@ -17,7 +17,7 @@ public class RoleManagementController {
     @Autowired
     RoleManagementService roleManagementService;
 
-    @RequestMapping("role/list")
+    @RequestMapping("/admin/role/list")
     public ResponseVo adminlist(int page, int limit, String sort, String order, String name){
         if(name!=null){
             return roleManagementService.getRoleListByName(page,limit,name);
@@ -25,19 +25,19 @@ public class RoleManagementController {
         return roleManagementService.getRoleManagementList(page,limit);
     }
 
-    @RequestMapping("role/delete")
+    @RequestMapping("/admin/role/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo roledelete(@RequestBody CskaoyanMallRole cskaoyanMallRole){
         return roleManagementService.deleterole(cskaoyanMallRole);
     }
 
-    @RequestMapping("role/create")
+    @RequestMapping("/admin/role/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo rolecreate(@RequestBody CskaoyanMallRole cskaoyanMallRole){
         return roleManagementService.createrole(cskaoyanMallRole);
     }
 
-    @RequestMapping("role/update")
+    @RequestMapping("/admin/role/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo roleupdate(@RequestBody CskaoyanMallRole cskaoyanMallRole){
         return roleManagementService.updaterole(cskaoyanMallRole);

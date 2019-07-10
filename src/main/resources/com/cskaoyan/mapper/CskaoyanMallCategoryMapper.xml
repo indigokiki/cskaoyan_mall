@@ -372,6 +372,9 @@
   </select>
   <select id="selectPid" resultType="Integer">
     select pid from cskaoyan_mall_category where id = #{id}
+  </select>
 
+  <select id="defaultCategory" resultType="com.cskaoyan.bean.CskaoyanMallCategory">
+    select * from cskaoyan_mall_category where pid =#{id}  limit 1
   </select>
 </mapper>

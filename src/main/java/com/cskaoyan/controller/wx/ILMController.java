@@ -30,4 +30,10 @@ public class ILMController {
         ResponseVo<Map> responseVo = topicService.topicList(page,size);
         return responseVo;
     }
+
+    @RequestMapping("/topic/related")
+    public ResponseVo<Map> topicRelated(int id){
+        ResponseVo<Map> responseVo = topicService.topicRelated(id);
+        return responseVo;
+    }
 }

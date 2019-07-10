@@ -16,7 +16,7 @@ public class AdministratorController {
     @Autowired
     AdministratorService administratorService;
 
-    @RequestMapping("admin/list")
+    @RequestMapping("/admin/admin/list")
     public ResponseVo adminlist(int page,int limit,String sort,String order,String username){
         if(username!=null){
             return administratorService.getAdminListByName(page,limit,username);
@@ -24,24 +24,24 @@ public class AdministratorController {
         return administratorService.getAdminList(page,limit);
     }
 
-    @RequestMapping("role/options")
+    @RequestMapping("/admin/role/options")
     public  ResponseVo roleoptions(){
         return administratorService.getRoleOptions();
     }
 
-    @RequestMapping("admin/create")
+    @RequestMapping("/admin/admin/create")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo admincreate(@RequestBody CskaoyanMallAdmin cskaoyanMallAdmin){
         return administratorService.insertAdmin(cskaoyanMallAdmin);
     }
 
-    @RequestMapping("admin/update")
+    @RequestMapping("/admin/admin/update")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo adminupdate(@RequestBody CskaoyanMallAdmin cskaoyanMallAdmin){
         return administratorService.updateAdmin(cskaoyanMallAdmin);
     }
 
-    @RequestMapping("admin/delete")
+    @RequestMapping("/admin/admin/delete")
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseVo admindelete(@RequestBody CskaoyanMallAdmin cskaoyanMallAdmin){
         return administratorService.deleteAdmin(cskaoyanMallAdmin);

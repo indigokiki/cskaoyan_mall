@@ -1,9 +1,10 @@
 package com.cskaoyan.service.wx;
 
+import com.cskaoyan.bean.CskaoyanMallBrand;
 import com.cskaoyan.util.ResponseVo;
-import org.springframework.http.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public interface WxIndexService {
 
@@ -29,7 +30,10 @@ public interface WxIndexService {
     //yangshuo增-用户优惠券增加
     int insertCouponUser(Integer userId, Integer couponId);
 
-
-
-
+    //yangshuo增-首页品牌商直供点击进入的列表
+    List<CskaoyanMallBrand> selectBrandListPage(int page, int size);
+    //yangshuo增-品牌商总页数
+    int getBrandListTotalpages(int size);
+    //yangshuo增-某个品牌详情
+    CskaoyanMallBrand selectBrandDetail(int id);
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("admin")
-public class CouponController {
+public class MyCouponController {
 
 
     @Autowired
