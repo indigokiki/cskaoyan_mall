@@ -4,6 +4,7 @@ import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.goods.CskaoyanMallComment;
 import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.wx.usercenter.*;
+import com.cskaoyan.mapper.CskaoyanMallAddressMapper;
 import com.cskaoyan.mapper.CskaoyanMallFootprintMapper;
 import com.cskaoyan.mapper.CskaoyanMallOrderGoodsMapper;
 import com.cskaoyan.mapper.CskaoyanMallOrderMapper;
@@ -36,6 +37,9 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
 
     @Autowired
     CskaoyanMallGoodsMapper goodsMapper;
+
+    @Autowired
+    CskaoyanMallAddressMapper addressMapper;
 
     @Override
     public BaseRespVo getOrderListByShowtype(int userId, int showType, int page, int size) {
@@ -315,6 +319,29 @@ public class WxUserOrderServiceImpl implements WxUserOrderService {
 
         data.put("totalPages",totalPages);
         return BaseRespVo.ok(data);
+    }
+
+    @Override
+    public BaseRespVo getAddressByUid(Integer userId) {
+        WxAddress wxAddress = new WxAddress();
+        CskaoyanMallAddressExample addressExample = new CskaoyanMallAddressExample();
+        CskaoyanMallAddressExample.Criteria criteria = addressExample.createCriteria();
+        criteria.andUserIdEqualTo(userId).andDeletedNotEqualTo(true);
+        List<CskaoyanMallAddress> addresses = addressMapper.selectByExample(addressExample);
+        List<WxAddress> list = new ArrayList<>();
+        for (CskaoyanMallAddress address : addresses) {
+
+            try {
+                BeanUtils.copyProperties(wxAddress,address);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            list.add(wxAddress);
+        }
+
+        return BaseRespVo.ok(list);
     }
 
     private String getOrderStatusText(CskaoyanMallOrder cskaoyanMallOrder) {
