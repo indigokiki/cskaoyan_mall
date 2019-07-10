@@ -28,4 +28,8 @@ public interface CskaoyanMallCouponMapper {
     int updateByPrimaryKeySelective(CskaoyanMallCoupon record);
 
     int updateByPrimaryKey(CskaoyanMallCoupon record);
+
+    List<CskaoyanMallCoupon> selectByStatusandId(@Param("status") int status);
+
+    Integer selectByCode(@Param("code") String code);
 }

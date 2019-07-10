@@ -556,9 +556,21 @@
   </resultMap>
   <select id="searchGoods" resultMap="searchMap">
     select *
-    from cskaoyan_mall_goods  where name like #{name}
+    from cskaoyan_mall_goods  where 1 = 1
+    <if test="name != null">
+      and name like #{name}
+    </if>
     <if test="categoryId != 0">
       and category_id = #{categoryId}
+    </if>
+    <if test="brandId != null">
+      and brand_id = #{brandId}
+    </if>
+    <if test="isHot == true">
+      and is_hot = #{isHot}
+    </if>
+    <if test="isNew == true">
+      and is_new = #{isNew}
     </if>
     <if test="sort != null">
       order by ${sort}

@@ -49,4 +49,6 @@ public interface CskaoyanMallCategoryMapper {
 
     int selectPid(int id);
 
+    CskaoyanMallCategory defaultCategory (@Param("id") int id);
+
 }

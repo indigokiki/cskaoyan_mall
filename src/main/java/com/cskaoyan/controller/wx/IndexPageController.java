@@ -42,8 +42,9 @@ public class IndexPageController {
     }
 
     @RequestMapping("goods/list")
-    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId, HttpServletRequest request){
-        return wxIndexService.goodslist(keyword,page,size,sort,order,categoryId,request);
+    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,
+                                String brandId,boolean isHot,boolean isNew,HttpServletRequest request){
+        return wxIndexService.goodslist(keyword,page,size,sort,order,categoryId,brandId,isHot,isNew,request);
     }
 
 

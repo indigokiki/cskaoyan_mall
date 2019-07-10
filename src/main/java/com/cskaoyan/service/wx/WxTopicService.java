@@ -12,4 +12,6 @@ public interface WxTopicService {
     ResponseVo<Map> topicDetail(int id);
 
     ResponseVo<Map> topicList(int page, int size);
+
+    ResponseVo<Map> topicRelated(int id);
 }

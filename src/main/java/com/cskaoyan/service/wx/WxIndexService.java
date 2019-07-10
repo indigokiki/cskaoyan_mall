@@ -16,7 +16,8 @@ public interface WxIndexService {
 
     ResponseVo searchHelper(String keyword);
 
-    ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId, HttpServletRequest request);
+    ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,
+                         String brandId,boolean isHot,boolean isNew,HttpServletRequest request);
 
     ResponseVo searchclearhistory(HttpServletRequest request);
 
