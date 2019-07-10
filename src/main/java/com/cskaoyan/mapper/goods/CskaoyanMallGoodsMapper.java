@@ -47,7 +47,8 @@ public interface CskaoyanMallGoodsMapper {
 
 
     //李岩：wx端商品查询；
-    List<FloorGood> searchGoods(@Param("name")String name,@Param("sort") String sort,@Param("order") String order,@Param("categoryId") String categoryId);
+    List<FloorGood> searchGoods(@Param("name")String name,@Param("sort") String sort,@Param("order") String order,@Param("categoryId") String categoryId,
+                                @Param("brandId")String brandId,@Param("isHot")boolean isHot,@Param("isNew")boolean isNew);
 
     List<CskaoyanMallGoods> getGoodsByCategoryId(int categoryId);
 

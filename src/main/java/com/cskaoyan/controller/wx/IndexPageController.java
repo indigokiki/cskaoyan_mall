@@ -45,8 +45,9 @@ public class IndexPageController {
     }
 
     @RequestMapping("goods/list")
-    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId, HttpServletRequest request){
-        return wxIndexService.goodslist(keyword,page,size,sort,order,categoryId,request);
+    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,
+                                String brandId,boolean isHot,boolean isNew,HttpServletRequest request){
+        return wxIndexService.goodslist(keyword,page,size,sort,order,categoryId,brandId,isHot,isNew,request);
     }
 
 
@@ -68,6 +69,15 @@ public class IndexPageController {
 
     @RequestMapping("cart/goodscount")
     public ResponseVo cartgoodscount( ) {
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setErrmsg("成功");
+        responseVo.setErrno(0);
+        responseVo.setData(0);
+        return responseVo;
+    }
+    //我的团购
+    @RequestMapping("groupon/my")
+    public ResponseVo grouponmy(String showType) {
         ResponseVo<Object> responseVo = new ResponseVo<>();
         responseVo.setErrmsg("成功");
         responseVo.setErrno(0);

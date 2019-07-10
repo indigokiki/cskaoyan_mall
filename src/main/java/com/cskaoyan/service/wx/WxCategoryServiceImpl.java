@@ -80,6 +80,7 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         CskaoyanMallCategory parentCategory;
         //pid
         int pid = categoryMapper.selectPid(id);
+
         if(pid==0){
             //点击一级目录查询路径
             //brotherCategory
@@ -101,6 +102,7 @@ public class WxCategoryServiceImpl implements WxCategoryService {
             //parentCategory
              parentCategory = categoryMapper.selectByPrimaryKey(pid);
         }
+
 
         //判断，设置errno，errmsg
         HashMap<String, Object> data = new HashMap<>();
