@@ -1,5 +1,8 @@
 package com.cskaoyan.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,16 +21,22 @@ public class CskaoyanMallCart {
 
     private BigDecimal price;
 
-    private Short number;
+    //short改为Integer
+    private Integer number;
 
-    private String specifications;
+    //修改String为String[]
+    private String[] specifications;
 
     private Boolean checked;
 
     private String picUrl;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date addTime;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
     private Boolean deleted;
@@ -88,20 +97,28 @@ public class CskaoyanMallCart {
         this.price = price;
     }
 
-    public Short getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Short number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public String getSpecifications() {
+    /*public String getSpecifications() {
         return specifications;
     }
 
     public void setSpecifications(String specifications) {
         this.specifications = specifications == null ? null : specifications.trim();
+    }*/
+
+    public String[] getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications;
     }
 
     public Boolean getChecked() {

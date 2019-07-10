@@ -142,4 +142,54 @@ public class IndexPageController {
         return responseVo;
     }
 
+
+    //yangshuo增-添加购物车 {goodsId: 1057036, number: 1, productId: 71}
+    @RequestMapping("cart/add")
+    public ResponseVo cartAdd(HttpServletRequest request, @RequestBody Map<String,Object> map){
+        //获取userid
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+
+        //获取传递的json数据
+        Integer goodsId = (Integer) map.get("goodsId");
+        Integer number = (Integer) map.get("number");
+        Integer productId = (Integer) map.get("productId");
+
+        //将goods加入购物车
+        int i = wxIndexService.cartAdd(userId, goodsId, productId, number);
+
+        //并查询该用户购物车内的goods个数
+        int count = wxIndexService.countUserCartGoods(userId);
+
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(count);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
+    //yangshuo增-添加或删除收藏 collect/addordelete {type: 0, valueId: 1130037}
+    @RequestMapping("collect/addordelete")
+    public ResponseVo collectAddOrDelete(@RequestBody Map<String,Integer> map,HttpServletRequest request){
+        //获取userid
+        String tokenKey = request.getHeader("X-Litemall-Token");
+        Integer userId = UserTokenManager.getUserId(tokenKey);
+
+
+        //获取传递的json数据；type=0时valueid是商品id
+        Integer type =  map.get("type");
+        Integer valueId = map.get("valueId");
+        //增或删
+        String addOrDelete = wxIndexService.collectAddOrDelete(userId,type,valueId);
+
+        HashMap<String, String> typeMap = new HashMap<>();
+        typeMap.put("type",addOrDelete);
+
+        ResponseVo<Object> responseVo = new ResponseVo<>();
+        responseVo.setData(typeMap);
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        return responseVo;
+    }
+
 }

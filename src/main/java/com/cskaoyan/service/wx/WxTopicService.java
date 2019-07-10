@@ -1,7 +1,9 @@
 package com.cskaoyan.service.wx;
 
+import com.cskaoyan.bean.mallmanage.Topic;
 import com.cskaoyan.util.ResponseVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,5 +15,5 @@ public interface WxTopicService {
 
     ResponseVo<Map> topicList(int page, int size);
 
-    ResponseVo<Map> topicRelated(int id);
+    ResponseVo<List<Topic>> topicRelated(int id);
 }

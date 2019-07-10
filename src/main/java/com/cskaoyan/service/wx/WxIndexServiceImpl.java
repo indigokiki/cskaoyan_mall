@@ -83,6 +83,9 @@ public class WxIndexServiceImpl implements WxIndexService {
     @Autowired
     CskaoyanMallBrandMapper brandMapper;
 
+    @Autowired
+    CskaoyanMallCartMapper cartMapper;
+
 
     @Override
     public ResponseVo getIndex() {
@@ -411,5 +414,100 @@ public class WxIndexServiceImpl implements WxIndexService {
     public CskaoyanMallBrand selectBrandDetail(int id) {
         CskaoyanMallBrand brand = brandMapper.selectByPrimaryKey(id);
         return brand;
+    }
+
+    @Override
+    public int cartAdd(Integer userId, Integer goodsId, Integer productId, Integer number) {
+        //0.判断该用户是否首次添加该商品进入购物车
+        boolean flag = cartUserHasThisGoods(userId, goodsId);
+        int addStatus = 0;
+        if (flag){
+            //1.若该用户不是首次添加该商品进入，则只修改number、updatetime即可
+            CskaoyanMallCart cartItem = cartMapper.selectCartByUseridAndGoodsid(userId,goodsId);
+            cartItem.setUpdateTime(new Date());
+            cartItem.setNumber(cartItem.getNumber()+number);
+            addStatus = cartMapper.updateByPrimaryKeySelective(cartItem);
+
+        }else {
+            //2.若该用户首次添加该商品进入购物车，则直接添加
+            //用goodsid在goods表里查goodsSn，goodsname，picurl
+            //用productid在product表里查price,specifications
+            CskaoyanMallGoods goods = cskaoyanMallGoodsMapper.selectByPrimaryKey(goodsId);
+            CskaoyanMallGoodsProduct product = productMapper.selectByPrimaryKey(productId);
+            CskaoyanMallCart cart = new CskaoyanMallCart();
+            cart.setUserId(userId);
+            cart.setGoodsId(goodsId);
+            cart.setProductId(productId);
+            cart.setNumber(number);
+            cart.setGoodsSn(goods.getGoodsSn());
+            cart.setGoodsName(goods.getName());
+            cart.setPrice(product.getPrice());
+            cart.setSpecifications(product.getSpecifications());
+            cart.setPicUrl(goods.getPicUrl());
+            cart.setAddTime(new Date());
+
+            addStatus = cartMapper.insertSelective(cart);
+        }
+        return addStatus;
+
+    }
+
+    @Override
+    public int countUserCartGoods(Integer userId) {
+        CskaoyanMallCartExample cartExample = new CskaoyanMallCartExample();
+        cartExample.createCriteria().andUserIdEqualTo(userId);
+        int count = (int) cartMapper.countByExample(cartExample);
+        return count;
+    }
+
+    @Override
+    public String collectAddOrDelete(Integer userId, Integer type, Integer valueId) {
+        //先判断这个用户是否已已收藏这个商品
+        boolean flag = collectUserHasThisGoods(userId, valueId);
+        if (flag){
+            //已收藏，则取消收藏(并未在表里删除，只是设置deleted=1和updateTimE)，返回“delete”
+            CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+            collectExample.createCriteria().andUserIdEqualTo(userId).andValueIdEqualTo(valueId);
+            CskaoyanMallCollect collect = new CskaoyanMallCollect();
+            collect.setDeleted(true);
+            collect.setUpdateTime(new Date());
+            collectMapper.updateByExampleSelective(collect,collectExample);
+
+            return "delete";
+        }else {
+            //未收藏，则添加收藏，返回“add”
+            CskaoyanMallCollect collect = new CskaoyanMallCollect();
+            collect.setUserId(userId);
+            collect.setValueId(valueId);
+            collect.setType(type);
+            collect.setAddTime(new Date());
+
+            collectMapper.insertSelective(collect);
+
+            return "add";
+        }
+
+
+    }
+
+    private boolean collectUserHasThisGoods(Integer userId, Integer valueId) {
+        CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+        collectExample.createCriteria().andUserIdEqualTo(userId).andValueIdEqualTo(valueId);
+        List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
+        if (collects == null || collects.size() == 0){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean cartUserHasThisGoods(Integer userId, Integer goodsId) {
+        CskaoyanMallCartExample cartExample = new CskaoyanMallCartExample();
+        cartExample.createCriteria().andGoodsIdEqualTo(goodsId).andUserIdEqualTo(userId);
+        List<CskaoyanMallCart> carts = cartMapper.selectByExample(cartExample);
+        if (carts == null || carts.size() == 0 ){
+            return false;
+        }
+        return true;
     }
 }

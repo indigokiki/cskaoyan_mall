@@ -2,6 +2,7 @@ package com.cskaoyan.service.wx;
 
 import com.cskaoyan.bean.CskaoyanMallTopic;
 import com.cskaoyan.bean.CskaoyanMallTopicExample;
+import com.cskaoyan.bean.mallmanage.Topic;
 import com.cskaoyan.mapper.CskaoyanMallTopicMapper;
 import com.cskaoyan.util.ResponseVo;
 import com.github.pagehelper.PageHelper;
@@ -58,9 +59,15 @@ public class WxTopicServiceImpl implements WxTopicService {
     }
 
     @Override
-    public ResponseVo<Map> topicRelated(int id) {
+    public ResponseVo<List<Topic>> topicRelated(int id) {
         //data
+        List<Topic> data = topicMapper.topicRelated4(id);
 
-        return null;
+        //判断，设置errno，errmsg
+        ResponseVo<List<Topic>> responseVo = new ResponseVo<>();
+        responseVo.setErrno(0);
+        responseVo.setErrmsg("成功");
+        responseVo.setData(data);
+        return responseVo;
     }
 }

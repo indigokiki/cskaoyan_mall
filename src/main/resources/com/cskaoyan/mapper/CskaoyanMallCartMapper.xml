@@ -10,7 +10,7 @@
     <result column="product_id" jdbcType="INTEGER" property="productId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="number" jdbcType="SMALLINT" property="number" />
-    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" typeHandler="com.cskaoyan.util.goods.StringListToStringHandler" />
     <result column="checked" jdbcType="BIT" property="checked" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
@@ -117,7 +117,8 @@
       update_time, deleted)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
       #{goodsSn,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{number,jdbcType=SMALLINT}, #{specifications,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{number,jdbcType=SMALLINT},
+      #{specifications,jdbcType=VARCHAR, typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       #{checked,jdbcType=BIT}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
@@ -193,7 +194,7 @@
         #{number,jdbcType=SMALLINT},
       </if>
       <if test="specifications != null">
-        #{specifications,jdbcType=VARCHAR},
+        #{specifications,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="checked != null">
         #{checked,jdbcType=BIT},
@@ -246,7 +247,7 @@
         number = #{record.number,jdbcType=SMALLINT},
       </if>
       <if test="record.specifications != null">
-        specifications = #{record.specifications,jdbcType=VARCHAR},
+        specifications = #{record.specifications,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="record.checked != null">
         checked = #{record.checked,jdbcType=BIT},
@@ -278,7 +279,7 @@
       product_id = #{record.productId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       number = #{record.number,jdbcType=SMALLINT},
-      specifications = #{record.specifications,jdbcType=VARCHAR},
+      specifications = #{record.specifications,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       checked = #{record.checked,jdbcType=BIT},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
@@ -313,7 +314,7 @@
         number = #{number,jdbcType=SMALLINT},
       </if>
       <if test="specifications != null">
-        specifications = #{specifications,jdbcType=VARCHAR},
+        specifications = #{specifications,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       </if>
       <if test="checked != null">
         checked = #{checked,jdbcType=BIT},
@@ -342,7 +343,7 @@
       product_id = #{productId,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       number = #{number,jdbcType=SMALLINT},
-      specifications = #{specifications,jdbcType=VARCHAR},
+      specifications = #{specifications,jdbcType=VARCHAR,typeHandler=com.cskaoyan.util.goods.StringListToStringHandler},
       checked = #{checked,jdbcType=BIT},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -350,4 +351,12 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--yangshuo增-->
+  <select id="selectCartByUseridAndGoodsid" resultType="com.cskaoyan.bean.CskaoyanMallCart">
+    select
+    <include refid="Base_Column_List" />
+    from cskaoyan_mall_cart
+    where user_id = #{userId} and goods_id = #{goodsId}
+  </select>
 </mapper>
