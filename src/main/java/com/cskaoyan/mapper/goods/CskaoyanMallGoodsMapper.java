@@ -4,6 +4,7 @@ import com.cskaoyan.bean.goods.CskaoyanMallGoods;
 import com.cskaoyan.bean.goods.CskaoyanMallGoodsExample;
 import com.cskaoyan.bean.mallmanage.FloorGood;
 import com.cskaoyan.bean.mallmanage.SearchGoods;
+import com.cskaoyan.bean.wx.coreservices.MyCollect;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -47,7 +48,8 @@ public interface CskaoyanMallGoodsMapper {
 
 
     //李岩：wx端商品查询；
-    List<FloorGood> searchGoods(@Param("name")String name,@Param("sort") String sort,@Param("order") String order,@Param("categoryId") String categoryId);
+    List<FloorGood> searchGoods(@Param("name")String name,@Param("sort") String sort,@Param("order") String order,@Param("categoryId") String categoryId,
+                                @Param("brandId")String brandId,@Param("isHot")boolean isHot,@Param("isNew")boolean isNew);
 
     List<CskaoyanMallGoods> getGoodsByCategoryId(int categoryId);
 
@@ -55,4 +57,5 @@ public interface CskaoyanMallGoodsMapper {
 
     String getShareurlByGoodsid (@Param("id") int id);
 
+    List<MyCollect> selectInGoods();
 }

@@ -556,9 +556,21 @@
   </resultMap>
   <select id="searchGoods" resultMap="searchMap">
     select *
-    from cskaoyan_mall_goods  where name like #{name}
+    from cskaoyan_mall_goods  where 1 = 1
+    <if test="name != null">
+      and name like #{name}
+    </if>
     <if test="categoryId != 0">
       and category_id = #{categoryId}
+    </if>
+    <if test="brandId != null">
+      and brand_id = #{brandId}
+    </if>
+    <if test="isHot == true">
+      and is_hot = #{isHot}
+    </if>
+    <if test="isNew == true">
+      and is_new = #{isNew}
     </if>
     <if test="sort != null">
       order by ${sort}
@@ -580,4 +592,21 @@
   <select id="getShareurlByGoodsid" resultType="String">
     select share_url from cskaoyan_mall_goods where id = #{id}
   </select>
+
+  <resultMap id="BaseResultMapByCollect" type="com.cskaoyan.bean.goods.CskaoyanMallGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="value_id" jdbcType="INTEGER" property="valueId" />
+  </resultMap>
+
+  <select id="selectInGoods" resultMap="BaseResultMapByCollect">
+    select gd.brief, gd.name, gd.pic_url, gd.retail_price, cl.id, cl.value_id, cl.type
+    from cskaoyan_mall_goods gd, cskaoyan_mall_collect cl
+    where cl.value_id = gd.id and cl.deleted = "0"
+  </select>
+
 </mapper>

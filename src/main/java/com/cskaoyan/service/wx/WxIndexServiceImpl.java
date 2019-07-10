@@ -204,16 +204,32 @@ public class WxIndexServiceImpl implements WxIndexService {
     }
 
     @Override
-    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,HttpServletRequest request) {
-        String s = keyword;
-        keyword = "%" + keyword + "%";
-        SearchGoods searchGoods = new SearchGoods();
+    public ResponseVo goodslist(String keyword, int page, int size, String sort, String order, String categoryId,
+                                String brandId,boolean isHot,boolean isNew,HttpServletRequest request) {
         CskaoyanMallGoodsExample goodsExample = new CskaoyanMallGoodsExample();
         CskaoyanMallGoodsExample.Criteria criteria = goodsExample.createCriteria();
-        criteria.andNameLike(keyword);
+        String s = null;
+        if(keyword != null){
+            s = keyword;
+            keyword = "%" + keyword + "%";
+            criteria.andNameLike(keyword);
+        }
+        if(categoryId != null && Integer.parseInt(categoryId) != 0){
+            criteria.andCategoryIdEqualTo(Integer.parseInt(categoryId));
+        }
+        if(brandId != null){
+            criteria.andBrandIdEqualTo(Integer.parseInt(brandId));
+        }
+        if(isHot == true){
+            criteria.andIsHotEqualTo(true);
+        }
+        if(isNew == true){
+            criteria.andIsNewEqualTo(true);
+        }
         int count = (int) cskaoyanMallGoodsMapper.countByExample(goodsExample);
-        List<FloorGood> floorGoods = cskaoyanMallGoodsMapper.searchGoods(keyword,sort,order,categoryId);
+        List<FloorGood> floorGoods = cskaoyanMallGoodsMapper.searchGoods(keyword,sort,order,categoryId,brandId,isHot,isNew);
         List<CskaoyanMallCategory> categories = cskaoyanMallCategoryMapper.searchCategory(keyword);
+        SearchGoods searchGoods = new SearchGoods();
         searchGoods.setGoodsList(floorGoods);
         searchGoods.setFilterCategoryList(categories);
         searchGoods.setCount(count);
@@ -223,7 +239,7 @@ public class WxIndexServiceImpl implements WxIndexService {
         responseVo.setErrmsg("成功");
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
-        if(userId != null){
+        if(userId != null && s != null){
             CskaoyanMallSearchHistory history = new CskaoyanMallSearchHistory();
             history.setDeleted(false);
             history.setAddTime(new Date());
@@ -315,11 +331,15 @@ public class WxIndexServiceImpl implements WxIndexService {
         String tokenKey = request.getHeader("X-Litemall-Token");
         Integer userId = UserTokenManager.getUserId(tokenKey);
         if (userId != null) {
-            CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
+           CskaoyanMallCollectExample collectExample = new CskaoyanMallCollectExample();
             CskaoyanMallCollectExample.Criteria collectExampleCriteria = collectExample.createCriteria();
             collectExampleCriteria.andUserIdEqualTo(userId).andValueIdEqualTo(Integer.parseInt(id));
             List<CskaoyanMallCollect> collects = collectMapper.selectByExample(collectExample);
-            userHasCollect = collects.get(0).getType();
+
+            if(collects != null && collects.size() != 0){
+                userHasCollect = collects.get(0).getType();
+            }
+
 
             CskaoyanMallFootprint footprint = new CskaoyanMallFootprint();
             footprint.setAddTime(new Date());

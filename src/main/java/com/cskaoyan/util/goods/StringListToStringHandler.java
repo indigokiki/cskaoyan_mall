@@ -40,14 +40,17 @@ public class StringListToStringHandler implements TypeHandler<String[]> {
     }
 
     private String[] StringToStringList(String s) {
+
         String[] string = null;
         if (s == null || "".equals(s)){
             return  string;
         }else{
             String sub = s.substring(1,s.length()-1);
-            string = sub.split(",");
+            String s1 = sub.replaceAll("\"", "");
+            string = s1.split(",");
             return string;
         }
+
 
     }
 

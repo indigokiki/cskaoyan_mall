@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Size;
+
 import java.util.Map;
 
 @RestController
@@ -19,8 +19,8 @@ public class CouponController {
         return couponsService.getcouponlist(page,status,size);
     }
     @RequestMapping("wx/coupon/exchange")
-    public ResponseVo couponexchange(@RequestBody Map<Object,Object> wanghan){
-        String code = (String)wanghan.get("code");
+    public ResponseVo couponexchange(@RequestBody Map<Object,Object> code1){
+        String code = (String)code1.get("code");
         return couponsService.exchangecoupon(code);
     }
 }

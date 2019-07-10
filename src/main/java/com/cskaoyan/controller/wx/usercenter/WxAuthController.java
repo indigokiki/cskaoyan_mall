@@ -1,9 +1,8 @@
 package com.cskaoyan.controller.wx.usercenter;
 
-import com.cskaoyan.bean.CskaoyanMallOrderExample;
-import com.cskaoyan.bean.CskaoyanMallUser;
-import com.cskaoyan.bean.CskaoyanMallUserExample;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.wx.usercenter.UserFromWX;
+import com.cskaoyan.mapper.CskaoyanMallOrderGoodsMapper;
 import com.cskaoyan.mapper.CskaoyanMallOrderMapper;
 import com.cskaoyan.mapper.CskaoyanMallUserMapper;
 import com.cskaoyan.util.wxutil.BaseRespVo;
@@ -11,6 +10,8 @@ import com.cskaoyan.util.wxutil.UserInfo;
 import com.cskaoyan.util.wxutil.UserToken;
 import com.cskaoyan.util.wxutil.UserTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ public class WxAuthController {
 
 	@Autowired
 	CskaoyanMallOrderMapper cskaoyanMallOrderMapper;
+
+	@Autowired
+	CskaoyanMallOrderGoodsMapper orderGoodsMapper;
 
 	@RequestMapping("/auth/login")
 	@ResponseBody
@@ -75,6 +79,7 @@ public class WxAuthController {
 	}
 
 	@GetMapping("user/index")
+	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public Object list(HttpServletRequest request) {
 		//前端写了一个token放在请求头中
 		//*************************
@@ -93,25 +98,66 @@ public class WxAuthController {
 		//***********************************
 		//根据userId查询订单信息
 		Map<Object,Object> order = new HashMap<>();
-		//uncomment
+
+		/*
+		//想了一下，下面该方法已经移动到了新增comment的方法里面了
+		//每次请求index，都要更新一下order表中的comment，如果order中所有商品
+		//都已经评论过，修改order中的comment使其不再出现在待评价状态
+		CskaoyanMallOrderExample orderExample = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria commentingCriteria = orderExample.createCriteria();
+		commentingCriteria.andDeletedNotEqualTo(true).andOrderStatusGreaterThan((short)400).andUserIdEqualTo(userId);
+		List<CskaoyanMallOrder> orderlist = cskaoyanMallOrderMapper.selectByExample(orderExample);
+		for (CskaoyanMallOrder perorder : orderlist) {
+			Integer orderid = perorder.getId();
+			CskaoyanMallOrderGoodsExample orderGoodsExample = new CskaoyanMallOrderGoodsExample();
+			CskaoyanMallOrderGoodsExample.Criteria criteria = orderGoodsExample.createCriteria();
+			criteria.andDeletedNotEqualTo(true).andOrderIdEqualTo(orderid);
+			List<CskaoyanMallOrderGoods> orderGoodsList = orderGoodsMapper.selectByExample(orderGoodsExample);
+			//flag用于判断order对应的商品是否都已经评价过，如果一旦出现未评价的商品
+			//则flag修改为false，否则flag为true
+			boolean flag = true;
+			for (CskaoyanMallOrderGoods orderGoods : orderGoodsList) {
+				if(0 == orderGoods.getComment()){
+					flag = false;
+				}
+			}
+			//如果flag为true，则需要修改order中的comment，使其不再出现在待评价中
+			if(true == flag){
+				//这里暂时不清楚逻辑，设置为1使其不再被检索进待评价列表中
+				perorder.setComments((short)1);
+			}
+			cskaoyanMallOrderMapper.updateByPrimaryKey(perorder);
+		}*/
+
 
 		//unpaid
 		CskaoyanMallOrderExample cskaoyanMallOrderExample = new CskaoyanMallOrderExample();
 		CskaoyanMallOrderExample.Criteria criteria = cskaoyanMallOrderExample.createCriteria();
-		criteria.andOrderStatusEqualTo((short)101);
+		criteria.andOrderStatusEqualTo((short)101).andDeletedNotEqualTo(true).andUserIdEqualTo(userId);
 		long unpaid = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
 
 		//unrecv
-		cskaoyanMallOrderExample.clear();
-		criteria.andOrderStatusEqualTo((short)201);
-		long unrecv = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
+		CskaoyanMallOrderExample cskaoyanMallOrderExample1 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria1 = cskaoyanMallOrderExample1.createCriteria();
+		criteria1.andOrderStatusEqualTo((short)301).andDeletedNotEqualTo(true).andUserIdEqualTo(userId);
+		long unrecv = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample1);
 
 		//unship
-		cskaoyanMallOrderExample.clear();
-		criteria.andOrderStatusEqualTo((short)301);
-		long unship = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample);
+		//cskaoyanMallOrderExample.clear();
+		//为啥这句话会出错？？
+		CskaoyanMallOrderExample cskaoyanMallOrderExample2 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria2 = cskaoyanMallOrderExample2.createCriteria();
+		criteria2.andOrderStatusEqualTo((short)201).andDeletedNotEqualTo(true).andUserIdEqualTo(userId);
+		long unship = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample2);
 
-		order.put("uncomment",0);
+
+		//uncomment
+		CskaoyanMallOrderExample cskaoyanMallOrderExample3 = new CskaoyanMallOrderExample();
+		CskaoyanMallOrderExample.Criteria criteria3 = cskaoyanMallOrderExample3.createCriteria();
+		criteria3.andCommentsEqualTo((short)0).andOrderStatusGreaterThan((short)400).andDeletedNotEqualTo(true).andUserIdEqualTo(userId);
+		long uncomment = cskaoyanMallOrderMapper.countByExample(cskaoyanMallOrderExample3);
+
+		order.put("uncomment",uncomment);
 		order.put("unpaid",unpaid);
 		order.put("unrecv",unrecv);
 		order.put("unship",unship);
@@ -119,5 +165,10 @@ public class WxAuthController {
 		//***********************************
 
 		return BaseRespVo.ok(data);
+	}
+
+	@RequestMapping("/auth/logout")
+	public BaseRespVo logout(){
+		return BaseRespVo.ok(null);
 	}
 }

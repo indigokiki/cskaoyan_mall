@@ -314,6 +314,7 @@
     update cskaoyan_mall_comment set content = #{content} where id = #{id}
   </update>
 
+
     <select id="getUserId" resultType="Integer">
     SELECT DISTINCT user_id FROM `cskaoyan_mall_comment` where value_id =#{valueId}
   </select>
@@ -339,6 +340,11 @@
     SELECT c.add_time,c.content,c.pic_urls,u.avatar,u.nickname 
    FROM `cskaoyan_mall_comment` c ,cskaoyan_mall_user u
   where value_id = #{valueId} and c.user_id = u.id
+  </select>
+
+
+  <select id="selectLastInsertId" resultType="Integer">
+    select LAST_INSERT_ID() from cskaoyan_mall_comment
   </select>
 
 </mapper>
